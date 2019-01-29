@@ -10,7 +10,8 @@
 	</parent>
 	<groupId>no.nav</groupId>
 	<artifactId>tpregisteret</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1</version>
+	<packaging>jar</packaging>
 	<name>tpregisteret</name>
 	<description>Et register som har en oversikt over personer og deres forhold til de ulike tjenestepensjonsordningene, både offentlige og private.</description>
 
@@ -38,6 +39,17 @@
 	</dependencies>
 
 	<build>
+		<finalName>app</finalName>
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>${basedir}/src/test/resources</directory>
+			</testResource>
+		</testResources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
