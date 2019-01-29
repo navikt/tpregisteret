@@ -1,0 +1,13 @@
+name: tpregisteret
+image: repo.adeo.no:5443/tpregisteret
+team: teampeon
+replicas:
+  min: 1
+  max: 2
+resources:
+  limits:
+    cpu: 1000m
+    memory: 384Mi
+  requests:
+    cpu: 500m
+    memory: 256Mi
