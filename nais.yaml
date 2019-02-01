@@ -6,7 +6,7 @@ metadata:
   labels:
     team: teampeon
 spec:
-  image: navikt/tpregisteret:latest
+  image: repo.adeo.no:5443/tpregisteret
   port: 8080
   liveness:
     path: /isalive
