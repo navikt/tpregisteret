@@ -1,78 +1,72 @@
-#!/usr/bin/env groovy
-@Library('peon-pipeline') _
+pipeline {
+    agent any
 
-node {
-    def appToken
-    def commitHash
-    try {
-        cleanWs()
+    environtment {
+        APP_NAME    = 'tpregisteret'
+        DOCKER_REPO = 'repo.adeo.no:5443'
+        COMMIT_HASH = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+    }
 
-        def version
-        stage("checkout") {
-            appToken = github.generateAppToken()
-
-            sh "git init"
-            sh "git pull https://x-access-token:$appToken@github.com/navikt/tpregisteret.git"
-
-            sh "make bump-version"
-
-            version = sh(script: 'cat VERSION', returnStdout: true).trim()
-            commitHash = sh(script: "git rev-parse HEAD", returnStdout: true).trim()
-
-            github.commitStatus("pending", "navikt/tpregisteret", appToken, commitHash)
-        }
-
-        stage("build") {
-            sh "make"
-        }
-
-        stage("release") {
-            withCredentials([usernamePassword(credentialsId: 'nexusUploader', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
-                sh "docker login -u ${env.NEXUS_USERNAME} -p ${env.NEXUS_PASSWORD} repo.adeo.no:5443"
+    stages {
+        stage('checkout') {
+            steps {
+                sh 'git init'
+                sh 'git pull https://github.com/navikt/$APP_NAME.git'
             }
-
-            sh "make release"
-
-            sh "git push --tags https://x-access-token:$appToken@github.com/navikt/tpregisteret HEAD:master"
-        }
-
-        stage("upload manifest") {
-            withCredentials([usernamePassword(credentialsId: 'nexusUploader', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
-                sh "make manifest"
+            post {
+                github.commitStatus("pending", 'navikt/$APP_NAME', $APP_TOKEN, $COMMIT_HASH)
             }
         }
 
-        stage("deploy preprod") {
-            build([
-                    job       : 'nais-deploy-pipeline',
-                    propagate : true,
-                    parameters: [
-                            string(name: 'APP', value: "tpregisteret"),
-                            string(name: 'REPO', value: "navikt/tpregisteret"),
-                            string(name: 'VERSION', value: version),
-                            string(name: 'COMMIT_HASH', value: commitHash),
-                            string(name: 'DEPLOY_ENV', value: 'q0')
-                    ]
-            ])
+        stage('build') {
+            steps {
+                docker run --rm -t \
+                    -v ${PWD}:/usr/src \
+                    -w /usr/src -u $(shell id -u) \
+                    -v ${HOME}/.m2:/var/maven/.m2 \
+                    -e MAVEN_CONFIG=/var/maven/.m2 \
+                    maven:3.5-jdk-11 mvn -Duser.home=/var/maven clean package -DskipTests=true -B -V
+
+                docker run --rm -t \
+                    -v ${PWD}:/usr/src \
+                    -v /var/run/docker.sock:/var/run/docker.sock \
+                	-w /usr/src -u $(shell id -u) \
+                	-v ${HOME}/.m2:/var/maven/.m2 \
+                	-e MAVEN_CONFIG=/var/maven/.m2 \
+                	maven:3.5-jdk-11 mvn -Duser.home=/var/maven verify -B -e
+            }
         }
 
-//        stage("deploy prod") {
-//            build([
-//                    job       : 'nais-deploy-pipeline',
-//                    wait      : false,
-//                    parameters: [
-//                            string(name: 'APP', value: "tpregisteret"),
-//                            string(name: 'REPO', value: "navikt/tpregisteret"),
-//                            string(name: 'VERSION', value: version),
-//                            string(name: 'COMMIT_HASH', value: commitHash),
-//                            string(name: 'DEPLOY_ENV', value: 'p')
-//                    ]
-//            ])
-//        }
+        stage('release') {
+            steps {
+                withCredentials([usernamePassword(
+                                    credentialsId: 'nexusUploader',
+                                    usernameVariable: 'NEXUS_USERNAME',
+                                    passwordVariable: 'NEXUS_PASSWORD'
+                                )]) {
+                    sh 'docker login -u ${env.NEXUS_USERNAME} -p ${env.NEXUS_PASSWORD} $DOCKER_REPO'
+                    sh 'docker push $/tpregisteret:$COMMIT_HASH''
+                }
+            }
+        }
 
-        github.commitStatus("success", "navikt/tpregisteret", appToken, commitHash)
-    } catch (err) {
-        github.commitStatus("failure", "navikt/tpregisteret", appToken, commitHash)
-        throw err
+        stage('deploy') {
+            steps {
+                sh 'script: sed 's/latest/$COMMIT_HASH/' nais.yaml | tee nais.yaml'
+
+                kubectl config use-context dev-fss
+                kubectl apply -f nais.yaml --wait
+                kubectl rollout status -w deployment/${APP_NAME}
+            }
+        }
+
+        post {
+            success {
+                github.commitStatus("success", 'navikt/${APP_NAME}', $APP_TOKEN, $COMMIT_HASH)
+            }
+            unsuccessful {
+                github.commitStatus("failure", 'navikt/${APP_NAME}', $APP_TOKEN, $COMMIT_HASH)
+            }
+        }
     }
 }
