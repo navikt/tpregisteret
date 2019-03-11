@@ -8,17 +8,15 @@ metadata:
 spec:
   image: repo.adeo.no:5443/tpregisteret:latest
   port: 8080
+  team: teampeon
   liveness:
-    path: /isAlive
+    path: isAlive
   readiness:
-    path: /isReady
-#  prometheus:
-#    path: /metrics
+    path: isReady
+  secrets: true
   replicas:
     min: 1
-    max: 1
-  ingresses:
-    - "https://tpregisteret.nais.preprod.local"
+    max: 2
   resources:
     limits:
       cpu: 1000m
