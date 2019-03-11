@@ -50,6 +50,10 @@ node {
             sh "kubectl rollout status -w deployment/${APP_NAME}"
         }
         github.commitStatus("success", "navikt/${APP_NAME}", APP_TOKEN, COMMIT_HASH_LONG)
+        slackSend([
+                color  : 'good',
+                message: "Successfully deployed <https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|${APP_NAME}:${COMMIT_HASH_SHORT}> to dev-fss"
+        ])
     } catch (err) {
         github.commitStatus("failure", "navikt/${APP_NAME}", APP_TOKEN, COMMIT_HASH_LONG)
     }

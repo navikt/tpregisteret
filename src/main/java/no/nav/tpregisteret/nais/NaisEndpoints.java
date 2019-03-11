@@ -1,6 +1,5 @@
 package no.nav.tpregisteret.nais;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,9 +17,6 @@ public class NaisEndpoints {
         return HttpStatus.OK;
     }
 
-    @Value("${TEST_SECRET}")
-    private String test;
-
     @GetMapping("/test")
-    public String test() { return test; }
+    public String test() { return System.getenv("TEST_SECRET"); }
 }
