@@ -7,16 +7,24 @@ node {
     def DOCKER_REPO = "repo.adeo.no:5443"
     def COMMIT_HASH_LONG
     def COMMIT_HASH_SHORT
-    try {
-        cleanWs()
-        stage('checkout') {
+    cleanWs()
+    stage('checkout') {
+        try {
             sh "git init"
             sh "git pull https://x-access-token:${APP_TOKEN}@github.com/navikt/${APP_NAME}.git"
-            COMMIT_HASH_LONG  = sh(script: "git rev-parse HEAD", returnStdout: true).trim()
+            COMMIT_HASH_LONG = sh(script: "git rev-parse HEAD", returnStdout: true).trim()
             COMMIT_HASH_SHORT = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
             github.commitStatus("pending", "navikt/${APP_NAME}", APP_TOKEN, COMMIT_HASH_LONG)
+        } catch (err) {
+            github.commitStatus("failure", "navikt/${APP_NAME}", APP_TOKEN, COMMIT_HASH_LONG)
+            slackSend([color  : 'danger',
+                       message: "Failed to checkout <https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|${APP_NAME}:`${COMMIT_HASH_SHORT}`>"
+            ])
+            error("Failed checkout stage")
         }
-        stage('build') {
+    }
+    stage('build') {
+        try {
             sh '''docker run --rm -t \
                     -w /usr/src \
                     -v ${PWD}:/usr/src \
@@ -32,8 +40,17 @@ node {
                     -e MAVEN_CONFIG=/var/maven/.m2 \
                     maven:3.5-jdk-11 mvn -Duser.home=/var/maven verify -B -e
                 '''
+            github.createDeploymentStatus(APP_TOKEN, "navikt/${APP_NAME}", COMMIT_HASH_SHORT, "success")
+        } catch (err) {
+            github.commitStatus("failure", "navikt/${APP_NAME}", APP_TOKEN, COMMIT_HASH_LONG)
+            slackSend([color  : 'danger',
+                       message: "Failed to build <https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|${APP_NAME}:`${COMMIT_HASH_SHORT}`>"
+            ])
+            error("Failed build stage")
         }
-        stage('release') {
+    }
+    stage('release') {
+        try {
             withCredentials([usernamePassword(credentialsId: 'nexusUploader',
                                 usernameVariable: 'NEXUS_USERNAME',
                                 passwordVariable: 'NEXUS_PASSWORD'
@@ -42,19 +59,30 @@ node {
                 sh "docker build . --pull -t ${DOCKER_REPO}/${APP_NAME}:${COMMIT_HASH_SHORT}"
                 sh "docker push ${DOCKER_REPO}/${APP_NAME}:${COMMIT_HASH_SHORT}"
             }
+        } catch (err) {
+            github.commitStatus("failure", "navikt/${APP_NAME}", APP_TOKEN, COMMIT_HASH_LONG)
+            slackSend([color  : 'danger',
+                       message: "Failed to upload <https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|${APP_NAME}:`${COMMIT_HASH_SHORT}`> to nexus"
+            ])
+            error("Failed release stage")
         }
-        stage('deploy') {
+    }
+    stage('deploy') {
+        try {
             sh "sed -i \'s/latest/${COMMIT_HASH_SHORT}/\' nais.yaml"
             sh "kubectl config use-context dev-fss"
             sh "kubectl apply -f nais.yaml"
             sh "kubectl rollout status -w deployment/${APP_NAME}"
+            github.commitStatus("success", "navikt/${APP_NAME}", APP_TOKEN, COMMIT_HASH_LONG)
+            slackSend([color  : 'good',
+                       message: "Successfully deployed <https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|${APP_NAME}:`${COMMIT_HASH_SHORT}`> to dev-fss :partyparrot:"
+            ])
+        } catch (err) {
+            github.commitStatus("failure", "navikt/${APP_NAME}", APP_TOKEN, COMMIT_HASH_LONG)
+            slackSend([color  : 'danger',
+                       message: "Failed to deploy <https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|${APP_NAME}:`${COMMIT_HASH_SHORT}`> to dev-fss"
+            ])
+            error("Failed deploy stage")
         }
-        github.commitStatus("success", "navikt/${APP_NAME}", APP_TOKEN, COMMIT_HASH_LONG)
-        slackSend([
-                color  : 'good',
-                message: "Successfully deployed <https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|${APP_NAME}:${COMMIT_HASH_SHORT}> to dev-fss"
-        ])
-    } catch (err) {
-        github.commitStatus("failure", "navikt/${APP_NAME}", APP_TOKEN, COMMIT_HASH_LONG)
     }
 }
