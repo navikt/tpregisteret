@@ -18,7 +18,7 @@ node {
         } catch (err) {
             github.commitStatus("failure", "navikt/${APP_NAME}", APP_TOKEN, COMMIT_HASH_LONG)
             slackSend([color  : 'danger',
-                       message: "Failed to checkout <https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|${APP_NAME}:`${COMMIT_HASH_SHORT}`>"
+                       message: "Failed to checkout ${APP_NAME}:<https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|`${COMMIT_HASH_SHORT}`>"
             ])
             error("Failed checkout stage")
         }
@@ -44,7 +44,7 @@ node {
         } catch (err) {
             github.commitStatus("failure", "navikt/${APP_NAME}", APP_TOKEN, COMMIT_HASH_LONG)
             slackSend([color  : 'danger',
-                       message: "Failed to build <https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|${APP_NAME}:`${COMMIT_HASH_SHORT}`>"
+                       message: "Failed to build ${APP_NAME}:<https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|`${COMMIT_HASH_SHORT}`>"
             ])
             error("Failed build stage")
         }
@@ -62,7 +62,7 @@ node {
         } catch (err) {
             github.commitStatus("failure", "navikt/${APP_NAME}", APP_TOKEN, COMMIT_HASH_LONG)
             slackSend([color  : 'danger',
-                       message: "Failed to upload <https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|${APP_NAME}:`${COMMIT_HASH_SHORT}`> to nexus"
+                       message: "Failed to upload ${APP_NAME}:<https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|`${COMMIT_HASH_SHORT}`> to nexus"
             ])
             error("Failed release stage")
         }
@@ -75,12 +75,12 @@ node {
             sh "kubectl rollout status -w deployment/${APP_NAME}"
             github.commitStatus("success", "navikt/${APP_NAME}", APP_TOKEN, COMMIT_HASH_LONG)
             slackSend([color  : 'good',
-                       message: "Successfully deployed <https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|${APP_NAME}:`${COMMIT_HASH_SHORT}`> to dev-fss :partyparrot:"
+                       message: "Successfully deployed ${APP_NAME}:<https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|`${COMMIT_HASH_SHORT}`>" + " to dev-fss :feelsgoodman:"
             ])
         } catch (err) {
             github.commitStatus("failure", "navikt/${APP_NAME}", APP_TOKEN, COMMIT_HASH_LONG)
             slackSend([color  : 'danger',
-                       message: "Failed to deploy <https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|${APP_NAME}:`${COMMIT_HASH_SHORT}`> to dev-fss"
+                       message: "Failed to deploy ${APP_NAME}:<https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|`${COMMIT_HASH_SHORT}`>" + " to dev-fss :feelsbadman:"
             ])
             error("Failed deploy stage")
         }
