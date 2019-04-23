@@ -13,15 +13,11 @@ spec:
     path: isAlive
   readiness:
     path: isReady
-  secrets: true
   vault:
     enabled: true
-    paths:
-      - kvPath: /kv/preprod/fss/tpregisteret/default
-        mountPath: /var/run/secrets/nais.io/vault
   replicas:
     min: 1
-    max: 2
+    max: 1
   resources:
     limits:
       cpu: 1000m
