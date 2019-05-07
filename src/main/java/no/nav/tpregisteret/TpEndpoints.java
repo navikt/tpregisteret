@@ -22,7 +22,8 @@ public class TpEndpoints {
         LOG.info("Restkall til tpregisteret");
 
         try {
-            return new ResponseEntity(db.getTPIDs(fnr), HttpStatus.OK);
+            return new ResponseEntity<>(TPIDsMapper.convertToJson(db.getTPIDs(fnr)),
+                    HttpStatus.OK);
         } catch (Exception e) {
             LOG.warn(e.getMessage());
             return new ResponseEntity<>("", HttpStatus.INTERNAL_SERVER_ERROR);
