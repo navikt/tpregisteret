@@ -1,0 +1,28 @@
+dn: dc=test,dc=local
+objectclass: top
+objectclass: domain
+objectclass: extensibleObject
+dc: test
+
+dn: ou=ServiceAccounts,dc=test,dc=local
+objectclass: top
+objectclass: organizationalUnit
+ou: groups
+
+dn: cn=srvTest,ou=ServiceAccounts,dc=test,dc=local
+objectClass: user
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: srvTest
+sAMAccountName: srvTest
+userPassword: secret
+
+dn: cn=srvOther,ou=ServiceAccounts,dc=test,dc=local
+objectClass: user
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: srvOther
+sAMAccountName: srvNotPDP
+userPassword: secret

@@ -12,7 +12,7 @@ public class DbConnector {
     @Autowired
     private JdbcTemplate dbConnection;
 
-    public List<String> getTPIDs(String personIdentifier) {
+    public List<String> getTPIDs(String personIdentifier) throws Exception  {
         String sqlQuery = "SELECT DISTINCT TJPEN.T_TSS_TP.TP_ID AS TPID " +
                 "FROM TJPEN.T_FORHOLD " +
                 "INNER JOIN TJPEN.T_PERSON " +
