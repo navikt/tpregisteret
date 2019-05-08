@@ -26,12 +26,6 @@ public class EndpointTests {
     @Autowired
     private TpEndpoints endpoint;
 
-    @Value("${PDP_USERNAME}")
-    private String username;
-
-    @Value("${PDP_PASSWORD}")
-    private String password;
-
     private final String baseURI = "/gettpnr";
 
     @Test
