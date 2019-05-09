@@ -1,4 +1,4 @@
-package no.nav.tpregisteret;
+package no.nav.tpregisteret.database;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -7,12 +7,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class DbConnector {
+public class Database {
 
     @Autowired
     private JdbcTemplate dbConnection;
 
-    public List<String> getTPIDs(String personIdentifier) throws Exception  {
+    public List<String> getTPIDs(String personIdentifier) {
         String sqlQuery = "SELECT DISTINCT TJPEN.T_TSS_TP.TP_ID AS TPID " +
                 "FROM TJPEN.T_FORHOLD " +
                 "INNER JOIN TJPEN.T_PERSON " +

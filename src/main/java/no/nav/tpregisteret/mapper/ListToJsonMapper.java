@@ -1,4 +1,4 @@
-package no.nav.tpregisteret;
+package no.nav.tpregisteret.mapper;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Responsibility: Convert a list of strings to JSON format.
  */
-public class TPIDsMapper {
+public class ListToJsonMapper {
 
     public static String convertToJson(List<String> tpNrList) {
         JSONObject body = new JSONObject();
