@@ -9,6 +9,7 @@ node {
     def COMMIT_HASH_SHORT
     stage('checkout') {
         try {
+            cleanWs()
             sh "git init"
             sh "git pull https://x-access-token:${APP_TOKEN}@github.com/navikt/${APP_NAME}.git"
             COMMIT_HASH_LONG = sh(script: "git rev-parse HEAD", returnStdout: true).trim()
@@ -83,8 +84,5 @@ node {
             ])
             error("Failed deploy stage")
         }
-    }
-    always {
-        cleanWs()
     }
 }

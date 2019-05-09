@@ -1,5 +1,7 @@
-package no.nav.tpregisteret;
+package no.nav.tpregisteret.endpoints;
 
+import no.nav.tpregisteret.database.Database;
+import no.nav.tpregisteret.mapper.ListToJsonMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,31 +12,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class TpEndpoints {
+public class TpController {
 
     @Autowired
-    private DbConnector db;
+    private Database db;
 
-    private static final Logger LOG = LoggerFactory.getLogger(TpEndpoints.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TpController.class);
 
-    @GetMapping("/gettpnr")
+    @GetMapping("/person/tpforhold")
     public ResponseEntity<String> getTpIds(@RequestParam(value = "fnr") String fnr) {
         LOG.info("Restkall til tpregisteret");
-
         try {
-            return new ResponseEntity<>(TPIDsMapper.convertToJson(db.getTPIDs(fnr)),
-                    HttpStatus.OK);
+            return new ResponseEntity<>(ListToJsonMapper.convertToJson(db.getTPIDs(fnr)), HttpStatus.OK);
         } catch (Exception e) {
             LOG.warn(e.getMessage());
             return new ResponseEntity<>("", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    public DbConnector getDb() {
-        return db;
-    }
-
-    public void setDb(DbConnector db) {
-        this.db = db;
     }
 }
