@@ -1,5 +1,7 @@
 package no.nav.tpregisteret.mapper;
 
+import com.google.gson.Gson;
+import no.nav.tpregisteret.TPOrdning;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -10,15 +12,18 @@ import java.util.List;
  */
 public class ListToJsonMapper {
 
-    public static String convertToJson(List<String> tpNrList) {
+    public static String convertToJson(List<TPOrdning> tpOrdningList) {
         JSONObject body = new JSONObject();
         JSONArray list = new JSONArray();
 
-        for (String tpNr : tpNrList) {
-            list.put(tpNr);
+        for (TPOrdning tpOrdning : tpOrdningList) {
+            Gson gson = new Gson();
+            String tpOrdningsString = gson.toJson(tpOrdning);
+
+            list.put(tpOrdningsString);
         }
 
-        body.put("tpNr", list);
+        body.put("tpOrdning", list);
         return body.toString();
     }
 }
