@@ -6,7 +6,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static no.nav.tpregisteret.TestPerson.ingenForhold;
+import static no.nav.tpregisteret.TestPerson.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -21,7 +21,7 @@ public class TpControllerTests {
 
     @Test
     public void valid_parameter_returns_200() throws Exception {
-        mockMvc.perform(get(baseURI + "?fnr=" + ingenForhold.getFnr())).andExpect(status().isOk());
+        mockMvc.perform(get(baseURI + "?fnr=" + testPerson1.getFnr())).andExpect(status().isOk());
     }
 
     @Test

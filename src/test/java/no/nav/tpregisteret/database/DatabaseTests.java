@@ -1,16 +1,16 @@
 package no.nav.tpregisteret.database;
 
-        import no.nav.tpregisteret.TPOrdning;
-        import org.junit.jupiter.api.Test;
-        import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.boot.test.context.SpringBootTest;
+import no.nav.tpregisteret.TPOrdning;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
-        import java.util.ArrayList;
-        import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-        import static no.nav.tpregisteret.TestPerson.*;
-        import static org.junit.jupiter.api.Assertions.assertEquals;
-        import static org.junit.jupiter.api.Assertions.fail;
+import static no.nav.tpregisteret.TestPerson.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class DatabaseTests {
@@ -20,9 +20,9 @@ public class DatabaseTests {
 
     @Test
     public void ingen_forhold_returnerer_tom_liste() {
-        String fnr = ingenForhold.getFnr();
+        String fnr = testPerson1.getFnr();
 
-        List<TPOrdning> expectedForhold = ingenForhold.getTpForholdArray();
+        List<TPOrdning> expectedForhold = testPerson1.getTpForholdArray();
 
         List expectedtpIds = new ArrayList<>();
         List expectedtssIds = new ArrayList<>();
@@ -48,37 +48,9 @@ public class DatabaseTests {
 
     @Test
     public void ett_forhold_returnerer_ett_tpnummer() {
-        String fnr = ettForhold.getFnr();
+        String fnr = testPerson2.getFnr();
 
-        List<TPOrdning> expectedForhold = ettForhold.getTpForholdArray();
-
-        List expectedtpIds = new ArrayList<>();
-        List expectedtssIds = new ArrayList<>();
-
-        for(TPOrdning tpOrdning : expectedForhold) {
-            expectedtpIds.add(tpOrdning.getTpId());
-            expectedtssIds.add(tpOrdning.getTssId());
-        }
-
-        List<TPOrdning> actualForhold = db.getTPOrdninger(fnr);
-
-        List<String> actualTpIds = new ArrayList<>();
-        List<String> actualTssIds = new ArrayList<>();
-
-        for(TPOrdning tpOrdning2 : actualForhold) {
-            actualTpIds.add(tpOrdning2.getTpId());
-            actualTssIds.add(tpOrdning2.getTssId());
-        }
-
-        assertEquals(actualTpIds, (expectedtpIds));
-        assertEquals(actualTssIds, (expectedtssIds));
-    }
-
-    @Test
-    public void to_forhold_returnerer_to_tpnummer() {
-        String fnr = toForhold.getFnr();
-
-        List<TPOrdning> expectedForhold = toForhold.getTpForholdArray();
+        List<TPOrdning> expectedForhold = testPerson2.getTpForholdArray();
 
         List expectedtpIds = new ArrayList<>();
         List expectedtssIds = new ArrayList<>();
@@ -103,38 +75,10 @@ public class DatabaseTests {
     }
 
     @Test
-    public void to_like_forhold_returnerer_ett_tpnummer() {
-        String fnr = toLikeForhold.getFnr();
+    public void flere_forhold_returnerer_flere_tpnummer() {
+        String fnr = testPerson3.getFnr();
 
-        List<TPOrdning> expectedForhold = toLikeForhold.getTpForholdArray();
-
-        List expectedtpIds = new ArrayList<>();
-        List expectedtssIds = new ArrayList<>();
-
-        for(TPOrdning tpOrdning : expectedForhold) {
-            expectedtpIds.add(tpOrdning.getTpId());
-            expectedtssIds.add(tpOrdning.getTssId());
-        }
-
-        List<TPOrdning> actualForhold = db.getTPOrdninger(fnr);
-
-        List<String> actualTpIds = new ArrayList<>();
-        List<String> actualTssIds = new ArrayList<>();
-
-        for(TPOrdning tpOrdning2 : actualForhold) {
-            actualTpIds.add(tpOrdning2.getTpId());
-            actualTssIds.add(tpOrdning2.getTssId());
-        }
-
-        assertEquals(actualTpIds, (expectedtpIds));
-        assertEquals(actualTssIds, (expectedtssIds));
-    }
-
-    @Test
-    public void ugyldig_forhold_returnerer_tom_liste() {
-        String fnr = ettUgyldigForhold.getFnr();
-
-        List<TPOrdning> expectedForhold = ettUgyldigForhold.getTpForholdArray();
+        List<TPOrdning> expectedForhold = testPerson3.getTpForholdArray();
 
         List expectedtpIds = new ArrayList<>();
         List expectedtssIds = new ArrayList<>();
@@ -160,9 +104,9 @@ public class DatabaseTests {
 
     @Test
     public void ugyldig_fnr_returnerer_tom_liste() {
-        String fnr = ugyldigFnr.getFnr();
+        String fnr = "abcdefghijk";
 
-        List<TPOrdning> expectedForhold = ugyldigFnr.getTpForholdArray();
+        List<TPOrdning> expectedForhold = Collections.emptyList();
 
         List expectedtpIds = new ArrayList<>();
         List expectedtssIds = new ArrayList<>();
@@ -187,14 +131,12 @@ public class DatabaseTests {
     }
 
     @Test
-    public void beskyttelse_mot_sql_injection() {
-        String fnr = ingenForhold.getFnr();
-        db.getTPOrdninger(fnr + "; DROP TABLE TJPEN.T_FORHOLD --");
+    public void utlands_forhold_ignoreres() {
+        //TODO
+    }
 
-        try {
-            db.getTPOrdninger(fnr);
-        } catch (Exception e) {
-            fail("Database table is gone!");
-        }
+    @Test
+    public void ugyldige_forhold_ignoreres() {
+        //TODO
     }
 }

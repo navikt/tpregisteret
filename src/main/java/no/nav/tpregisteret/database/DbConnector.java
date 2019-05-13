@@ -15,15 +15,15 @@ public class DbConnector {
     private JdbcTemplate dbConnection;
 
     public List<TPOrdning> getTPOrdninger(String personIdentifier) {
-        String sqlQuery = "SELECT DISTINCT TJPEN.T_TSS_TP.* " +
-                "FROM TJPEN.T_FORHOLD " +
-                "INNER JOIN TJPEN.T_PERSON " +
-                "ON TJPEN.T_PERSON.PERSON_ID = TJPEN.T_FORHOLD.PERSON_ID " +
-                "INNER JOIN TJPEN.T_TSS_TP " +
-                "ON TJPEN.T_FORHOLD.TSS_EKSTERN_ID_FK = TJPEN.T_TSS_TP.TSS_ID " +
-                "WHERE TJPEN.T_PERSON.FNR_FK = ? " +
-                "AND TJPEN.T_FORHOLD.ER_GYLDIG=1";
+        String sqlQuery =
+            "SELECT DISTINCT TSS_ID, TP_ID " +
+            "FROM T_TSS_TP " +
+                "INNER JOIN T_FORHOLD ON T_FORHOLD.TSS_EKSTERN_ID_FK = T_TSS_TP.TSS_ID " +
+                "INNER JOIN T_PERSON ON T_PERSON.PERSON_ID = T_FORHOLD.PERSON_ID " +
+            "WHERE T_PERSON.FNR_FK = ? " +
+                "AND T_FORHOLD.ER_GYLDIG = 1 " +
+                "AND T_FORHOLD.HAR_UTLAND_PENSJ = 0";
 
-        return (List<TPOrdning>) dbConnection.query(sqlQuery, new BeanPropertyRowMapper(TPOrdning.class), personIdentifier);
+        return dbConnection.query(sqlQuery, new BeanPropertyRowMapper<>(TPOrdning.class), personIdentifier);
     }
 }
