@@ -1,13 +1,13 @@
 package no.nav.tpregisteret;
 
-public class TPOrdning {
+public class TpOrdning {
     private String tssId;
     private String tpId;
 
-    public TPOrdning() {
+    public TpOrdning() {
     }
 
-    public TPOrdning(String tssId, String tpId) {
+    public TpOrdning(String tssId, String tpId) {
         this.tssId = tssId;
         this.tpId = tpId;
     }
