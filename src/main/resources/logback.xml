@@ -5,6 +5,7 @@
     </appender>
 
     <logger name="no.nav.tpregisteret" level="INFO" />
+    <logger name="org.springframework.security.oauth2" level="DEBUG" />
 
     <root level="INFO">
         <appender-ref ref="STDOUT_JSON" />

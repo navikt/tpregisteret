@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <appender name="STDOUT_JSON" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+        <encoder>
+            <pattern>%date [%-5level] [%thread] %logger{5} - %m%n</pattern>
+        </encoder>
     </appender>
 
     <logger name="no.nav.tpregisteret" level="DEBUG" />
