@@ -1,5 +1,7 @@
 package no.nav.tpregisteret;
 
+import no.nav.tpregisteret.domain.TpOrdning;
+
 import java.util.List;
 
 public class TestPerson {

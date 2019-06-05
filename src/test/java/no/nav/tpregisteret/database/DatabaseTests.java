@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import no.nav.tpregisteret.TpOrdning;
+import no.nav.tpregisteret.domain.TpOrdning;
 
 @SpringBootTest
 class DatabaseTests {

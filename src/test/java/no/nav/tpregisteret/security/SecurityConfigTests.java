@@ -1,4 +1,4 @@
-package no.nav.tpregisteret.endpoints;
+package no.nav.tpregisteret.security;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import no.nav.tpregisteret.TestTokenUtil;
@@ -18,14 +18,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class PersonControllerTests {
+public class SecurityConfigTests {
 
     @Autowired
     private MockMvc mockMvc;
 
     private WireMockServer wireMockServer;
 
-    private String token = TestTokenUtil.getValidAccessToken();
+    private String validAccessToken = TestTokenUtil.getValidAccessToken();
+    private String invalidAccessToken = TestTokenUtil.getInvalidAccessToken();
 
     @BeforeEach
     public void setup() {
@@ -42,16 +43,29 @@ class PersonControllerTests {
     }
 
     @Test
-    void valid_parameter_returns_200() throws Exception {
+    public void liveness_and_actuator_permitted() throws Exception {
+        mockMvc.perform(get("/actuator/prometheus")).andExpect(status().isOk());
+        mockMvc.perform(get("/isAlive")).andExpect(status().isOk());
+        mockMvc.perform(get("/isReady")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void valid_token_authenticated() throws Exception {
         mockMvc.perform(get("/person/" + testPerson1.getFnr() + "/tpordninger")
-            .header("Authorization", "Bearer " + token))
+            .header("Authorization", "Bearer " + validAccessToken))
             .andExpect(status().isOk());
     }
 
     @Test
-    void root_returns_404() throws Exception {
-        mockMvc.perform(get("/")
-            .header("Authorization", "Bearer " + token))
-            .andExpect(status().isNotFound());
+    public void invalid_token_denied() throws Exception {
+        mockMvc.perform(get("/person/" + testPerson1.getFnr() + "/tpordninger")
+            .header("Authorization", "Bearer " + invalidAccessToken))
+            .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void no_token_denied() throws Exception {
+        mockMvc.perform(get("/person/" + testPerson1.getFnr() + "/tpordninger"))
+            .andExpect(status().isUnauthorized());
     }
 }
