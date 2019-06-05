@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import no.nav.tpregisteret.TpOrdning;
+import no.nav.tpregisteret.domain.TpOrdning;
 
 @Repository
 public class TpRepository {

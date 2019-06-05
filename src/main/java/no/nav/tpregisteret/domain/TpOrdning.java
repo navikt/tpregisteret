@@ -1,4 +1,4 @@
-package no.nav.tpregisteret;
+package no.nav.tpregisteret.domain;
 
 public class TpOrdning {
     private String tssId;
