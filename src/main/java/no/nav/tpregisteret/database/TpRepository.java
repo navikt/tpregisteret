@@ -19,7 +19,7 @@ public class TpRepository {
 
     public List<TpOrdning> getTpOrdningerForPerson(String fnr) {
         String sqlQuery =
-                "SELECT DISTINCT TSS_ID, TP_ID " +
+                "SELECT DISTINCT TSS_ID, TP_ID, ORGNR, NAVN " +
                         "FROM T_TSS_TP " +
                         "INNER JOIN T_FORHOLD ON T_FORHOLD.TSS_EKSTERN_ID_FK = T_TSS_TP.TSS_ID " +
                         "INNER JOIN T_PERSON ON T_PERSON.PERSON_ID = T_FORHOLD.PERSON_ID " +

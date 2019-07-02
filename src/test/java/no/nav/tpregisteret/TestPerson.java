@@ -1,13 +1,13 @@
 package no.nav.tpregisteret;
 
-import no.nav.tpregisteret.domain.TpOrdning;
-
 import java.util.List;
 
+import no.nav.tpregisteret.domain.TpOrdning;
+
 public class TestPerson {
-    private static final TpOrdning TP_ORDNING_1 = new TpOrdning("11111111111", "1111");
-    private static final TpOrdning TP_ORDNING_2 = new TpOrdning("22222222222", "2222");
-    private static final TpOrdning TP_ORDNING_3 = new TpOrdning("33333333333", "3333");
+    private static final TpOrdning TP_ORDNING_1 = new TpOrdning("11111111111", "1111", "000000000", "TP1");
+    private static final TpOrdning TP_ORDNING_2 = new TpOrdning("22222222222", "2222", "000000000", "TP2");
+    private static final TpOrdning TP_ORDNING_3 = new TpOrdning("33333333333", "3333", "000000000", "TP3");
 
     public static final TestPerson testPerson1 = new TestPerson("00000000001");
     public static final TestPerson testPerson2 = new TestPerson("00000000002", TP_ORDNING_1);

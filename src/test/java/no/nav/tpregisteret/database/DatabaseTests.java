@@ -62,24 +62,29 @@ class DatabaseTests {
 
         List expectedtpIds = new ArrayList<>();
         List expectedtssIds = new ArrayList<>();
+        List expectedNavn = new ArrayList<>();
 
         for (TpOrdning tpOrdning : expectedForhold) {
             expectedtpIds.add(tpOrdning.getTpId());
             expectedtssIds.add(tpOrdning.getTssId());
+            expectedNavn.add(tpOrdning.getNavn());
         }
 
         List<TpOrdning> actualForhold = tpRepository.getTpOrdningerForPerson(fnr);
 
         List<String> actualTpIds = new ArrayList<>();
         List<String> actualTssIds = new ArrayList<>();
+        List<String> actualNavn = new ArrayList<>();
 
         for (TpOrdning tpOrdning2 : actualForhold) {
             actualTpIds.add(tpOrdning2.getTpId());
             actualTssIds.add(tpOrdning2.getTssId());
+            actualNavn.add(tpOrdning2.getNavn());
         }
 
         assertEquals(actualTpIds, (expectedtpIds));
         assertEquals(actualTssIds, (expectedtssIds));
+        assertEquals(expectedNavn, (actualNavn));
     }
 
     @Test
