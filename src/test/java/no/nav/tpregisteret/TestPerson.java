@@ -2,7 +2,7 @@ package no.nav.tpregisteret;
 
 import java.util.List;
 
-import no.nav.tpregisteret.domain.TpOrdning;
+import no.nav.tpregisteret.tpordning.TpOrdning;
 
 public class TestPerson {
     private static final TpOrdning TP_ORDNING_1 = new TpOrdning("11111111111", "1111", "000000000", "TP1");
