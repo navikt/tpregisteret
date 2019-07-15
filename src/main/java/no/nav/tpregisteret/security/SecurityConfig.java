@@ -13,7 +13,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            .antMatchers("/isAlive", "/isReady", "/actuator/**").permitAll()
+            .antMatchers("/isAlive", "/isReady", "/actuator/**", "/organisation/**").permitAll()
             .anyRequest().authenticated()
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and().oauth2ResourceServer().jwt();

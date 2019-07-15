@@ -26,4 +26,12 @@ public class TpRepository {
                         "AND T_FORHOLD.HAR_UTLAND_PENSJ = 0";
         return jdbcTemplate.query(sqlQuery, new BeanPropertyRowMapper<>(TpOrdning.class), fnr);
     }
+
+    public List<String> getTpNrsForOrganisation(String orgnr) {
+        String sqlQuery =
+                "SELECT DISTINCT TP_ID " +
+                        "FROM T_TSS_TP " +
+                        "WHERE T_TSS_TP.ORGNR = ? ";
+        return jdbcTemplate.query(sqlQuery, (rs, i) -> rs.getString(1), orgnr);
+    }
 }
