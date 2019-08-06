@@ -66,23 +66,46 @@ node {
             error("Failed release stage")
         }
     }
-    stage('deploy') {
+    stage('deploy dev') {
         try {
-            sh "sed -i \'s/latest/${COMMIT_HASH_SHORT}/\' nais.yaml"
+            sh "sed -i \'s/{{latest}}/${COMMIT_HASH_SHORT}/\' nais.yaml"
+            sh "sed -i \'s/{{context}}/nais.preprod.local/\' nais.yaml"
             sh "kubectl config use-context dev-fss"
             sh "kubectl apply -f nais.yaml"
             sh "kubectl rollout status -w deployment/${APP_NAME}"
-            sh "sed -i \'s/${COMMIT_HASH_SHORT}/latest/\' nais.yaml"
+            sh "sed -i \'s/${COMMIT_HASH_SHORT}/{{latest}}/\' nais.yaml"
+            sh "sed -i \'s/nais.preprod.local/{{context}}/\' nais.yaml"
             github.commitStatus("success", "navikt/${APP_NAME}", APP_TOKEN, COMMIT_HASH_LONG)
             slackSend([color  : 'good',
-                       message: "Successfully deployed ${APP_NAME}:<https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|`${COMMIT_HASH_SHORT}`>" + " to dev-fss :feelsgoodman:"
+                       message: "Successfully deployed ${APP_NAME}:<https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|`${COMMIT_HASH_SHORT}`>" + " to dev-fss :frog:"
             ])
         } catch (err) {
             github.commitStatus("failure", "navikt/${APP_NAME}", APP_TOKEN, COMMIT_HASH_LONG)
             slackSend([color  : 'danger',
-                       message: "Failed to deploy ${APP_NAME}:<https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|`${COMMIT_HASH_SHORT}`>" + " to dev-fss :feelsbadman:"
+                       message: "Failed to deploy ${APP_NAME}:<https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|`${COMMIT_HASH_SHORT}`>" + " to dev-fss :gasp:"
             ])
-            error("Failed deploy stage")
+            error("Failed deploy to dev stage")
+        }
+    }
+    stage('deploy prod') {
+        try {
+            sh "sed -i \'s/{{latest}}/${COMMIT_HASH_SHORT}/\' nais.yaml"
+            sh "sed -i \'s/{{context}}/nais.adeo.no/\' nais.yaml"
+            sh "kubectl config use-context prod-fss"
+            sh "kubectl apply -f nais.yaml"
+            sh "kubectl rollout status -w deployment/${APP_NAME}"
+            sh "sed -i \'s/${COMMIT_HASH_SHORT}/{{latest}}/\' nais.yaml"
+            sh "sed -i \'s/nais.adeo.no/{{context}}/\' nais.yaml"
+            github.commitStatus("success", "navikt/${APP_NAME}", APP_TOKEN, COMMIT_HASH_LONG)
+            slackSend([color  : 'good',
+                       message: "Successfully deployed ${APP_NAME}:<https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|`${COMMIT_HASH_SHORT}`>" + " to prod-fss :frog:"
+            ])
+        } catch (err) {
+            github.commitStatus("failure", "navikt/${APP_NAME}", APP_TOKEN, COMMIT_HASH_LONG)
+            slackSend([color  : 'danger',
+                       message: "Failed to deploy ${APP_NAME}:<https://github.com/navikt/${APP_NAME}/commit/${COMMIT_HASH_LONG}|`${COMMIT_HASH_SHORT}`>" + " to prod-fss :gasp:"
+            ])
+            error("Failed deploy to prod stage")
         }
     }
 }

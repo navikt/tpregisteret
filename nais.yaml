@@ -6,11 +6,11 @@ metadata:
   labels:
     team: teampeon
 spec:
-  image: repo.adeo.no:5443/tpregisteret:latest
+  image: repo.adeo.no:5443/tpregisteret:{{latest}}
   port: 8080
   team: teampeon
   ingresses:
-    - "https://tpregisteret.nais.preprod.local"
+    - https://tpregisteret.{{context}}
   liveness:
     path: isAlive
   readiness:
