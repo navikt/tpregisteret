@@ -64,6 +64,7 @@ pipeline {
                 script {
                     latestStage = env.STAGE_NAME
                     deploy.naiserator(env.APP_NAME, env.COMMIT_HASH_SHORT, "dev-fss")
+                    deploy.naiserator(env.APP_NAME, env.COMMIT_HASH_SHORT, "prod-fss")
                 }
             }
         }
