@@ -2,15 +2,14 @@ apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
   name: tpregisteret
-  namespace: default
+  namespace: {{namespace}}
   labels:
     team: teampeon
 spec:
   image: repo.adeo.no:5443/tpregisteret:{{latest}}
   port: 8080
-  team: teampeon
   ingresses:
-    - https://tpregisteret.{{context}}
+    - {{ingress}}
   liveness:
     path: isAlive
   readiness:
