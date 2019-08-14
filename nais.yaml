@@ -6,7 +6,7 @@ metadata:
   labels:
     team: teampeon
 spec:
-  image: repo.adeo.no:5443/tpregisteret:{{latest}}
+  image: repo.adeo.no:5443/tpregisteret:{{version}}
   port: 8080
   ingresses:
     - {{ingress}}
