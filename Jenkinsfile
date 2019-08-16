@@ -15,10 +15,10 @@ pipeline {
                 script {
                     latestStage = env.STAGE_NAME
                     sh "git init"
-                    sh "git pull https://x-access-token:${env.APP_TOKEN}@github.com/navikt/${env.APP_NAME}.git"
+                    sh "git pull https://x-access-token:${APP_TOKEN}@github.com/navikt/${APP_NAME}.git"
                     env.COMMIT_HASH_LONG = sh(script: "git rev-parse HEAD", returnStdout: true).trim()
                     env.COMMIT_HASH_SHORT = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
-                    github.commitStatus("pending", "navikt/$env.APP_NAME", env.APP_TOKEN, env.COMMIT_HASH_LONG)
+                    github.commitStatus("pending", "navikt/$APP_NAME", APP_TOKEN, COMMIT_HASH_LONG)
                 }
             }
         }
@@ -48,12 +48,12 @@ pipeline {
                     latestStage = env.STAGE_NAME
                     withCredentials([usernamePassword(credentialsId: 'nexusUploader',
                         usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
-                        sh "docker login -u $env.NEXUS_USERNAME -p $env.NEXUS_PASSWORD $env.DOCKER_REPO"
-                        sh "docker build . --pull -t $env.DOCKER_REPO/$env.APP_NAME:$env.COMMIT_HASH_SHORT"
+                        sh "docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWORD $DOCKER_REPO"
+                        sh "docker build . --pull -t $DOCKER_REPO/$APP_NAME:$COMMIT_HASH_SHORT"
                         try {
-                            sh "docker push $env.DOCKER_REPO/$env.APP_NAME:$env.COMMIT_HASH_SHORT"
+                            sh "docker push $DOCKER_REPO/$APP_NAME:$COMMIT_HASH_SHORT"
                         } catch (err) {
-                            print("Image ${env.DOCKER_REPO}/${env.APP_NAME} already exists")
+                            print("Image ${DOCKER_REPO}/${APP_NAME} already exists")
                         }
                     }
                 }
@@ -63,25 +63,32 @@ pipeline {
             steps {
                 script {
                     latestStage = env.STAGE_NAME
-                    deploy.naiserator(env.APP_NAME, env.COMMIT_HASH_SHORT, "dev-fss")
-                    deploy.naiserator(env.APP_NAME, env.COMMIT_HASH_SHORT, "prod-fss")
+                    deployments = [
+                            ["dev-fss", "default"],
+                            ["prod-fss", "default"]
+                    ]
+                    for (deployment in deployments) {
+                        latestDeploy = [deployment]
+                        (context, namespace) = deployment
+                        deploy.naiserator(context, namespace)
+                    }
                 }
             }
         }
     }
 
     post {
-         success {
-             script {
-                github.commitStatus("success", "navikt/$env.APP_NAME", env.APP_TOKEN, env.COMMIT_HASH_LONG)
-                slackSend([color  : 'good', message: "Successful $latestStage $env.APP_NAME:<https://github.com/navikt/$env.APP_NAME/commit/$COMMIT_HASH_LONG|`$COMMIT_HASH_SHORT`>" + " :frog:"])
-             }
-         }
-         failure {
+        success {
             script {
-                github.commitStatus("failure", "navikt/$env.APP_NAME", env.APP_TOKEN, env.COMMIT_HASH_LONG)
-                slackSend([color  : 'danger', message: "Failed to $latestStage $env.APP_NAME:<https://github.com/navikt/$env.APP_NAME/commit/$COMMIT_HASH_LONG|`$COMMIT_HASH_SHORT`>" + " :gasp:"])
+                github.commitStatus("success", "navikt/$APP_NAME", APP_TOKEN, COMMIT_HASH_LONG)
+                slack.notification("good", ":frog:", latestStage, deployments)
             }
-         }
+        }
+        failure {
+            script {
+                github.commitStatus("failure", "navikt/$APP_NAME", APP_TOKEN, COMMIT_HASH_LONG)
+                slack.notification("danger", ":gasp:", latestStage, latestDeploy)
+            }
+        }
     }
 }
