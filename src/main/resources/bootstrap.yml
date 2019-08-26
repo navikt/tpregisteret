@@ -13,3 +13,9 @@ spring:
         backend: kv/dev/fss
         application-name: tpregisteret/default
         default-context: tpregisteret/default
+      database:
+        enabled: true
+        role: user
+        backend: oracle/data/dev/creds/tjenestepensjon_q0-user
+        username-property: spring.datasource.username
+        password-property: spring.datasource.password
