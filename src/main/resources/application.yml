@@ -1,0 +1,7 @@
+management:
+  endpoint:
+    prometheus:
+      enabled: true
+    web:
+      exposure:
+        include: prometheus, health
