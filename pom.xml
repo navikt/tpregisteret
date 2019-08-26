@@ -59,18 +59,6 @@
 			<artifactId>spring-security-oauth2</artifactId>
 			<version>2.3.6.RELEASE</version>
 		</dependency>
-		<!-- Spring Cloud Vault -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-vault-config</artifactId>
-			<version>2.1.2.RELEASE</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-vault-config-databases</artifactId>
-			<version>2.1.2.RELEASE</version>
-		</dependency>
 		<!-- Jupiter -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
