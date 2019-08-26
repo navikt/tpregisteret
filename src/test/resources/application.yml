@@ -1,0 +1,17 @@
+management:
+  endpoint:
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, health
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;Mode=Oracle
+    continue-on-error: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8090/sts/jwks
