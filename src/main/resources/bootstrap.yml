@@ -6,11 +6,11 @@ spring:
       authentication: KUBERNETES
       kubernetes:
         role: tpregisteret
-        kubernetes-path: kubernetes/dev/fss
+        kubernetes-path: kubernetes/preprod/fss
         service-account-token-file: /var/run/secrets/kubernetes.io/serviceaccount/token
       generic:
         enabled: true
-        backend: kv/dev/fss
+        backend: kv/preprod/fss
         application-name: tpregisteret/default
         default-context: tpregisteret/default
       database:
