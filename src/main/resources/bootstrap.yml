@@ -16,6 +16,6 @@ spring:
       database:
         enabled: true
         role: user
-        backend: oracle/data/dev/creds/tjenestepensjon_q0-user
+        backend: oracle/data/dev/creds/tjenestepensjon_q0
         username-property: spring.datasource.username
         password-property: spring.datasource.password
