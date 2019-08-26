@@ -15,7 +15,7 @@ spring:
         default-context: tpregisteret/default
       database:
         enabled: true
-        role: user
-        backend: oracle/data/dev/creds/tjenestepensjon_q0
+        role: tjenestepensjon_q0-user
+        backend: oracle/data/dev
         username-property: spring.datasource.username
         password-property: spring.datasource.password
