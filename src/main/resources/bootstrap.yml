@@ -17,5 +17,4 @@ spring:
         enabled: true
         role: tjenestepensjon_q0-user
         backend: oracle/data/dev
-        username-property: spring.datasource.username
         password-property: spring.datasource.password
