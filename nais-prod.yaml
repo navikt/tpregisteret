@@ -18,7 +18,7 @@ spec:
     enabled: true
     paths:
       - mountPath: /var/run/secrets/nais.io/vault
-        kvPath: /kv/preprod/fss/tpregisteret/default
+        kvPath: /kv/prod/fss/tpregisteret/default
       - mountPath: /secrets/oracle
         kvPath: oracle/data/prod/creds/tjenestepensjon-user
   replicas:
