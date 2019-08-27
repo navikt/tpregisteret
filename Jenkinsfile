@@ -64,12 +64,13 @@ pipeline {
                 script {
                     latestStage = env.STAGE_NAME
                     deployments = [
-                            ["dev-fss", "default"]
+                            ["dev-fss", "default", "nais-dev.yaml"],
+                            ["prod-fss", "default", "nais-prod.yaml"]
                     ]
                     for (deployment in deployments) {
                         latestDeploy = [deployment]
-                        (context, namespace) = deployment
-                        deploy.naiserator(context, namespace)
+                        (context, namespace, manifest) = deployment
+                        deploy.naiserator(context, namespace, manifest)
                     }
                 }
             }
