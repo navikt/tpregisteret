@@ -32,6 +32,7 @@ public class OrganisationTests {
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
             String validOrgNrA = "000000000";
             String validOrgNrB = "111111111";
+            String validVaultOrgNr = "222222222";
             String invalidOrgNr = "000000001";
             String validTpNrA = "1111";
             String validTpNrB = "4444";
@@ -46,7 +47,9 @@ public class OrganisationTests {
                     Arguments.of(validOrgNrB, invalidTpNr, doesntOwnTpNr.get()),
                     Arguments.of(invalidOrgNr, validTpNrA, doesntOwnTpNr.get()),
                     Arguments.of(invalidOrgNr, validTpNrB, doesntOwnTpNr.get()),
-                    Arguments.of(invalidOrgNr, invalidTpNr, doesntOwnTpNr.get()));
+                    Arguments.of(invalidOrgNr, invalidTpNr, doesntOwnTpNr.get()),
+                    Arguments.of(validVaultOrgNr, validTpNrA, ownTpNr.get()),
+                    Arguments.of(validVaultOrgNr, validTpNrB, doesntOwnTpNr.get()));
         }
     }
 

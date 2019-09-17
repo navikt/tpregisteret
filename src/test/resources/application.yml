@@ -15,3 +15,5 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: http://localhost:8090/sts/jwks
+orgnr:
+  mapping: 222222222,1111
