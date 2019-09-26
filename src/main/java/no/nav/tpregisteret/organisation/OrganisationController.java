@@ -1,6 +1,8 @@
 package no.nav.tpregisteret.organisation;
 
 import no.nav.tpregisteret.tpordning.TpRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,8 @@ import java.util.HashMap;
 @RequestMapping("/organisation")
 public class OrganisationController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(OrganisationController.class);
+
     private final TpRepository tpRepository;
 
     @Value("${orgnr.mapping}")
@@ -25,16 +29,20 @@ public class OrganisationController {
 
     @GetMapping("/{orgnr}/tpnr/{tpnr}")
     public ResponseEntity getTpOrdningerForPerson(@PathVariable("orgnr") String orgnr, @PathVariable("tpnr") String tpnr) {
-        if (validVaultOrgnrMapping(orgnr, tpnr))
+        if (validVaultOrgnrMapping(orgnr, tpnr)) {
+            LOG.info("Valid vault mapping: orgnr " + orgnr + " for tpnr " + tpnr);
             return ResponseEntity.ok().build();
+        }
 
         return tpRepository.getTpNrsForOrganisation(orgnr).contains(tpnr) ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
     private boolean validVaultOrgnrMapping(String orgnr, String tpnr) {
         var map = new HashMap<String, String>();
-        for (var mapping : orgnrMapping.split("\\|"))
+        for (var mapping : orgnrMapping.split("\\|")) {
             map.put(mapping.split(",")[0], mapping.split(",")[1]);
+            LOG.info("Vault mapping: " + mapping.split(",")[0] + "," + mapping.split(",")[1]);
+        }
         return map.containsKey(orgnr) && map.get(orgnr).equals(tpnr);
     }
 }
