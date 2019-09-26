@@ -39,6 +39,7 @@ public class OrganisationController {
 
     private boolean validVaultOrgnrMapping(String orgnr, String tpnr) {
         var map = new HashMap<String, String>();
+        LOG.info("Validate orgnr/tpnr:" + orgnr + "," + tpnr);
         for (var mapping : orgnrMapping.split("\\|")) {
             map.put(mapping.split(",")[0], mapping.split(",")[1]);
             LOG.info("Vault mapping: " + mapping.split(",")[0] + "," + mapping.split(",")[1]);
