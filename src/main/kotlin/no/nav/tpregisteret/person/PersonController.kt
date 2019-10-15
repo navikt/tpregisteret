@@ -2,13 +2,11 @@ package no.nav.tpregisteret.person
 
 import no.nav.tpregisteret.tpordning.TpOrdning
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
 
 import no.nav.tpregisteret.tpordning.TpRepository
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity.ok
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/person")
@@ -17,4 +15,14 @@ class PersonController(private val tpRepository: TpRepository) {
     @GetMapping("/{fnr}/tpordninger")
     fun getTpOrdningerForPerson(@PathVariable("fnr") fnr : String) : ResponseEntity<List<TpOrdning>>
             = ok(tpRepository.getTpOrdningerForPerson(fnr))
+
+    @DeleteMapping("/{fnr}")
+    fun deletePerson(@PathVariable("fnr") fnr : String) : ResponseEntity<Unit> {
+        return ResponseEntity(HttpStatus.OK)
+    }
+
+    @PatchMapping("/{fnr}")
+    fun updatePerson(@PathVariable("fnr") fnr : String) : ResponseEntity<Unit> {
+        return ResponseEntity(HttpStatus.OK)
+    }
 }
