@@ -13,5 +13,4 @@ class NaisEndpoints {
 
     @GetMapping("/isReady")
     fun isReady(): HttpStatus = OK
-
 }

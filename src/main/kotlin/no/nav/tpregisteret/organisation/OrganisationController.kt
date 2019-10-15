@@ -37,11 +37,8 @@ class OrganisationController(private val tpRepository: TpRepository) {
     private fun validVaultOrgnrMapping(orgnr : String, tpnr : String) : Boolean {
         LOG.info("Validate orgnr/tpnr:$orgnr,$tpnr")
         return orgnrMapping.split("\\|")
-                .map {it.split(',')}
-                .map {
-                    LOG.info("Vault mapping: ${it[0]},${it[1]}")
-                    it[0] to it[1]
-                }.toMap()
-                .run { containsKey(orgnr) && this[orgnr].equals(tpnr) }
+                .map{ it.split(',').take(2).joinToString(",") }
+                .onEach { LOG.info("Vault mapping: $it") }
+                .any { it == "$orgnr,$tpnr" }
     }
 }

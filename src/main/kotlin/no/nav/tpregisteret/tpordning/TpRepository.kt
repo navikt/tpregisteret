@@ -8,6 +8,8 @@ import java.sql.ResultSet
 
 @Repository
 class TpRepository(private val jdbcTemplate : JdbcTemplate) {
+    private val rowMapper = RowMapper {rs : ResultSet, _: Int -> rs.getString(1)}
+
     private val tofpQuery =
             "SELECT DISTINCT TSS_ID, TP_ID, ORGNR, NAVN " +
             "FROM T_TSS_TP " +
@@ -26,5 +28,5 @@ class TpRepository(private val jdbcTemplate : JdbcTemplate) {
             = jdbcTemplate.query(tofpQuery, BeanPropertyRowMapper(TpOrdning::class.java), fnr)
 
     fun getTpNrsForOrganisation(orgnr : String) : List<String>
-            = jdbcTemplate.query(tnfoQuery, RowMapper {rs : ResultSet, _: Int -> rs.getString(1)}, orgnr)
+            = jdbcTemplate.query(tnfoQuery, rowMapper, orgnr)
 }
