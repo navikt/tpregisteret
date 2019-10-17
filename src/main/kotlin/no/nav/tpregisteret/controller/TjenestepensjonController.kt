@@ -1,4 +1,4 @@
-package no.nav.tpregisteret.tjenestepensjon;
+package no.nav.tpregisteret.controller;
 
 import org.springframework.web.bind.annotation.*
 
@@ -32,4 +32,9 @@ class TjenestepensjonController {
         @PutMapping("{ytelseId}")
         fun hentSimulering(@PathVariable("simuleringId") simuleringId: String): String = ""
     }
+
+//    TODO
+//    - slettTjenestepensjon
+//    - hentTjenestepensjonInfo
+//    - hentTjenestepensjonForholdYtelse
 }

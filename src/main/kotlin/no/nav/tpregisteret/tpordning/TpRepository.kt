@@ -1,5 +1,6 @@
 package no.nav.tpregisteret.tpordning
 
+import no.nav.tpregisteret.domain.TpOrdning
 import org.springframework.jdbc.core.BeanPropertyRowMapper
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper

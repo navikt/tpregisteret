@@ -1,6 +1,6 @@
-package no.nav.tpregisteret.person
+package no.nav.tpregisteret.controller
 
-import no.nav.tpregisteret.tpordning.TpOrdning
+import no.nav.tpregisteret.domain.TpOrdning
 import org.springframework.http.ResponseEntity
 
 import no.nav.tpregisteret.tpordning.TpRepository

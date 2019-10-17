@@ -1,4 +1,4 @@
-package no.nav.tpregisteret.organisation
+package no.nav.tpregisteret.controller
 
 import no.nav.tpregisteret.tpordning.TpRepository
 import org.slf4j.Logger

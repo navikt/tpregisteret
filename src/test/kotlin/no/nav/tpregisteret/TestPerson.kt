@@ -1,6 +1,6 @@
 package no.nav.tpregisteret
 
-import no.nav.tpregisteret.tpordning.TpOrdning
+import no.nav.tpregisteret.domain.TpOrdning
 
 class TestPerson(val fnr : String, vararg val tpForhold : TpOrdning) {
     companion object {
