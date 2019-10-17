@@ -20,7 +20,7 @@ class OrganisationController(private val tpRepository: TpRepository) {
         val LOG: Logger = LoggerFactory.getLogger(OrganisationController::class.java)
     }
 
-    private fun regexFilter(s : String) = """^[^,]*,[^,]""".toRegex().find(s)
+    private fun regexFilter(s : String) = """^[^,]*,[^,]*""".toRegex().find(s)
 
     @Value("\${orgnr.mapping}")
     lateinit var orgnrMapping: String
@@ -28,7 +28,7 @@ class OrganisationController(private val tpRepository: TpRepository) {
     @GetMapping("/{orgnr}/tpnr/{tpnr}")
     fun getTpOrdningerForPerson(@PathVariable("orgnr") orgnr: String, @PathVariable("tpnr") tpnr: String): ResponseEntity<Any> = when {
         validVaultOrgnrMapping(orgnr, tpnr) -> handleValidMapping(orgnr, tpnr)
-        tpRepository.getTpNrsForOrganisation(orgnr).contains(tpnr) -> ok(TODO())
+        tpRepository.getTpNrsForOrganisation(orgnr).contains(tpnr) -> ok("")
         else -> notFound().build()
     }
 
@@ -43,6 +43,6 @@ class OrganisationController(private val tpRepository: TpRepository) {
 
     private fun handleValidMapping(orgnr: String, tpnr: String): ResponseEntity<Any> {
         LOG.info("Valid vault mapping: orgnr $orgnr for tpnr $tpnr")
-        return ok("TODO")
+        return ok("")
     }
 }
