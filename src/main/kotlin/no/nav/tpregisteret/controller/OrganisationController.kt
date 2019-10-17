@@ -20,25 +20,29 @@ class OrganisationController(private val tpRepository: TpRepository) {
         val LOG: Logger = LoggerFactory.getLogger(OrganisationController::class.java)
     }
 
+    private fun regexFilter(s : String) = """^[^,]*,[^,]""".toRegex().find(s)
+
     @Value("\${orgnr.mapping}")
-    lateinit var orgnrMapping : String
+    lateinit var orgnrMapping: String
 
     @GetMapping("/{orgnr}/tpnr/{tpnr}")
-    fun getTpOrdningerForPerson(@PathVariable("orgnr") orgnr : String, @PathVariable("tpnr") tpnr : String) : ResponseEntity<Any>
-        = when {
-            validVaultOrgnrMapping(orgnr, tpnr) -> {
-                LOG.info("Valid vault mapping: orgnr $orgnr for tpnr $tpnr")
-                ok().build()
-            }
-            tpRepository.getTpNrsForOrganisation(orgnr).contains(tpnr) -> ok().build()
-            else -> notFound().build()
-        }
+    fun getTpOrdningerForPerson(@PathVariable("orgnr") orgnr: String, @PathVariable("tpnr") tpnr: String): ResponseEntity<Any> = when {
+        validVaultOrgnrMapping(orgnr, tpnr) -> handleValidMapping(orgnr, tpnr)
+        tpRepository.getTpNrsForOrganisation(orgnr).contains(tpnr) -> ok(TODO())
+        else -> notFound().build()
+    }
 
-    private fun validVaultOrgnrMapping(orgnr : String, tpnr : String) : Boolean {
+    private fun validVaultOrgnrMapping(orgnr: String, tpnr: String): Boolean {
         LOG.info("Validate orgnr/tpnr:$orgnr,$tpnr")
         return orgnrMapping.split("\\|")
-                .map{ it.split(',').take(2).joinToString(",") }
+                .mapNotNull(::regexFilter)
+                .map(MatchResult::value)
                 .onEach { LOG.info("Vault mapping: $it") }
                 .any { it == "$orgnr,$tpnr" }
+    }
+
+    private fun handleValidMapping(orgnr: String, tpnr: String): ResponseEntity<Any> {
+        LOG.info("Valid vault mapping: orgnr $orgnr for tpnr $tpnr")
+        return ok("TODO")
     }
 }
