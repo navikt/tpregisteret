@@ -1,15 +1,21 @@
 package no.nav.tpregisteret.controller
 
 import no.nav.tpregisteret.tpordning.TpRepository
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/simulering")
 class SimuleringController(private val tpRepository: TpRepository) {
-//    TODO
-//    - lagreTjenestepensjonSimulering
-//    - lagreExistingSimulering
-//    - findSimulering
-//    - lagreNewSimulering
+
+    @PostMapping
+    fun lagreNySimulering(@RequestHeader("fnr") fnr: String) = ""
+
+    @PatchMapping
+    fun lagreEksisterendeSimulering(@RequestHeader("fnr") fnr: String) = ""
+
+    @GetMapping
+    fun findSimulering(@RequestHeader("fnr") fnr: String) = ""
+
+    @PostMapping("/tjenestepensjon")
+    fun lagreTjenestepensjonSimulering(@RequestHeader("tpnr") fnr: String) = ""
 }

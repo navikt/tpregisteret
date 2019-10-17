@@ -12,7 +12,6 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultMatcher
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.head
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.util.stream.Stream
 
@@ -21,12 +20,12 @@ import java.util.stream.Stream
 class OrganisationTests {
 
     @Autowired
-    private lateinit var mockMvc : MockMvc
+    private lateinit var mockMvc: MockMvc
 
     class TestData : ArgumentsProvider {
 
         @Override
-        override fun provideArguments(extensionContext: ExtensionContext) : Stream<Arguments> {
+        override fun provideArguments(extensionContext: ExtensionContext): Stream<Arguments> {
             val validOrgNrA = "000000000"
             val validOrgNrB = "111111111"
             val validVaultOrgNr = "222222222"
@@ -34,7 +33,7 @@ class OrganisationTests {
             val validTpNrA = "1111"
             val validTpNrB = "4444"
             val invalidTpNr = "7777"
-            val ownTpNr = { status().isOk}
+            val ownTpNr = { status().isOk }
             val doesntOwnTpNr = { status().isNotFound }
             return Stream.of(Arguments.of(validOrgNrA, validTpNrA, ownTpNr.invoke()),
                     Arguments.of(validOrgNrA, invalidTpNr, doesntOwnTpNr.invoke()),
@@ -52,17 +51,15 @@ class OrganisationTests {
 
     @ParameterizedTest
     @ArgumentsSource(TestData::class)
-    fun testTpNrTilhorendeOrganisasjonHead(orgNr : String, tpNr : String, expectedResult : ResultMatcher) {
+    fun testTpNrTilhorendeOrganisasjonHead(orgNr: String, tpNr: String, expectedResult: ResultMatcher) {
         mockMvc.perform(head("/organisation/$orgNr/tpnr/$tpNr"))
                 .andExpect(expectedResult)
-                .andExpect(content().string(""))
     }
 
     @ParameterizedTest
     @ArgumentsSource(TestData::class)
-    fun testTpNrTilhorendeOrganisasjonGet(orgNr : String, tpNr : String, expectedResult : ResultMatcher) {
+    fun testTpNrTilhorendeOrganisasjonGet(orgNr: String, tpNr: String, expectedResult: ResultMatcher) {
         mockMvc.perform(get("/organisation/$orgNr/tpnr/$tpNr"))
                 .andExpect(expectedResult)
-                .andExpect(content().string(""))
     }
 }

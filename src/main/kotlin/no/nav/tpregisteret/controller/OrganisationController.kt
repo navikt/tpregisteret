@@ -1,5 +1,6 @@
 package no.nav.tpregisteret.controller
 
+import no.nav.tpregisteret.domain.TpOrdning
 import no.nav.tpregisteret.tpordning.TpRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -20,15 +21,15 @@ class OrganisationController(private val tpRepository: TpRepository) {
         val LOG: Logger = LoggerFactory.getLogger(OrganisationController::class.java)
     }
 
-    private fun regexFilter(s : String) = """^[^,]*,[^,]*""".toRegex().find(s)
+    private fun regexFilter(s: String) = """^[^,]*,[^,]*""".toRegex().find(s)
 
     @Value("\${orgnr.mapping}")
     lateinit var orgnrMapping: String
 
     @GetMapping("/{orgnr}/tpnr/{tpnr}")
-    fun getTpOrdningerForPerson(@PathVariable("orgnr") orgnr: String, @PathVariable("tpnr") tpnr: String): ResponseEntity<Any> = when {
+    fun getTpOrdningerForPerson(@PathVariable("orgnr") orgnr: String, @PathVariable("tpnr") tpnr: String): ResponseEntity<List<TpOrdning>> = when {
         validVaultOrgnrMapping(orgnr, tpnr) -> handleValidMapping(orgnr, tpnr)
-        tpRepository.getTpNrsForOrganisation(orgnr).contains(tpnr) -> ok("")
+        tpRepository.getTpNrsForOrganisation(orgnr).contains(tpnr) -> ok(emptyList())
         else -> notFound().build()
     }
 
@@ -41,8 +42,8 @@ class OrganisationController(private val tpRepository: TpRepository) {
                 .any { it == "$orgnr,$tpnr" }
     }
 
-    private fun handleValidMapping(orgnr: String, tpnr: String): ResponseEntity<Any> {
+    private fun handleValidMapping(orgnr: String, tpnr: String): ResponseEntity<List<TpOrdning>> {
         LOG.info("Valid vault mapping: orgnr $orgnr for tpnr $tpnr")
-        return ok("")
+        return ok(emptyList())
     }
 }

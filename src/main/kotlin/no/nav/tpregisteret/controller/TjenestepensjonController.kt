@@ -1,40 +1,44 @@
-package no.nav.tpregisteret.controller;
+package no.nav.tpregisteret.controller
 
+import no.nav.tpregisteret.domain.Forhold
+import no.nav.tpregisteret.domain.Simulering
+import no.nav.tpregisteret.domain.Ytelse
+import org.springframework.http.ResponseEntity
+import org.springframework.http.ResponseEntity.*
 import org.springframework.web.bind.annotation.*
+import java.net.URI
 
 @RestController
 @RequestMapping("/tjenestepensjon")
 class TjenestepensjonController {
 
-    @RequestMapping("/forhold")
-    class Forhold {
-        @GetMapping("{forholdId}")
-        fun hentTpforhold(@PathVariable("forholdId") fnr: String): String = ""
+    @GetMapping
+    fun hentTjenestePensjon(@RequestHeader("tpnr") tpnr: String): ResponseEntity<ClassNotFoundException> = ok(TODO())
 
-        @PutMapping("{forholdId}")
-        fun lagreTpforhold(@PathVariable("forholdId") fnr: String): String = ""
-    }
+    @DeleteMapping
+    fun slettTjenestePensjon(@RequestHeader("tpnr") tpnr: String): ResponseEntity<Nothing?> = noContent().build()
 
-    @RequestMapping("/ytelse")
-    class Ytelse {
-        @GetMapping("{ytelseId}")
-        fun lagreYtelse(@PathVariable("ytelseId") ytelseId: String): String = ""
+    @DeleteMapping("/TBD")
+    fun slettTjenestePensjonForholdYtelse(@RequestHeader("tpnr") tpnr: String): ResponseEntity<Nothing?> = noContent().build()
 
-        @PutMapping("{ytelseId}")
-        fun hentYtelse(@PathVariable("ytelseId") ytelseId: String): String = ""
-    }
 
-    @RequestMapping("/simulering")
-    class Simulering {
-        @GetMapping("{simuleringId}")
-        fun lagreSimulering(@PathVariable("simuleringId") simuleringId: String): String = ""
+    @GetMapping("/forhold")
+    fun hentTpforhold(@RequestHeader("forholdId") fnr: String): ResponseEntity<Forhold> = ok(TODO())
 
-        @PutMapping("{ytelseId}")
-        fun hentSimulering(@PathVariable("simuleringId") simuleringId: String): String = ""
-    }
+    @PutMapping("/forhold")
+    fun lagreTpforhold(@RequestHeader("forholdId") fnr: String): ResponseEntity<URI> = created(TODO()).build()
 
-//    TODO
-//    - slettTjenestepensjon
-//    - hentTjenestepensjonInfo
-//    - hentTjenestepensjonForholdYtelse
+
+    @GetMapping("/ytelse")
+    fun hentYtelse(@RequestHeader("ytelseId") ytelseId: String): ResponseEntity<Ytelse> = ok(TODO())
+
+    @PostMapping("/ytelse")
+    fun lagreYtelse(@RequestHeader("ytelseId") ytelseId: String): ResponseEntity<URI> = created(TODO()).build()
+
+
+    @GetMapping("/simulering")
+    fun hentSimulering(@RequestHeader("simuleringId") simuleringId: String): ResponseEntity<Simulering> = ok(TODO())
+
+    @PostMapping("/simulering")
+    fun lagreSimulering(@RequestHeader("simuleringId") simuleringId: String): ResponseEntity<URI> = created(TODO()).build()
 }

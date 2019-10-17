@@ -30,7 +30,7 @@ import no.nav.tokentest.TokenHandler
 class PersonControllerTests {
 
     @Autowired
-    private lateinit var mockMvc : MockMvc
+    private lateinit var mockMvc: MockMvc
 
     private lateinit var wireMockServer: WireMockServer
 
@@ -38,7 +38,7 @@ class PersonControllerTests {
     private lateinit var tokenHandler: TokenHandler
 
     @BeforeEach
-     fun setup() {
+    fun setup() {
         wireMockServer = WireMockServer(8090)
         wireMockServer.start()
         wireMockServer.stubFor(WireMock.get(urlEqualTo("/sts/jwks"))
@@ -47,11 +47,11 @@ class PersonControllerTests {
     }
 
     @AfterEach
-     fun teardown() = wireMockServer.stop()
+    fun teardown() = wireMockServer.stop()
 
     @Test
     fun valid_parameter_returns_200_and_empty_result() {
-        mockMvc.perform(get("/person/${testPerson1.fnr}/tpordninger")
+        mockMvc.perform(get("/person/tpordninger").header("fnr", testPerson1.fnr)
                 .header("Authorization", "Bearer " + getValidSignedToken()))
                 .andExpect(status().isOk)
                 .andExpect(MockMvcResultMatchers.content().json("[]"))
@@ -59,7 +59,7 @@ class PersonControllerTests {
 
     @Test
     fun valid_parameter_returns_200_and_single_result() {
-        mockMvc.perform(get("/person/${testPerson2.fnr}/tpordninger")
+        mockMvc.perform(get("/person/tpordninger").header("fnr", testPerson2.fnr)
                 .header("Authorization", "Bearer " + getValidSignedToken()))
                 .andExpect(status().isOk)
                 .andExpect(MockMvcResultMatchers.content().json("[{\"tssId\":\"11111111111\",\"tpId\":\"1111\",\"orgNr\":\"000000000\",\"navn\":\"TP1\"}]"))
@@ -67,7 +67,7 @@ class PersonControllerTests {
 
     @Test
     fun valid_parameter_returns_200_and_results() {
-        mockMvc.perform(get("/person/${testPerson3.fnr}/tpordninger")
+        mockMvc.perform(get("/person/tpordninger").header("fnr", testPerson3.fnr)
                 .header("Authorization", "Bearer " + getValidSignedToken()))
                 .andExpect(status().isOk)
                 .andExpect(MockMvcResultMatchers.content().json("[{\"tssId\":\"11111111111\",\"tpId\":\"1111\",\"orgNr\":\"000000000\",\"navn\":\"TP1\"},{\"tssId\":\"22222222222\",\"tpId\":\"2222\",\"orgNr\":\"000000000\",\"navn\":\"TP2\"}]"))
@@ -75,7 +75,7 @@ class PersonControllerTests {
 
     @Test
     fun invalid_token_returns_401() {
-        mockMvc.perform(get("/person/${testPerson3.fnr}/tpordninger")
+        mockMvc.perform(get("/person/tpordninger").header("fnr", testPerson3.fnr)
                 .header("Authorization", "Bearer " + getInvalidSignedToken()))
                 .andExpect(status().isUnauthorized)
                 .andExpect(MockMvcResultMatchers.content().string(""))
@@ -88,7 +88,7 @@ class PersonControllerTests {
                 .andExpect(status().isNotFound)
     }
 
-    private fun getValidSignedToken() : String = tokenHandler.getSignedToken(TokenClaims.builder().withDefaultClaims().build())
+    private fun getValidSignedToken(): String = tokenHandler.getSignedToken(TokenClaims.builder().withDefaultClaims().build())
 
-    private fun getInvalidSignedToken() : String = TokenHandler().getSignedToken(TokenClaims.builder().withDefaultClaims().build())
+    private fun getInvalidSignedToken(): String = TokenHandler().getSignedToken(TokenClaims.builder().withDefaultClaims().build())
 }

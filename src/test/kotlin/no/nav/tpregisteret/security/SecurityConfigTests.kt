@@ -27,15 +27,15 @@ import no.nav.tpregisteret.TestPerson.Companion.testPerson1
 class SecurityConfigTests {
 
     @Autowired
-    private lateinit var mockMvc : MockMvc
+    private lateinit var mockMvc: MockMvc
 
-    private lateinit var wireMockServer : WireMockServer
+    private lateinit var wireMockServer: WireMockServer
 
     @Autowired
-    private lateinit var tokenHandler : TokenHandler
+    private lateinit var tokenHandler: TokenHandler
 
     @BeforeEach
-     fun setup() {
+    fun setup() {
         wireMockServer = WireMockServer(8090)
         wireMockServer.start()
         wireMockServer.stubFor(WireMock.get(urlEqualTo("/sts/jwks"))
@@ -44,32 +44,32 @@ class SecurityConfigTests {
     }
 
     @AfterEach
-     fun teardown() = wireMockServer.stop()
+    fun teardown() = wireMockServer.stop()
 
     @Test
-     fun liveness_and_actuator_permitted() {
+    fun liveness_and_actuator_permitted() {
         mockMvc.perform(get("/actuator/prometheus")).andExpect(status().isOk)
         mockMvc.perform(get("/isAlive")).andExpect(status().isOk)
         mockMvc.perform(get("/isReady")).andExpect(status().isOk)
     }
 
     @Test
-     fun valid_token_authenticated() {
-        mockMvc.perform(get("/person/${testPerson1.fnr}/tpordninger")
+    fun valid_token_authenticated() {
+        mockMvc.perform(get("/person/tpordninger").header("fnr", testPerson1.fnr)
                 .header("Authorization", "Bearer " + tokenHandler.getSignedToken(TokenHeaders.builder().build(), TokenClaims.builder().withDefaultClaims().build())))
                 .andExpect(status().isOk)
     }
 
     @Test
-     fun invalid_token_denied() {
-        mockMvc.perform(get("/person/${testPerson1.fnr}/tpordninger")
-            .header("Authorization", "Bearer " + TokenHandler().getSignedToken(TokenClaims.builder().withDefaultClaims().build())))
-            .andExpect(status().isUnauthorized)
+    fun invalid_token_denied() {
+        mockMvc.perform(get("/person/tpordninger").header("fnr", testPerson1.fnr)
+                .header("Authorization", "Bearer " + TokenHandler().getSignedToken(TokenClaims.builder().withDefaultClaims().build())))
+                .andExpect(status().isUnauthorized)
     }
 
     @Test
-     fun no_token_denied() {
-        mockMvc.perform(get("/person/${testPerson1.fnr}/tpordninger"))
-            .andExpect(status().isUnauthorized)
+    fun no_token_denied() {
+        mockMvc.perform(get("/person/tpordninger").header("fnr", testPerson1.fnr))
+                .andExpect(status().isUnauthorized)
     }
 }
