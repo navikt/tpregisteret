@@ -1,16 +1,29 @@
 package no.nav.tpregisteret.controller
 
+import no.nav.tpregisteret.domain.Forhold
 import no.nav.tpregisteret.tpordning.TpRepository
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.ResponseEntity
+import org.springframework.http.ResponseEntity.created
+import org.springframework.http.ResponseEntity.noContent
+import org.springframework.web.bind.annotation.*
+import java.net.URI
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/forhold")
 class ForholdController(private val tpRepository: TpRepository) {
-//    TODO
-//    lagreNewForhold
-//    lagreExistingForhold
-//    findValidForholdWithId
-//    slettForholdCascade
-//    lagreTjenestepensjonForhold
+
+    @PostMapping
+    fun lagreNewForhold(@RequestHeader("TODO") TODO: String): ResponseEntity<URI> = created(TODO()).build()
+
+    @PatchMapping
+    fun lagreExistingForhold(@RequestHeader("TODO") TODO: String): ResponseEntity<Nothing?> = noContent().build()
+
+    @GetMapping
+    fun finnValidForholdMedId(@RequestHeader("TODO") TODO: String): ResponseEntity<Forhold> = created(TODO()).build()
+
+    @DeleteMapping
+    fun slettForholdCascade(@RequestHeader("TODO") TODO: String): ResponseEntity<Nothing?> = noContent().build()
+
+    @PostMapping
+    fun lagreTjenestepensjonForhold(@RequestHeader("TODO") TODO: String): ResponseEntity<URI> = created(TODO()).build()
 }
