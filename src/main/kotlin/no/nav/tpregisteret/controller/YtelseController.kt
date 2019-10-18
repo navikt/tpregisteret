@@ -11,7 +11,7 @@ import java.net.URI
 @RequestMapping("/ytelse")
 class YtelseController(private val tpRepository: TpRepository) {
 
-    @PostMapping
+    @PostMapping("/tjenestepensjon")
     fun lagreTjenestepensjonYtelse(@RequestHeader("TODO") TODO: String): ResponseEntity<URI> = created(TODO()).build()
 
     @PostMapping

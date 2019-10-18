@@ -24,6 +24,6 @@ class ForholdController(private val tpRepository: TpRepository) {
     @DeleteMapping
     fun slettForholdCascade(@RequestHeader("TODO") TODO: String): ResponseEntity<Nothing?> = noContent().build()
 
-    @PostMapping
+    @PostMapping("/tjenestepensjon")
     fun lagreTjenestepensjonForhold(@RequestHeader("TODO") TODO: String): ResponseEntity<URI> = created(TODO()).build()
 }
