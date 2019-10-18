@@ -52,14 +52,20 @@ class OrganisationTests {
     @ParameterizedTest
     @ArgumentsSource(TestData::class)
     fun testTpNrTilhorendeOrganisasjonHead(orgNr: String, tpNr: String, expectedResult: ResultMatcher) {
-        mockMvc.perform(head("/organisation/$orgNr/tpnr/$tpNr"))
+        mockMvc.perform(
+                head("/organisation/")
+                        .header("orgnr", orgNr)
+                        .header("tpnr", tpNr))
                 .andExpect(expectedResult)
     }
 
     @ParameterizedTest
     @ArgumentsSource(TestData::class)
     fun testTpNrTilhorendeOrganisasjonGet(orgNr: String, tpNr: String, expectedResult: ResultMatcher) {
-        mockMvc.perform(get("/organisation/$orgNr/tpnr/$tpNr"))
+        mockMvc.perform(
+                get("/organisation/")
+                        .header("orgnr", orgNr)
+                        .header("tpnr", tpNr))
                 .andExpect(expectedResult)
     }
 }

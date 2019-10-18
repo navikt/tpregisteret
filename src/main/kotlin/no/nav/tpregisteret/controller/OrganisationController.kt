@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.notFound
 import org.springframework.http.ResponseEntity.ok
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/organisation")
@@ -26,8 +23,11 @@ class OrganisationController(private val tpRepository: TpRepository) {
     @Value("\${orgnr.mapping}")
     lateinit var orgnrMapping: String
 
-    @GetMapping("/{orgnr}/tpnr/{tpnr}")
-    fun getTpOrdningerForPerson(@PathVariable("orgnr") orgnr: String, @PathVariable("tpnr") tpnr: String): ResponseEntity<List<TpOrdning>> = when {
+    @GetMapping
+    fun getTpOrdningerForPerson(
+            @RequestHeader("orgnr") orgnr: String,
+            @RequestHeader("tpnr") tpnr: String
+    ): ResponseEntity<List<TpOrdning>> = when {
         validVaultOrgnrMapping(orgnr, tpnr) -> handleValidMapping(orgnr, tpnr)
         tpRepository.getTpNrsForOrganisation(orgnr).contains(tpnr) -> ok(emptyList())
         else -> notFound().build()
