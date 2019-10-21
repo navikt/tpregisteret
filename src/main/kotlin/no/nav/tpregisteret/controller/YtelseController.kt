@@ -9,7 +9,7 @@ import java.net.URI
 
 @RestController
 @RequestMapping("/ytelse")
-class YtelseController(private val tpRepository: TpRepository) {
+class YtelseController(tpRepository: TpRepository) : ResursController(tpRepository) {
 
     @PostMapping("/tjenestepensjon")
     fun lagreTjenestepensjonYtelse(@RequestHeader("TODO") TODO: String): ResponseEntity<URI> = created(TODO()).build()

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/simulering")
-class SimuleringController(private val tpRepository: TpRepository) {
+class SimuleringController(tpRepository: TpRepository) : ResursController(tpRepository) {
 
     @PostMapping
     fun lagreNySimulering(@RequestHeader("fnr") fnr: String) = ""

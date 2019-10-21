@@ -10,7 +10,7 @@ import java.net.URI
 
 @RestController
 @RequestMapping("/forhold")
-class ForholdController(private val tpRepository: TpRepository) {
+class ForholdController(tpRepository: TpRepository) : ResursController(tpRepository) {
 
     @PostMapping
     fun lagreNewForhold(@RequestHeader("TODO") TODO: String): ResponseEntity<URI> = created(TODO()).build()

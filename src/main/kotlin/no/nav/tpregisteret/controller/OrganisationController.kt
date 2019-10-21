@@ -1,18 +1,18 @@
 package no.nav.tpregisteret.controller
 
 import no.nav.tpregisteret.domain.TpOrdning
+import no.nav.tpregisteret.exceptions.ResursIkkeFunnet
 import no.nav.tpregisteret.tpordning.TpRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
-import org.springframework.http.ResponseEntity.notFound
 import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/organisation")
-class OrganisationController(private val tpRepository: TpRepository) {
+class OrganisationController(tpRepository: TpRepository) : ResursController(tpRepository) {
 
     companion object {
         val LOG: Logger = LoggerFactory.getLogger(OrganisationController::class.java)
@@ -30,7 +30,7 @@ class OrganisationController(private val tpRepository: TpRepository) {
     ): ResponseEntity<List<TpOrdning>> = when {
         validVaultOrgnrMapping(orgnr, tpnr) -> handleValidMapping(orgnr, tpnr)
         tpRepository.getTpNrsForOrganisation(orgnr).contains(tpnr) -> ok(emptyList())
-        else -> notFound().build()
+        else -> throw ResursIkkeFunnet()
     }
 
     private fun validVaultOrgnrMapping(orgnr: String, tpnr: String): Boolean {
