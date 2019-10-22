@@ -18,7 +18,7 @@ class OrganisationController(tpRepository: TpRepository) : ResursController(tpRe
         val LOG: Logger = LoggerFactory.getLogger(OrganisationController::class.java)
     }
 
-    private fun regexFilter(s: String) = """^[^,]*,[^,]*""".toRegex().find(s)
+    private fun regexFilter(s: String) = """^[^,]*,[^,]...""".toRegex().find(s)
 
     @Value("\${orgnr.mapping}")
     lateinit var orgnrMapping: String
@@ -35,7 +35,7 @@ class OrganisationController(tpRepository: TpRepository) : ResursController(tpRe
 
     private fun validVaultOrgnrMapping(orgnr: String, tpnr: String): Boolean {
         LOG.info("Validate orgnr/tpnr:$orgnr,$tpnr")
-        return orgnrMapping.split("\\|")
+        return orgnrMapping.split('|')
                 .mapNotNull(::regexFilter)
                 .map(MatchResult::value)
                 .onEach { LOG.info("Vault mapping: $it") }

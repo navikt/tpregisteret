@@ -26,26 +26,31 @@ class OrganisationTests {
 
         @Override
         override fun provideArguments(extensionContext: ExtensionContext): Stream<Arguments> {
-            val validOrgNrA = "000000000"
-            val validOrgNrB = "111111111"
-            val validVaultOrgNr = "222222222"
-            val invalidOrgNr = "000000001"
-            val validTpNrA = "1111"
-            val validTpNrB = "4444"
-            val invalidTpNr = "7777"
+            val tpNrA = "1111"
+            val tpNrB = "4444"
+            val orgNrA = "000000000"
+            val orgNrB = "111111111"
+            val validVaultMappedTpNrA = "1111"
+            val validVaultMappedTpNrB = "3333"
+            val validVaultMappedOrgNrA = "222222222"
+            val validVaultMappedOrgNrB = "111111111"
+            val invalidTpNr = "1234"
+            val invalidOrgNr = "123456789"
             val ownTpNr = { status().isOk }
             val doesntOwnTpNr = { status().isNotFound }
-            return Stream.of(Arguments.of(validOrgNrA, validTpNrA, ownTpNr.invoke()),
-                    Arguments.of(validOrgNrA, invalidTpNr, doesntOwnTpNr.invoke()),
-                    Arguments.of(validOrgNrA, validTpNrB, doesntOwnTpNr.invoke()),
-                    Arguments.of(validOrgNrB, validTpNrB, ownTpNr.invoke()),
-                    Arguments.of(validOrgNrB, validTpNrA, doesntOwnTpNr.invoke()),
-                    Arguments.of(validOrgNrB, invalidTpNr, doesntOwnTpNr.invoke()),
-                    Arguments.of(invalidOrgNr, validTpNrA, doesntOwnTpNr.invoke()),
-                    Arguments.of(invalidOrgNr, validTpNrB, doesntOwnTpNr.invoke()),
-                    Arguments.of(invalidOrgNr, invalidTpNr, doesntOwnTpNr.invoke()),
-                    Arguments.of(validVaultOrgNr, validTpNrA, ownTpNr.invoke()),
-                    Arguments.of(validVaultOrgNr, validTpNrB, doesntOwnTpNr.invoke()))
+            return Stream.of(
+                    Arguments.of(orgNrA, tpNrA, ownTpNr.invoke()),
+                    Arguments.of(orgNrB, tpNrB, ownTpNr.invoke()),
+                    Arguments.of(orgNrB, tpNrA, doesntOwnTpNr.invoke()),
+                    Arguments.of(orgNrA, tpNrB, doesntOwnTpNr.invoke()),
+                    Arguments.of(orgNrA, invalidTpNr, doesntOwnTpNr.invoke()),
+                    Arguments.of(invalidOrgNr, tpNrB, doesntOwnTpNr.invoke()),
+                    Arguments.of(validVaultMappedOrgNrA, validVaultMappedTpNrA, ownTpNr.invoke()),
+                    Arguments.of(validVaultMappedOrgNrB, validVaultMappedTpNrB, ownTpNr.invoke()),
+                    Arguments.of(validVaultMappedOrgNrA, validVaultMappedTpNrB, doesntOwnTpNr.invoke()),
+                    Arguments.of(validVaultMappedOrgNrB, validVaultMappedTpNrA, doesntOwnTpNr.invoke()),
+                    Arguments.of(validVaultMappedOrgNrA, invalidTpNr, doesntOwnTpNr.invoke()),
+                    Arguments.of(invalidOrgNr, validVaultMappedTpNrA, doesntOwnTpNr.invoke()))
         }
     }
 

@@ -16,4 +16,4 @@ spring:
         jwt:
           jwk-set-uri: http://localhost:8090/sts/jwks
 orgnr:
-  mapping: 222222222,1111
+  mapping: 111111111,3333|222222222,1111
