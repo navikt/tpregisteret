@@ -1,3 +1,3 @@
 package no.nav.tpregisteret.exceptions
 
-class ResursIkkeFunnet: Throwable()
+class ResursIkkeFunnet : Throwable()

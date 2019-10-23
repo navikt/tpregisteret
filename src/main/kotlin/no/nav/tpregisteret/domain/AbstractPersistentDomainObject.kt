@@ -5,7 +5,7 @@ import java.time.LocalDate
 interface AbstractPersistentDomainObject
 
 data class Person(
-        val fnr : String): AbstractPersistentDomainObject
+        val fnr: String) : AbstractPersistentDomainObject
 
 data class Ytelse(
         val ytelseId: String,

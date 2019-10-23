@@ -8,13 +8,13 @@ import org.springframework.security.config.http.SessionCreationPolicy
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig: WebSecurityConfigurerAdapter() {
+class SecurityConfig : WebSecurityConfigurerAdapter() {
 
-    override fun configure(http : HttpSecurity) {
+    override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-            .antMatchers("/isAlive", "/isReady", "/actuator/**", "/organisation/**").permitAll()
-            .anyRequest().authenticated()
-            .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and().oauth2ResourceServer().jwt()
+                .antMatchers("/isAlive", "/isReady", "/actuator/**", "/organisation/**").permitAll()
+                .anyRequest().authenticated()
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().oauth2ResourceServer().jwt()
     }
 }

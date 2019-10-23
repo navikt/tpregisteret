@@ -1,14 +1,14 @@
 package no.nav.tpregisteret
 
-import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
 
 @SpringBootApplication
 class TpregisteretApplication {
-	companion object {
-		@JvmStatic
-		fun main(args: Array<String>) {
-			SpringApplication.run(TpregisteretApplication::class.java, *args)
-		}
-	}
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            runApplication<TpregisteretApplication>(*args)
+        }
+    }
 }
