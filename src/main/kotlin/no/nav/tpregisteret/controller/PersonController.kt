@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/person")
-class PersonController(tpRepository: TpRepository) : ResursController(tpRepository) {
+class PersonController(private val tpRepository: TpRepository) {
 
     @GetMapping("/tpordninger")
     fun getTpOrdningerForPerson(@RequestHeader("fnr") fnr: String) = tpRepository.getTpOrdningerForPerson(fnr)

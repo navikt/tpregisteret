@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/organisation")
-class OrganisationController(tpRepository: TpRepository) : ResursController(tpRepository) {
+class OrganisationController(private val tpRepository: TpRepository) {
 
     companion object {
         val LOG: Logger = LoggerFactory.getLogger(OrganisationController::class.java)

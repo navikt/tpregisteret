@@ -1,7 +1,6 @@
 package no.nav.tpregisteret.controller
 
 import no.nav.tpregisteret.domain.Simulering
-import no.nav.tpregisteret.tpordning.TpRepository
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
@@ -9,7 +8,7 @@ import java.net.URI
 
 @RestController
 @RequestMapping("/simulering")
-class SimuleringController(tpRepository: TpRepository) : ResursController(tpRepository) {
+class SimuleringController {
 
     @PostMapping
     @ResponseStatus(CREATED)
