@@ -1,10 +1,8 @@
 package no.nav.tpregisteret.controller
 
-import no.nav.tpregisteret.domain.TpOrdning
+import no.nav.tpregisteret.domain.Person
 import no.nav.tpregisteret.tpordning.TpRepository
-import org.springframework.http.ResponseEntity
-import org.springframework.http.ResponseEntity.noContent
-import org.springframework.http.ResponseEntity.ok
+import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -12,11 +10,17 @@ import org.springframework.web.bind.annotation.*
 class PersonController(tpRepository: TpRepository) : ResursController(tpRepository) {
 
     @GetMapping("/tpordninger")
-    fun getTpOrdningerForPerson(@RequestHeader("fnr") fnr: String): ResponseEntity<List<TpOrdning>> = ok(tpRepository.getTpOrdningerForPerson(fnr))
+    fun getTpOrdningerForPerson(@RequestHeader("fnr") fnr: String) = tpRepository.getTpOrdningerForPerson(fnr)
 
     @DeleteMapping
-    fun deletePerson(@RequestHeader("fnr") fnr: String): ResponseEntity<Nothing?> = noContent().build()
+    @ResponseStatus(NO_CONTENT)
+    fun deletePerson(@RequestHeader("fnr") fnr: String) {
+        TODO()
+    }
 
     @PatchMapping
-    fun updatePerson(@RequestHeader("fnr") fnr: String): ResponseEntity<Nothing?> = noContent().build()
+    @ResponseStatus(NO_CONTENT)
+    fun updatePerson(@RequestBody person: Person) {
+        TODO()
+    }
 }

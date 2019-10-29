@@ -2,9 +2,8 @@ package no.nav.tpregisteret.controller
 
 import no.nav.tpregisteret.domain.Forhold
 import no.nav.tpregisteret.tpordning.TpRepository
-import org.springframework.http.ResponseEntity
-import org.springframework.http.ResponseEntity.created
-import org.springframework.http.ResponseEntity.noContent
+import org.springframework.http.HttpStatus.CREATED
+import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
 import java.net.URI
 
@@ -13,17 +12,27 @@ import java.net.URI
 class ForholdController(tpRepository: TpRepository) : ResursController(tpRepository) {
 
     @PostMapping
-    fun lagreNewForhold(@RequestHeader("TODO") TODO: String): ResponseEntity<URI> = created(TODO()).build()
+    @ResponseStatus(CREATED)
+    fun lagreNewForhold(@RequestBody forhold: Forhold) = URI(TODO())
 
     @PatchMapping
-    fun lagreExistingForhold(@RequestHeader("TODO") TODO: String): ResponseEntity<Nothing?> = noContent().build()
+    @ResponseStatus(NO_CONTENT)
+    fun lagreExistingForhold(@RequestBody forhold: Forhold) {
+        TODO()
+    }
 
     @GetMapping
-    fun finnValidForholdMedId(@RequestHeader("TODO") TODO: String): ResponseEntity<Forhold> = created(TODO()).build()
+    fun finnValidForholdMedId(@RequestHeader("TODO") TODO: String) = TODO() as Forhold
 
     @DeleteMapping
-    fun slettForholdCascade(@RequestHeader("TODO") TODO: String): ResponseEntity<Nothing?> = noContent().build()
+    @ResponseStatus(NO_CONTENT)
+    fun slettForholdCascade(@RequestHeader("TODO") TODO: String) {
+        TODO()
+    }
 
     @PostMapping("/tjenestepensjon")
-    fun lagreTjenestepensjonForhold(@RequestHeader("TODO") TODO: String): ResponseEntity<URI> = created(TODO()).build()
+    @ResponseStatus(CREATED)
+    fun lagreTjenestepensjonForhold(@RequestHeader("tpnr") tpnr: String, @RequestBody forhold: Forhold) {
+        TODO()
+    }
 }

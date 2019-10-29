@@ -2,8 +2,8 @@ package no.nav.tpregisteret.controller
 
 import no.nav.tpregisteret.domain.Ytelse
 import no.nav.tpregisteret.tpordning.TpRepository
-import org.springframework.http.ResponseEntity
-import org.springframework.http.ResponseEntity.*
+import org.springframework.http.HttpStatus.CREATED
+import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
 import java.net.URI
 
@@ -11,18 +11,26 @@ import java.net.URI
 @RequestMapping("/ytelse")
 class YtelseController(tpRepository: TpRepository) : ResursController(tpRepository) {
 
-    @PostMapping("/tjenestepensjon")
-    fun lagreTjenestepensjonYtelse(@RequestHeader("TODO") TODO: String): ResponseEntity<URI> = created(TODO()).build()
-
     @PostMapping
-    fun lagreNyYtelse(@RequestHeader("TODO") TODO: String): ResponseEntity<URI> = created(TODO()).build()
+    @ResponseStatus(CREATED)
+    fun lagreNyYtelse(@RequestBody ytelse: Ytelse) = URI(TODO())
 
     @PatchMapping
-    fun lagreExistingYtelse(@RequestHeader("TODO") TODO: String): ResponseEntity<Nothing?> = noContent().build()
+    @ResponseStatus(NO_CONTENT)
+    fun lagreExistingYtelse(@RequestBody ytelse: Ytelse) {
+        TODO()
+    }
 
     @RequestMapping(method = [RequestMethod.HEAD])
-    fun validateIdenticalYtelse(@RequestHeader("ytelse") ytelse: Ytelse): ResponseEntity<Nothing?> = noContent().build()
+    @ResponseStatus(NO_CONTENT)
+    fun validateIdenticalYtelse(@RequestHeader("ytelse") ytelse: Ytelse) {
+        TODO()
+    }
 
     @GetMapping
-    fun hentYtelseMedId(@RequestHeader("TODO") TODO: String): ResponseEntity<Nothing?> = ok(TODO())
+    fun hentYtelseMedId(@RequestHeader("TODO") TODO: String) = TODO() as Ytelse
+
+    @PostMapping("/tjenestepensjon")
+    @ResponseStatus(CREATED)
+    fun lagreTjenestepensjonYtelse(@RequestHeader("tpnr") tpnr: String, @RequestBody ytelse: Ytelse) = URI(TODO())
 }

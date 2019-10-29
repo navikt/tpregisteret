@@ -6,9 +6,10 @@ import no.nav.tpregisteret.tpordning.TpRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.ResponseEntity
-import org.springframework.http.ResponseEntity.ok
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestHeader
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/organisation")
@@ -27,9 +28,9 @@ class OrganisationController(tpRepository: TpRepository) : ResursController(tpRe
     fun getTpOrdningerForPerson(
             @RequestHeader("orgnr") orgnr: String,
             @RequestHeader("tpnr") tpnr: String
-    ): ResponseEntity<List<TpOrdning>> = when {
+    ) = when {
         validVaultOrgnrMapping(orgnr, tpnr) -> handleValidMapping(orgnr, tpnr)
-        tpRepository.getTpNrsForOrganisation(orgnr).contains(tpnr) -> ok(emptyList())
+        tpRepository.getTpNrsForOrganisation(orgnr).contains(tpnr) -> emptyList()
         else -> throw ResursIkkeFunnet()
     }
 
@@ -41,8 +42,8 @@ class OrganisationController(tpRepository: TpRepository) : ResursController(tpRe
                 .any("$orgnr,$tpnr"::equals)
     }
 
-    private fun handleValidMapping(orgnr: String, tpnr: String): ResponseEntity<List<TpOrdning>> {
+    private fun handleValidMapping(orgnr: String, tpnr: String): List<TpOrdning> {
         LOG.info("Valid vault mapping: orgnr $orgnr for tpnr $tpnr")
-        return ok(emptyList())
+        return emptyList()
     }
 }
