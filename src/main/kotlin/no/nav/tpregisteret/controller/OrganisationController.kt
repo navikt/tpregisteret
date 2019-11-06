@@ -1,7 +1,7 @@
 package no.nav.tpregisteret.controller
 
 import no.nav.tpregisteret.domain.TpOrdning
-import no.nav.tpregisteret.exceptions.ResursIkkeFunnet
+import no.nav.tpregisteret.exceptions.TpOrdningIkkeFunnet
 import no.nav.tpregisteret.tpordning.TpRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -31,7 +31,7 @@ class OrganisationController(private val tpRepository: TpRepository) {
     ) = when {
         validVaultOrgnrMapping(orgnr, tpnr) -> handleValidMapping(orgnr, tpnr)
         tpRepository.getTpNrsForOrganisation(orgnr).contains(tpnr) -> emptyList()
-        else -> throw ResursIkkeFunnet()
+        else -> throw TpOrdningIkkeFunnet()
     }
 
     private fun validVaultOrgnrMapping(orgnr: String, tpnr: String): Boolean {

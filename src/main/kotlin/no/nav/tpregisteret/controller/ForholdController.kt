@@ -4,7 +4,6 @@ import no.nav.tpregisteret.domain.Forhold
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
-import java.net.URI
 
 @RestController
 @RequestMapping("/forhold")
@@ -12,7 +11,7 @@ class ForholdController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    fun lagreNewForhold(@RequestBody forhold: Forhold) = URI(TODO())
+    fun lagreNewForhold(@RequestBody forhold: Forhold) = forhold
 
     @PatchMapping
     @ResponseStatus(NO_CONTENT)

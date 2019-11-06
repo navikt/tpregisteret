@@ -1,9 +1,11 @@
 package no.nav.tpregisteret.controller
 
 import no.nav.tpregisteret.domain.Ytelse
+import no.nav.tpregisteret.exceptions.YtelseIkkeFunnet
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.RequestMethod.HEAD
 import java.net.URI
 
 @RestController
@@ -20,10 +22,10 @@ class YtelseController {
         TODO()
     }
 
-    @RequestMapping(method = [RequestMethod.HEAD])
+    @RequestMapping(method = [HEAD])
     @ResponseStatus(NO_CONTENT)
     fun validateIdenticalYtelse(@RequestHeader("ytelse") ytelse: Ytelse) {
-        TODO()
+        if ( ytelse !in listOf(TODO()) ) throw YtelseIkkeFunnet()
     }
 
     @GetMapping

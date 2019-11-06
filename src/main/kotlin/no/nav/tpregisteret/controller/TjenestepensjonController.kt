@@ -2,6 +2,7 @@ package no.nav.tpregisteret.controller
 
 import no.nav.tpregisteret.domain.Forhold
 import no.nav.tpregisteret.domain.Simulering
+import no.nav.tpregisteret.domain.TpOrdning
 import no.nav.tpregisteret.domain.Ytelse
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
@@ -16,7 +17,7 @@ class TjenestepensjonController {
      * Overordnede endepunkter for hele tjenestepensjon.
      */
     @GetMapping
-    fun hentTjenestePensjon(@RequestHeader("tpnr") tpnr: String) = TODO() as ClassNotFoundException
+    fun hentTjenestePensjon(@RequestHeader("tpnr") tpnr: String) = TODO() as TpOrdning
 
     @DeleteMapping
     @ResponseStatus(NO_CONTENT)
