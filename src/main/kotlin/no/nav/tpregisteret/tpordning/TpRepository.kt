@@ -21,11 +21,12 @@ class TpRepository(private val jdbcTemplate: JdbcTemplate) {
                     "AND T_FORHOLD.HAR_UTLAND_PENSJ = 0"
 
     private val tnfoQuery =
-            "SELECT DISTINCT TP_ID " +
-                    "FROM T_TSS_TP " +
-                    "WHERE T_TSS_TP.ORGNR = ? "
+            "SELECT DISTINCT TP_ID FROM T_TSS_TP WHERE T_TSS_TP.ORGNR = ?"
 
+    private val orgNrQuery =
+            "SELECT DISTINCT ORGNR FROM T_TSS_TP WHERE T_TSS_TP.TSS_ID = ?"
     fun getTpOrdningerForPerson(fnr: String): List<TpOrdning> = jdbcTemplate.query(tofpQuery, BeanPropertyRowMapper(TpOrdning::class.java), fnr)
 
     fun getTpNrsForOrganisation(orgnr: String): List<String> = jdbcTemplate.query(tnfoQuery, rowMapper, orgnr)
+    fun getOrgNrForOrganisation(tssid: String): List<String> = jdbcTemplate.query(orgNrQuery, rowMapper, tssid)
 }

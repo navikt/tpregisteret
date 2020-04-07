@@ -34,6 +34,15 @@ class OrganisationController(private val tpRepository: TpRepository) {
         else -> throw TpOrdningIkkeFunnet()
     }
 
+    @GetMapping("/orgnr")
+    fun getOrganisationByTSSId(
+            @RequestHeader("tssid") tssid: String
+    ): String {
+        val response = tpRepository.getOrgNrForOrganisation(tssid)
+        if (response.isEmpty()) throw TpOrdningIkkeFunnet()
+        return response.first()
+    }
+
     private fun validVaultOrgnrMapping(orgnr: String, tpnr: String): Boolean {
         LOG.info("Validate orgnr/tpnr:$orgnr,$tpnr")
         return orgnrMapping.split('|')
