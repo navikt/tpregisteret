@@ -2,7 +2,7 @@ name: Release to GitHub Package Registry
 
 on:
   push:
-    branches: feature/PL-1419
+    branches: master
 
 jobs:
   build_release_deploy:
