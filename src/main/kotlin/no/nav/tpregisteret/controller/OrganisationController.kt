@@ -43,6 +43,15 @@ class OrganisationController(private val tpRepository: TpRepository) {
         return response.first()
     }
 
+    @GetMapping("/navn")
+    fun getOrganisationName(
+        @RequestHeader("orgnr") orgnr: String
+    ): String {
+        val response = tpRepository.getOrganisationName(orgnr)
+        if (response.isEmpty()) throw TpOrdningIkkeFunnet()
+        return response.first()
+    }
+
     private fun validVaultOrgnrMapping(orgnr: String, tpnr: String): Boolean {
         LOG.info("Validate orgnr/tpnr:$orgnr,$tpnr")
         return orgnrMapping.split('|')

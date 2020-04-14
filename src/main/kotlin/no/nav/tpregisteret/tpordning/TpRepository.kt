@@ -25,8 +25,12 @@ class TpRepository(private val jdbcTemplate: JdbcTemplate) {
 
     private val orgNrQuery =
             "SELECT DISTINCT ORGNR FROM T_TSS_TP WHERE T_TSS_TP.TSS_ID = ?"
-    fun getTpOrdningerForPerson(fnr: String): List<TpOrdning> = jdbcTemplate.query(tofpQuery, BeanPropertyRowMapper(TpOrdning::class.java), fnr)
 
+    private val nameQuery =
+            "SELECT NAVN FROM T_TSS_TP WHERE ORGNR = ?"
+
+    fun getTpOrdningerForPerson(fnr: String): List<TpOrdning> = jdbcTemplate.query(tofpQuery, BeanPropertyRowMapper(TpOrdning::class.java), fnr)
     fun getTpNrsForOrganisation(orgnr: String): List<String> = jdbcTemplate.query(tnfoQuery, rowMapper, orgnr)
+    fun getOrganisationName(orgnr: String): List<String> = jdbcTemplate.query(nameQuery, rowMapper, orgnr)
     fun getOrgNrForOrganisation(tssid: String): List<String> = jdbcTemplate.query(orgNrQuery, rowMapper, tssid)
 }

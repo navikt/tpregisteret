@@ -1,6 +1,7 @@
 package no.nav.tpregisteret.organisation
 
 import no.nav.tpregisteret.organisation.TestData.Companion.invalidTssId
+import no.nav.tpregisteret.organisation.TestData.Companion.orgNrA
 import no.nav.tpregisteret.organisation.TestData.Companion.tssIdA
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -36,4 +37,20 @@ class OrganisationTSSIdTests {
                 .andExpect(status().isNotFound)
     }
 
+    @Test
+    fun `test get Name from OrgNr`() {
+        mockMvc.perform(
+                get("/organisation/navn")
+                        .header("orgnr", orgNrA))
+                .andExpect(status().isOk)
+                .andExpect(content().string("TP1"))
+    }
+
+    @Test
+    fun `test Name unknown orgnr returns 404`() {
+        mockMvc.perform(
+                get("/organisation/navn")
+                        .header("orgnr", "12344321"))
+                .andExpect(status().isNotFound)
+    }
 }
