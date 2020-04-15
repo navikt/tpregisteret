@@ -2,14 +2,14 @@ apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
   name: tpregisteret
-  namespace: {{namespace}}
+  namespace: default
   labels:
-    team: teampeon
+    team: pensjonsamhandling
 spec:
-  image: repo.adeo.no:5443/tpregisteret:{{version}}
+  image: {{ image }}
   port: 8080
   ingresses:
-    - {{ingress}}
+    - https://tpregisteret.nais.adeo.no
   liveness:
     path: isAlive
   readiness:
@@ -17,8 +17,6 @@ spec:
   vault:
     enabled: true
     paths:
-      - mountPath: /var/run/secrets/nais.io/vault
-        kvPath: /kv/prod/fss/tpregisteret/default
       - mountPath: /secrets/oracle
         kvPath: oracle/data/prod/creds/tjenestepensjon-user
   replicas:

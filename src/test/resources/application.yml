@@ -10,10 +10,7 @@ spring:
   datasource:
     url: jdbc:h2:mem:testdb;Mode=Oracle
     continue-on-error: true
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: http://localhost:8090/sts/jwks
+  profiles:
+    active: test
 orgnr:
   mapping: 111111111,3333|222222222,1111
