@@ -6,11 +6,9 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class NaisEndpoints {
 
-    @GetMapping("/isAlive")
-    fun isAlive() {
-    }
+    @get:GetMapping("/isAlive")
+    val isAlive = true
 
-    @GetMapping("/isReady")
-    fun isReady() {
-    }
+    @get:GetMapping("/isReady")
+    val isReady = true
 }

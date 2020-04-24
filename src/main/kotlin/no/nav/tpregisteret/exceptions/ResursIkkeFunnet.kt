@@ -1,6 +1,6 @@
 package no.nav.tpregisteret.exceptions
 
-abstract class ResursIkkeFunnet(val resource : String) : Throwable()
+sealed class ResursIkkeFunnet(val resource : String) : Throwable()
 
 class TpOrdningIkkeFunnet : ResursIkkeFunnet("TP-ordning")
 class PersonIkkeFunnet : ResursIkkeFunnet("person")
