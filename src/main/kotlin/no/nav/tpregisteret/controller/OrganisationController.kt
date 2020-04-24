@@ -17,9 +17,8 @@ class OrganisationController(private val tpRepository: TpRepository) {
 
     companion object {
         val LOG: Logger = LoggerFactory.getLogger(OrganisationController::class.java)
+        private val regex = Regex("""\d{9},\d{4}""")
     }
-
-    private val regex = """\d{9},\d{4}""".toRegex()
 
     @Value("\${orgnr.mapping}")
     lateinit var orgnrMapping: String
@@ -37,20 +36,14 @@ class OrganisationController(private val tpRepository: TpRepository) {
     @GetMapping("/orgnr")
     fun getOrganisationByTSSId(
             @RequestHeader("tssid") tssid: String
-    ): String {
-        val response = tpRepository.getOrgNrForOrganisation(tssid)
-        if (response.isEmpty()) throw TpOrdningIkkeFunnet()
-        return response.first()
-    }
+    ) = tpRepository.getOrgNrForOrganisation(tssid).firstOrNull()
+            ?: throw TpOrdningIkkeFunnet()
 
     @GetMapping("/navn")
     fun getOrganisationName(
         @RequestHeader("orgnr") orgnr: String
-    ): String {
-        val response = tpRepository.getOrganisationName(orgnr)
-        if (response.isEmpty()) throw TpOrdningIkkeFunnet()
-        return response.first()
-    }
+    ) = tpRepository.getOrganisationName(orgnr).firstOrNull()
+            ?: throw TpOrdningIkkeFunnet()
 
     private fun validVaultOrgnrMapping(orgnr: String, tpnr: String): Boolean {
         LOG.info("Validate orgnr/tpnr:$orgnr,$tpnr")
