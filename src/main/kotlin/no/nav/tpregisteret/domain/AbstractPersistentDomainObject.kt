@@ -17,7 +17,9 @@ data class Forhold(
         val forholdId: String,
         val fnr: String,
         val fom: LocalDate,
-        val tom: LocalDate) : AbstractPersistentDomainObject
+        val tom: LocalDate,
+        var ytelseList: List<Ytelse> = emptyList()
+) : AbstractPersistentDomainObject
 
 data class Simulering(
         val simuleringId: String) : AbstractPersistentDomainObject

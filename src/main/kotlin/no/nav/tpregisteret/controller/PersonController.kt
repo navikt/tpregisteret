@@ -12,6 +12,9 @@ class PersonController(private val tpRepository: TpRepository) {
     @GetMapping("/tpordninger")
     fun getTpOrdningerForPerson(@RequestHeader("fnr") fnr: String) = tpRepository.getTpOrdningerForPerson(fnr)
 
+    @GetMapping("/forhold")
+    fun getForholdForPerson(@RequestHeader("fnr") fnr: String) = tpRepository.getForholdAndYtelserByFnr(fnr)
+
     @DeleteMapping
     @ResponseStatus(NO_CONTENT)
     fun deletePerson(@RequestHeader("fnr") fnr: String) {

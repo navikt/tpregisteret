@@ -2,6 +2,7 @@ package no.nav.tpregisteret.controller
 
 import no.nav.tpregisteret.domain.Ytelse
 import no.nav.tpregisteret.exceptions.YtelseIkkeFunnet
+import no.nav.tpregisteret.tpordning.TpRepository
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
@@ -10,7 +11,9 @@ import java.net.URI
 
 @RestController
 @RequestMapping("/ytelse")
-class YtelseController {
+class YtelseController (
+        private val tpRepository: TpRepository
+) {
 
     @PostMapping
     @ResponseStatus(CREATED)
@@ -29,7 +32,7 @@ class YtelseController {
     }
 
     @GetMapping
-    fun hentYtelseMedId(@RequestHeader("TODO") TODO: String) = TODO() as Ytelse
+    fun hentYtelseMedId(@RequestHeader("ytelseId") ytelseId: String) = tpRepository.getYtelseByID("ytelseId") as Ytelse
 
     @PostMapping("/tjenestepensjon")
     @ResponseStatus(CREATED)
