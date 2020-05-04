@@ -1,4 +1,4 @@
-package no.nav.tpregisteret.tpordning
+package no.nav.tpregisteret.repository
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

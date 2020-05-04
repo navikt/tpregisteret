@@ -2,7 +2,7 @@ package no.nav.tpregisteret.controller
 
 import no.nav.tpregisteret.domain.Ytelse
 import no.nav.tpregisteret.exceptions.YtelseIkkeFunnet
-import no.nav.tpregisteret.tpordning.TpRepository
+import no.nav.tpregisteret.repository.TpRepository
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*

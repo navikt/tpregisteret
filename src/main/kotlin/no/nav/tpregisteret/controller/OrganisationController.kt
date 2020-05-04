@@ -2,7 +2,7 @@ package no.nav.tpregisteret.controller
 
 import no.nav.tpregisteret.domain.TpOrdning
 import no.nav.tpregisteret.exceptions.TpOrdningIkkeFunnet
-import no.nav.tpregisteret.tpordning.TpRepository
+import no.nav.tpregisteret.repository.TpRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value

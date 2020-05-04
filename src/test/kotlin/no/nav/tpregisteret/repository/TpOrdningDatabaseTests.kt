@@ -1,4 +1,4 @@
-package no.nav.tpregisteret.tpordning
+package no.nav.tpregisteret.repository
 
 import no.nav.tpregisteret.TestPerson.Companion.testPerson1
 import no.nav.tpregisteret.TestPerson.Companion.testPerson2

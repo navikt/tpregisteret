@@ -1,5 +1,6 @@
 package no.nav.tpregisteret.person
 
+import no.nav.tpregisteret.TestPerson
 import no.nav.tpregisteret.TestPerson.Companion.testPerson1
 import no.nav.tpregisteret.TestPerson.Companion.testPerson2
 import no.nav.tpregisteret.TestPerson.Companion.testPerson3
@@ -33,14 +34,14 @@ class PersonControllerTests {
     fun valid_parameter_returns_200_and_single_result() {
         mockMvc.perform(get("/person/tpordninger").header("fnr", testPerson2.fnr))
                 .andExpect(status().isOk)
-                .andExpect(MockMvcResultMatchers.content().json("[{\"tssId\":\"11111111111\",\"tpId\":\"1111\",\"orgNr\":\"000000000\",\"navn\":\"TP1\"}]"))
+                .andExpect(MockMvcResultMatchers.content().json("""[{"tssId":"11111111111","tpId":"1111","orgNr":"000000000","navn":"TP1"}]"""))
     }
 
     @Test
     fun valid_parameter_returns_200_and_results() {
         mockMvc.perform(get("/person/tpordninger").header("fnr", testPerson3.fnr))
                 .andExpect(status().isOk)
-                .andExpect(MockMvcResultMatchers.content().json("[{\"tssId\":\"11111111111\",\"tpId\":\"1111\",\"orgNr\":\"000000000\",\"navn\":\"TP1\"},{\"tssId\":\"22222222222\",\"tpId\":\"2222\",\"orgNr\":\"000000000\",\"navn\":\"TP2\"}]"))
+                .andExpect(MockMvcResultMatchers.content().json("""[{"tssId":"11111111111","tpId":"1111","orgNr":"000000000","navn":"TP1"},{"tssId":"22222222222","tpId":"2222","orgNr":"000000000","navn":"TP2"}]"""))
     }
 
     @Test
@@ -48,4 +49,17 @@ class PersonControllerTests {
         mockMvc.perform(get("/"))
                 .andExpect(status().isNotFound)
     }
+
+
+    @Test
+    fun test() {
+        mockMvc.perform(
+                get("/person/forhold")
+                        .header("fnr", testPerson3.fnr)
+                        .header("tpId", testPerson3.tpForhold[0].tpId)
+        )
+                .andExpect(status().isOk)
+                .andExpect(MockMvcResultMatchers.content().json("""[{"tssId":"11111111111","tpId":"1111","orgNr":"000000000","navn":"TP1"},{"tssId":"22222222222","tpId":"2222","orgNr":"000000000","navn":"TP2"}]"""))
+    }
+
 }

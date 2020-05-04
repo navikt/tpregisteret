@@ -1,7 +1,7 @@
 package no.nav.tpregisteret.controller
 
 import no.nav.tpregisteret.domain.Person
-import no.nav.tpregisteret.tpordning.TpRepository
+import no.nav.tpregisteret.repository.TpRepository
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
 
@@ -13,7 +13,16 @@ class PersonController(private val tpRepository: TpRepository) {
     fun getTpOrdningerForPerson(@RequestHeader("fnr") fnr: String) = tpRepository.getTpOrdningerForPerson(fnr)
 
     @GetMapping("/forhold")
-    fun getForholdForPerson(@RequestHeader("fnr") fnr: String) = tpRepository.getForholdAndYtelserByFnr(fnr)
+    fun getForholdForPerson(
+            @RequestHeader("fnr") fnr: String,
+            @RequestHeader("tpId") tpId: String
+    ) = tpRepository.getForholdByFnrAndTpNr(fnr, tpId)
+
+    @GetMapping("/ytelser")
+    fun getYtelserForPerson(
+            @RequestHeader("fnr") fnr: String,
+            @RequestHeader("tpId") tpId: String
+    ) = tpRepository.getAllYtelseByForholdIdAndFnr(fnr, tpId)
 
     @DeleteMapping
     @ResponseStatus(NO_CONTENT)
