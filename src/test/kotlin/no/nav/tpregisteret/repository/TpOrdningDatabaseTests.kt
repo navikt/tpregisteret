@@ -17,6 +17,19 @@ class TpOrdningDatabaseTests {
     @Autowired
     lateinit var tpRepository : TpRepository
 
+
+    @Test
+    fun test() {
+        val fnr = testPerson3.fnr
+        val tpid = testPerson3.tpForhold.first().tpId
+//
+//        assertEquals(fnr, tpRepository.testGetPersonFNR(fnr))
+//        assertEquals(tpid, tpRepository.testGetTssId(tpid, fnr))
+        val test = tpRepository.getForholdListTest(tpid, fnr)
+
+        test.toString()
+    }
+
     @Test
     fun ingen_forhold_returnerer_tom_liste() {
         val fnr = testPerson1.fnr

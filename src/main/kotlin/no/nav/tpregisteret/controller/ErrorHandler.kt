@@ -4,6 +4,7 @@ import io.prometheus.client.Counter
 import no.nav.tpregisteret.exceptions.ResursIkkeFunnet
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -28,6 +29,11 @@ class ErrorHandler {
         errorCounter.labels(e::class.simpleName).inc()
         return e.message
     }
+
+
+    @ExceptionHandler(EmptyResultDataAccessException::class)
+    fun emptyResultFromRepository(e : EmptyResultDataAccessException)
+            = ResponseEntity.notFound().build<Nothing?>()
 
     @ExceptionHandler(ResursIkkeFunnet::class)
     fun resursIkkeFunnet(e : ResursIkkeFunnet)

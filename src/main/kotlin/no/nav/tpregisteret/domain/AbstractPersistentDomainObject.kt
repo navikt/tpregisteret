@@ -14,11 +14,10 @@ data class Ytelse(
         val tom: LocalDate) : AbstractPersistentDomainObject
 
 data class Forhold(
-        val forholdId: String,
-        val fnr: String,
-        val fom: LocalDate,
-        val tom: LocalDate,
-        var ytelseList: List<Ytelse> = emptyList()
+        val forholdId: String?,
+        val fnr: String?,
+        val fom: LocalDate?,
+        val tom: LocalDate?
 ) : AbstractPersistentDomainObject
 
 data class Simulering(

@@ -24,42 +24,51 @@ class PersonControllerTests {
     private lateinit var mockMvc: MockMvc
 
     @Test
-    fun valid_parameter_returns_200_and_empty_result() {
+    fun `valid parameter returns 200 and empty result`() {
         mockMvc.perform(get("/person/tpordninger").header("fnr", testPerson1.fnr))
                 .andExpect(status().isOk)
                 .andExpect(MockMvcResultMatchers.content().json("[]"))
     }
 
     @Test
-    fun valid_parameter_returns_200_and_single_result() {
+    fun `valid parameter returns 200 and single_result`() {
         mockMvc.perform(get("/person/tpordninger").header("fnr", testPerson2.fnr))
                 .andExpect(status().isOk)
                 .andExpect(MockMvcResultMatchers.content().json("""[{"tssId":"11111111111","tpId":"1111","orgNr":"000000000","navn":"TP1"}]"""))
     }
 
     @Test
-    fun valid_parameter_returns_200_and_results() {
+    fun `valid parameter returns 200 and results`() {
         mockMvc.perform(get("/person/tpordninger").header("fnr", testPerson3.fnr))
                 .andExpect(status().isOk)
                 .andExpect(MockMvcResultMatchers.content().json("""[{"tssId":"11111111111","tpId":"1111","orgNr":"000000000","navn":"TP1"},{"tssId":"22222222222","tpId":"2222","orgNr":"000000000","navn":"TP2"}]"""))
     }
 
     @Test
-    fun root_returns_404() {
+    fun `root returns 404`() {
         mockMvc.perform(get("/"))
                 .andExpect(status().isNotFound)
     }
 
 
     @Test
-    fun test() {
+    fun `forhold returns 404 when not found`() {
+        mockMvc.perform(
+                get("/person/forhold")
+                        .header("fnr", "bogus")
+                        .header("tpId", "bogus")
+        ).andExpect(status().isNotFound)
+    }
+
+    @Test
+    fun test2() {
         mockMvc.perform(
                 get("/person/forhold")
                         .header("fnr", testPerson3.fnr)
-                        .header("tpId", testPerson3.tpForhold[0].tpId)
+                        .header("tpId", testPerson3.tpForhold.first().tpId)
         )
                 .andExpect(status().isOk)
-                .andExpect(MockMvcResultMatchers.content().json("""[{"tssId":"11111111111","tpId":"1111","orgNr":"000000000","navn":"TP1"},{"tssId":"22222222222","tpId":"2222","orgNr":"000000000","navn":"TP2"}]"""))
+                .andExpect(MockMvcResultMatchers.content().json("""{"tssId":"22222222222","tpId":"2222","orgNr":"000000000","navn":"TP2"}"""))
     }
 
 }
