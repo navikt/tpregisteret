@@ -14,9 +14,9 @@ data class Ytelse(
         val tom: LocalDate) : AbstractPersistentDomainObject
 
 data class Forhold(
-        val forholdId: String?,
-        val fnr: String?,
-        val fom: LocalDate?,
+        val forholdId: String,
+        val fnr: String,
+        val fom: LocalDate,
         val tom: LocalDate?
 ) : AbstractPersistentDomainObject
 

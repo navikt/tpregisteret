@@ -13,6 +13,12 @@ import java.sql.ResultSet
 class TpRepository(private val jdbcTemplate: JdbcTemplate) {
     companion object {
         private val rowMapper = RowMapper { rs: ResultSet, _: Int -> rs.getString(1) }
+        private val forholdMapper = RowMapper { rs, _ -> Forhold(
+                rs.getString("FORHOLD_ID"),
+                rs.getString("FNR_FK"),
+                rs.getDate("DATO_BRUK_FOM").toLocalDate(),
+                rs.getDate("DATO_BRUK_TOM")?.toLocalDate()
+        )}
 
         private const val TNFO_QUERY = "SELECT DISTINCT TP_ID FROM T_TSS_TP WHERE T_TSS_TP.ORGNR = ?"
         private const val ORGNR_QUERY = "SELECT DISTINCT ORGNR FROM T_TSS_TP WHERE T_TSS_TP.TSS_ID = ?"
@@ -43,10 +49,10 @@ class TpRepository(private val jdbcTemplate: JdbcTemplate) {
 
         private const val GET_FORHOLD_BY_TPID_AND_FNR = """ 
             select distinct
-               forhold.FORHOLD_ID as forholdId,
-               person.FNR_FK as fnr,
-               forhold.DATO_BRUK_TOM as tom, 
-               forhold.DATO_BRUK_FOM as fom
+               forhold.FORHOLD_ID,
+               person.FNR_FK,
+               forhold.DATO_BRUK_TOM, 
+               forhold.DATO_BRUK_FOM
             from T_PERSON person
                 inner join T_TSS_TP tp on tp.TP_ID = ?
                 inner join T_FORHOLD forhold on forhold.TSS_EKSTERN_ID_FK = tp.TSS_ID and forhold.ER_GYLDIG = '1'
@@ -74,7 +80,8 @@ class TpRepository(private val jdbcTemplate: JdbcTemplate) {
     fun testGetTssId(tpId: String, fnr: String): String = jdbcTemplate.queryForObject(testGetTssId2, String::class.java, tpId, fnr)
 
 
-    fun getForholdListTest(tpId: String, fnr: String): List<Forhold> = jdbcTemplate.query(GET_FORHOLD_BY_TPID_AND_FNR, BeanPropertyRowMapper(Forhold::class.java), tpId, fnr)
+    fun getForholdListTest(tpId: String, fnr: String): List<Forhold> =
+            jdbcTemplate.query(GET_FORHOLD_BY_TPID_AND_FNR, forholdMapper, tpId, fnr)
 
     fun getForholdByFnrAndTpNr(tpId: String, fnr: String): Forhold = jdbcTemplate.queryForObject(GET_FORHOLD_BY_TPID_AND_FNR, Forhold::class.java, tpId, fnr)
 
