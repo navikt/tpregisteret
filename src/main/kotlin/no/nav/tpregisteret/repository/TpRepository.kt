@@ -53,10 +53,10 @@ class TpRepository(private val jdbcTemplate: JdbcTemplate) {
                person.FNR_FK,
                forhold.DATO_BRUK_TOM, 
                forhold.DATO_BRUK_FOM
-            from T_PERSON person
-                inner join T_TSS_TP tp on tp.TP_ID = ?
-                inner join T_FORHOLD forhold on forhold.TSS_EKSTERN_ID_FK = tp.TSS_ID and forhold.ER_GYLDIG = '1'
-            where person.FNR_FK = ?
+            from T_FORHOLD forhold
+                inner join T_TSS_TP tp on forhold.TSS_EKSTERN_ID_FK = tp.TSS_ID 
+                inner join T_PERSON person on forhold.PERSON_ID = person.PERSON_ID
+            where tp.TP_ID = ? and person.FNR_FK = ? and forhold.ER_GYLDIG = '1'
         """ //TODO we need to check wich tom and fom dato is correct in the database
 
 

@@ -4,7 +4,6 @@ group = "no.nav"
 version = "1"
 description = "tpregisteret"
 
-
 plugins {
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
