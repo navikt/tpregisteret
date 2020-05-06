@@ -3,6 +3,10 @@ package no.nav.tpregisteret.repository
 import no.nav.tpregisteret.domain.Forhold
 import no.nav.tpregisteret.domain.TpOrdning
 import no.nav.tpregisteret.domain.Ytelse
+import no.nav.tpregisteret.exceptions.ForholdIkkeFunnet
+import no.nav.tpregisteret.exceptions.PersonIkkeFunnet
+import no.nav.tpregisteret.exceptions.TpOrdningIkkeFunnet
+import no.nav.tpregisteret.exceptions.YtelseIkkeFunnet
 import org.springframework.jdbc.core.BeanPropertyRowMapper
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
@@ -15,7 +19,14 @@ class TpRepository(private val jdbcTemplate: JdbcTemplate) {
         private val rowMapper = RowMapper { rs: ResultSet, _: Int -> rs.getString(1) }
         private val forholdMapper = RowMapper { rs, _ -> Forhold(
                 rs.getString("FORHOLD_ID"),
-                rs.getString("FNR_FK"),
+                rs.getString("FNR"),
+                rs.getDate("DATO_BRUK_FOM").toLocalDate(),
+                rs.getDate("DATO_BRUK_TOM")?.toLocalDate()
+        )}
+
+        private val ytelseMapper = RowMapper { rs, _ -> Ytelse(
+                rs.getString("YTELSE_ID"),
+                rs.getString("FNR"),
                 rs.getDate("DATO_BRUK_FOM").toLocalDate(),
                 rs.getDate("DATO_BRUK_TOM")?.toLocalDate()
         )}
@@ -31,61 +42,65 @@ class TpRepository(private val jdbcTemplate: JdbcTemplate) {
 
 
 
-        private const val TestGetPersonFNR2 = """ 
-            select distinct
-               person.FNR_FK as fnr
-            from T_PERSON person where person.FNR_FK = ?
+        private const val GET_TSS_ID_BY_TP_ID = """select TSS_ID from T_TSS_TP where TP_ID = ?"""
+
+        private const val GET_PERSON_ID_BY_FNR = """select PERSON_ID from T_PERSON where FNR_FK = ?"""
+
+        private const val GET_GYLDIG_FORHOLD_ID_BY_PERSON_ID_AND_TSS_ID =
+                """select FORHOLD_ID from T_FORHOLD where PERSON_ID = ? and TSS_EKSTERN_ID_FK = ?"""
+
+        private const val GET_GYLDIG_FORHOLD_BY_PERSON_ID_AND_TSS_ID = """
+                select 
+                  FORHOLD_ID,
+                   ? as FNR,
+                   DATO_BRUK_TOM,
+                   DATO_BRUK_FOM
+               from T_FORHOLD where PERSON_ID = ? and TSS_EKSTERN_ID_FK = ?
         """
 
-        private const val testGetTssId2 = """ 
-            select distinct
-               tp.TP_ID
-            from T_PERSON person
-                inner join T_TSS_TP tp on tp.TP_ID = ?
-            where person.FNR_FK = ?
-        """ //TODO we need to check wich tom and fom dato is correct in the database
 
 
-
-        private const val GET_FORHOLD_BY_TPID_AND_FNR = """ 
-            select distinct
-               forhold.FORHOLD_ID,
-               person.FNR_FK,
-               forhold.DATO_BRUK_TOM, 
-               forhold.DATO_BRUK_FOM
-            from T_FORHOLD forhold
-                inner join T_TSS_TP tp on forhold.TSS_EKSTERN_ID_FK = tp.TSS_ID 
-                inner join T_PERSON person on forhold.PERSON_ID = person.PERSON_ID
-            where tp.TP_ID = ? and person.FNR_FK = ? and forhold.ER_GYLDIG = '1'
-        """ //TODO we need to check wich tom and fom dato is correct in the database
-
-
-
-        private const val GET_ALL_YTELSE_BY_TP_ID_AND_FNR = """
+        private const val GET_ALL_YTELSE_BY_TP_ID = """
             select distinct
                 ytelse.YTELSE_ID,
+                ? as FNR,
                 ytelse.DATO_BRUK_FOM,
-                ytelse.DATO_BRUK_TOM,
-                ytelse.K_YTELSE_T
-            from T_PERSON person
-                inner join T_TSS_TP tp on tp.TP_ID = ?
-                inner join T_FORHOLD forhold on forhold.TSS_EKSTERN_ID_FK = tp.TSS_ID and forhold.ER_GYLDIG = '1'
-                inner join T_FORHOLD_YTELSE_HISTORIKK link on link.FORHOLD_ID_FK = forhold.FORHOLD_ID
-                inner join T_YTELSE ytelse on YTELSE_ID = link.YTELSE_ID_FK
-            where person.FNR_FK = ?
+                ytelse.DATO_BRUK_TOM
+            from T_YTELSE ytelse
+                inner join T_FORHOLD_YTELSE_HISTORIKK link on link.FORHOLD_ID_FK = ? and ytelse.YTELSE_ID = link.YTELSE_ID_FK
         """
     }
 
-    fun testGetPersonFNR(fnr: String): String = jdbcTemplate.queryForObject(TestGetPersonFNR2, String::class.java, fnr)
-    fun testGetTssId(tpId: String, fnr: String): String = jdbcTemplate.queryForObject(testGetTssId2, String::class.java, tpId, fnr)
+    private fun personIdByFnr(fnr: String) =
+            jdbcTemplate.queryForObject(GET_PERSON_ID_BY_FNR, String::class.java, fnr) ?: throw PersonIkkeFunnet()
 
+    private fun getTssIdByTpId(tpnr: String) =
+            jdbcTemplate.queryForObject(GET_TSS_ID_BY_TP_ID, String::class.java, tpnr) ?: throw TpOrdningIkkeFunnet()
 
-    fun getForholdListTest(tpId: String, fnr: String): List<Forhold> =
-            jdbcTemplate.query(GET_FORHOLD_BY_TPID_AND_FNR, forholdMapper, tpId, fnr)
+    private fun getGyldigForholdIdByPersonIdAndTssId(fnr: String, tpnr: String) =
+            jdbcTemplate.queryForObject(
+                    GET_GYLDIG_FORHOLD_ID_BY_PERSON_ID_AND_TSS_ID,
+                    String::class.java,
+                    personIdByFnr(fnr),
+                    getTssIdByTpId(tpnr)
+            ) ?: throw ForholdIkkeFunnet()
 
-    fun getForholdByFnrAndTpNr(tpId: String, fnr: String): Forhold = jdbcTemplate.queryForObject(GET_FORHOLD_BY_TPID_AND_FNR, Forhold::class.java, tpId, fnr)
+    fun getForholdByFnrAndTpNr(fnr: String, tpnr: String) =
+            jdbcTemplate.queryForObject(
+                    GET_GYLDIG_FORHOLD_BY_PERSON_ID_AND_TSS_ID,
+                    forholdMapper,
+                    fnr,
+                    personIdByFnr(fnr),
+                    getTssIdByTpId(tpnr)
+            ) ?: throw ForholdIkkeFunnet()
 
-    fun getAllYtelseByForholdIdAndFnr(tpId: String, fnr: String) = jdbcTemplate.queryForList(GET_ALL_YTELSE_BY_TP_ID_AND_FNR, Ytelse::class.java, tpId, fnr)
+    fun getAllYtelseByForholdIdAndFnr(fnr: String, tpnr: String) =
+            jdbcTemplate.query(
+                    GET_ALL_YTELSE_BY_TP_ID,
+                    ytelseMapper,
+                    fnr,
+                    getGyldigForholdIdByPersonIdAndTssId(fnr, tpnr)
+            ).ifEmpty { throw YtelseIkkeFunnet() }
 
     fun getYtelseByID(ytelseId: String) = jdbcTemplate.query(YTELSE_BY_ID_QUERY, BeanPropertyRowMapper(Ytelse::class.java), ytelseId)
 

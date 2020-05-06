@@ -5,6 +5,7 @@ import no.nav.tpregisteret.TestPerson.Companion.testPerson2
 import no.nav.tpregisteret.TestPerson.Companion.testPerson3
 import no.nav.tpregisteret.TestPerson.Companion.testPerson4
 import no.nav.tpregisteret.TestPerson.Companion.testPerson6
+import no.nav.tpregisteret.domain.Forhold
 import kotlin.test.assertEquals
 
 import org.junit.jupiter.api.Test
@@ -21,11 +22,11 @@ class TpOrdningDatabaseTests {
     @Test
     fun test() {
         val fnr = testPerson3.fnr
-        val tpid = testPerson3.tpForhold.first().tpId
-//
-//        assertEquals(fnr, tpRepository.testGetPersonFNR(fnr))
-//        assertEquals(tpid, tpRepository.testGetTssId(tpid, fnr))
-        val test = tpRepository.getForholdListTest(tpid, fnr)
+        val tpid = testPerson3.tpForhold.get(0).tpId
+
+        val test = tpRepository.getForholdByFnrAndTpNr(fnr, tpid)
+
+        val test2 = tpRepository.getAllYtelseByForholdIdAndFnr(fnr, tpid)
 
         test.toString()
     }
