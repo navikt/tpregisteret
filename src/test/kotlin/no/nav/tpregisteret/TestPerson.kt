@@ -2,7 +2,7 @@ package no.nav.tpregisteret
 
 import no.nav.tpregisteret.domain.TpOrdning
 
-class TestPerson(val fnr : String, vararg val tpForhold : TpOrdning) {
+class TestPerson(val fnr: String, vararg val tpForhold: TpOrdning) {
     companion object {
         private val TP_ORDNING_1 = TpOrdning("11111111111", "1111", "000000000", "TP1")
         private val TP_ORDNING_2 = TpOrdning("22222222222", "2222", "000000000", "TP2")

@@ -2,7 +2,7 @@ package no.nav.tpregisteret.controller
 
 import no.nav.tpregisteret.domain.TpOrdning
 import no.nav.tpregisteret.exceptions.TpOrdningIkkeFunnet
-import no.nav.tpregisteret.repository.TpRepository
+import no.nav.tpregisteret.repository.OrganisationRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/organisation")
-class OrganisationController(private val tpRepository: TpRepository) {
+class OrganisationController(private val organisationRepository: OrganisationRepository) {
 
     companion object {
         val LOG: Logger = LoggerFactory.getLogger(OrganisationController::class.java)
@@ -29,20 +29,20 @@ class OrganisationController(private val tpRepository: TpRepository) {
             @RequestHeader("tpnr") tpnr: String
     ) = when {
         validVaultOrgnrMapping(orgnr, tpnr) -> handleValidMapping(orgnr, tpnr)
-        tpRepository.getTpNrsForOrganisation(orgnr).contains(tpnr) -> emptyList()
+        organisationRepository.getTpNrsForOrganisation(orgnr).contains(tpnr) -> emptyList()
         else -> throw TpOrdningIkkeFunnet()
     }
 
     @GetMapping("/orgnr")
     fun getOrganisationByTSSId(
             @RequestHeader("tssid") tssid: String
-    ) = tpRepository.getOrgNrForOrganisation(tssid).firstOrNull()
+    ) = organisationRepository.getOrgNrForOrganisation(tssid).firstOrNull()
             ?: throw TpOrdningIkkeFunnet()
 
     @GetMapping("/navn")
     fun getOrganisationName(
         @RequestHeader("orgnr") orgnr: String
-    ) = tpRepository.getOrganisationName(orgnr).firstOrNull()
+    ) = organisationRepository.getOrganisationName(orgnr).firstOrNull()
             ?: throw TpOrdningIkkeFunnet()
 
     private fun validVaultOrgnrMapping(orgnr: String, tpnr: String): Boolean {

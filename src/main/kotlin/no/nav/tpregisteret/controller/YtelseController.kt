@@ -2,7 +2,8 @@ package no.nav.tpregisteret.controller
 
 import no.nav.tpregisteret.domain.Ytelse
 import no.nav.tpregisteret.exceptions.YtelseIkkeFunnet
-import no.nav.tpregisteret.repository.TpRepository
+import no.nav.tpregisteret.repository.PersonRepository
+import no.nav.tpregisteret.repository.YtelseRepository
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
@@ -11,9 +12,7 @@ import java.net.URI
 
 @RestController
 @RequestMapping("/ytelse")
-class YtelseController (
-        private val tpRepository: TpRepository
-) {
+class YtelseController(private val ytelseRepository: YtelseRepository) {
 
     @PostMapping
     @ResponseStatus(CREATED)
@@ -28,11 +27,11 @@ class YtelseController (
     @RequestMapping(method = [HEAD])
     @ResponseStatus(NO_CONTENT)
     fun validateIdenticalYtelse(@RequestHeader("ytelse") ytelse: Ytelse) {
-        if ( ytelse !in listOf(TODO()) ) throw YtelseIkkeFunnet()
+        if (ytelse !in listOf(TODO())) throw YtelseIkkeFunnet()
     }
 
     @GetMapping
-    fun hentYtelseMedId(@RequestHeader("ytelseId") ytelseId: String) = tpRepository.getYtelseByID("ytelseId") as Ytelse
+    fun hentYtelseMedId(@RequestHeader("ytelseId") ytelseId: String) = ytelseRepository.getYtelseByID("ytelseId") as Ytelse
 
     @PostMapping("/tjenestepensjon")
     @ResponseStatus(CREATED)
