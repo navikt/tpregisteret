@@ -8,7 +8,7 @@ import javax.persistence.*
 class Forhold: AbstractPersistentDomainObject {
     @Column(name = "FORHOLD_ID")
     @Id
-    lateinit var id: Number
+    var id: Long = 0
 
     @ManyToOne
     @JoinColumn(name = "PERSON_ID")

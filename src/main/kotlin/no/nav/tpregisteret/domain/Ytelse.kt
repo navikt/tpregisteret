@@ -8,7 +8,7 @@ import javax.persistence.*
 class Ytelse: AbstractPersistentDomainObject {
     @Column(name = "YTELSE_ID")
     @Id
-    lateinit var id: Number
+    var id: Long = 0
 
     @ManyToOne
     @JoinTable(name = "T_FORHOLD_YTELSE_HISTORIKK",

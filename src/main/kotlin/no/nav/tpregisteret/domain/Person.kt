@@ -2,13 +2,14 @@ package no.nav.tpregisteret.domain
 
 import org.hibernate.annotations.Where
 import javax.persistence.*
+import kotlin.properties.Delegates.notNull
 
 @Entity
 @Table(name = "T_PERSON")
 class Person: AbstractPersistentDomainObject {
     @Column(name = "PERSON_ID")
     @Id
-    lateinit var id: Number
+    var id: Long = 0
 
     @Column(name = "FNR_FK")
     lateinit var fnr: String

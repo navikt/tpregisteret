@@ -19,14 +19,14 @@ import javax.sql.DataSource
 class ApplicationConfig(val beanFactory: BeanFactory) {
 
     @get:Bean
-    val myDataSource: DataSource = EmbeddedDatabaseBuilder().setType(H2).build()
+    var myDataSource: DataSource = EmbeddedDatabaseBuilder().setType(H2).build()
 
     @get:Bean
     val entityManagerFactory: EntityManagerFactory = LocalContainerEntityManagerFactoryBean().apply {
         jpaVendorAdapter = HibernateJpaVendorAdapter()
                 .apply { setGenerateDdl(true) }
         setPackagesToScan("no.nav.tpregisteret.domain")
-        setJtaDataSource(myDataSource)
+        setJtaDataSource(EmbeddedDatabaseBuilder().setType(H2).build())
         afterPropertiesSet()
     }.`object`!!
 
