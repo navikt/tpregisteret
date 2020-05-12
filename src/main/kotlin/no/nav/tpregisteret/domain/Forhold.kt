@@ -25,5 +25,5 @@ class Forhold: AbstractPersistentDomainObject {
     lateinit var datoFom: LocalDate
 
     @Column(name = "DATO_BRUK_TOM")
-    lateinit var datoTom: LocalDate
+    var datoTom: LocalDate? = null
 }

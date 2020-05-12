@@ -3,7 +3,7 @@ package no.nav.tpregisteret
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = ["no.nav.tpregisteret"])
 class TpregisteretApplication {
     companion object {
         @JvmStatic

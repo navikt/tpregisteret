@@ -1,5 +1,6 @@
 package no.nav.tpregisteret.service
 
+import no.nav.tpregisteret.domain.Forhold
 import no.nav.tpregisteret.domainDto.ForholdDto
 import no.nav.tpregisteret.domainDto.PersonDto
 import no.nav.tpregisteret.domainDto.TpOrdningDto
@@ -10,18 +11,20 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class PersonService {
-
-    @Autowired
-    private lateinit var personRepository: PersonRepository
+class PersonService(
+        val personRepository: PersonRepository
+) {
 
     fun findPersonByFnr(fnr: String) =
-            PersonDto(personRepository.findByFnr(fnr) ?: throw PersonIkkeFunnet())
+            personRepository.findByFnr(fnr) ?: throw PersonIkkeFunnet()
 
 
-    fun getTpOrdningerForPerson(fnr: String): List<TpOrdningDto> =
-            findPersonByFnr(fnr).forhold.map(ForholdDto::tpOrdning)
+    fun getTpOrdningerForPerson(fnr: String) =
+            findPersonByFnr(fnr).forhold.map(Forhold::tpOrdning)
 
     fun getForholdForPerson(fnr: String, tpId: String) =
-        findPersonByFnr(fnr).forhold.firstOrNull { it.tpOrdning.tpNr == tpId } ?: throw ForholdIkkeFunnet()
+            findPersonByFnr(fnr).forhold.firstOrNull { it.tpOrdning.tpNr == tpId } ?: throw ForholdIkkeFunnet()
+
+    fun getYtelserForPerson(fnr: String, tpId: String) =
+            getForholdForPerson(fnr, tpId).ytelser
 }

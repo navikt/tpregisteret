@@ -1,20 +1,14 @@
 package no.nav.tpregisteret.domainDto
 
 import no.nav.tpregisteret.domain.Forhold
+import no.nav.tpregisteret.domain.Ytelse
 import java.time.LocalDate
 
-class ForholdDto {
-    var id: Long = 0
-    lateinit var person: PersonDto
-    lateinit var tpOrdning: TpOrdningDto
-    var ytelser: List<YtelseDto>
-    var datoFom: LocalDate
-    var datoTom: LocalDate
-
-    constructor(forhold: Forhold) {
-        this.id = forhold.id
-        this.datoFom = forhold.datoFom
-        this.datoTom = forhold.datoTom
-        this.ytelser = forhold.ytelser.map{ YtelseDto(it) }
-    }
+class ForholdDto(forhold: Forhold) {
+    val id = forhold.id
+    val fnr = forhold.person.fnr
+    val tpOrdning = forhold.tpOrdning.tpNr
+    val ytelser = forhold.ytelser.map(Ytelse::id)
+    val datoFom = forhold.datoFom
+    val datoTom = forhold.datoTom
 }

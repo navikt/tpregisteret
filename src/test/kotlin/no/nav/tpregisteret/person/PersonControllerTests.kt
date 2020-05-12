@@ -6,6 +6,8 @@ import no.nav.tpregisteret.TestPerson.Companion.testPerson3
 import no.nav.tpregisteret.TestPerson.Companion.testPerson4
 import no.nav.tpregisteret.TestPerson.Companion.testPerson7
 import no.nav.tpregisteret.TestSecurityConfig
+import no.nav.tpregisteret.controller.PersonController
+import no.nav.tpregisteret.service.PersonService
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa
@@ -18,7 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @WebMvcTest
 @AutoConfigureDataJpa
-@Import(TestSecurityConfig::class)
+@Import(TestSecurityConfig::class, PersonController::class, PersonService::class)
 class PersonControllerTests {
 
     @Autowired
@@ -99,6 +101,6 @@ class PersonControllerTests {
                         .header("tpId", testPerson3.tpForhold.first().tpId)
         )
                 .andExpect(status().isOk)
-                .andExpect(content().json("""[{"ytelseId":"1","fnr":"00000000003","fom":"2020-05-06","tom":null},{"ytelseId":"2","fnr":"00000000003","fom":"2020-05-06","tom":null}]"""))
+                .andExpect(content().json("""[{"id":"1","fnr":"00000000003","fom":"2020-05-06","tom":null},{"ytelseId":"2","fnr":"00000000003","datoFom":"2020-05-06","datoTom":null}]"""))
     }
 }
