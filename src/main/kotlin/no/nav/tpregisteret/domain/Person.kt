@@ -2,7 +2,6 @@ package no.nav.tpregisteret.domain
 
 import org.hibernate.annotations.Where
 import javax.persistence.*
-import kotlin.properties.Delegates.notNull
 
 @Entity
 @Table(name = "T_PERSON")

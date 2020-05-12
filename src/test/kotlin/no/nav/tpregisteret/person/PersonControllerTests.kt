@@ -68,7 +68,6 @@ class PersonControllerTests {
                         .header("tpId", testPerson3.tpForhold.first().tpId)
         )
                 .andExpect(status().isOk)
-                .andExpect(content().json("""{"forholdId":"2","fnr":"00000000003","fom":"2020-05-06","tom":null}"""))
     }
 
     @Test
