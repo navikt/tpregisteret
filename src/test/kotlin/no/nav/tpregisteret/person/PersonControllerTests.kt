@@ -101,6 +101,6 @@ class PersonControllerTests {
                         .header("tpId", testPerson3.tpForhold.first().tpId)
         )
                 .andExpect(status().isOk)
-                .andExpect(content().json("""[{"id":"1","fnr":"00000000003","fom":"2020-05-06","tom":null},{"ytelseId":"2","fnr":"00000000003","datoFom":"2020-05-06","datoTom":null}]"""))
+                .andExpect(content().json("""[{"id":"1","fnr":"00000000003","datoFom":"2001-01-01","datoTom":null},{"ytelseId":"2","fnr":"00000000003","datoFom":"2001-01-01","datoTom":null}]"""))
     }
 }
