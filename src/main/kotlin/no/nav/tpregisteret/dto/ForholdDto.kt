@@ -1,8 +1,7 @@
-package no.nav.tpregisteret.domainDto
+package no.nav.tpregisteret.dto
 
 import no.nav.tpregisteret.domain.Forhold
 import no.nav.tpregisteret.domain.Ytelse
-import java.time.LocalDate
 
 class ForholdDto(forhold: Forhold) {
     val id = forhold.id

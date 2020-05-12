@@ -1,4 +1,4 @@
-package no.nav.tpregisteret.domainDto
+package no.nav.tpregisteret.dto
 
 import no.nav.tpregisteret.domain.TpOrdning
 

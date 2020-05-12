@@ -1,7 +1,6 @@
-package no.nav.tpregisteret.domainDto
+package no.nav.tpregisteret.dto
 
 import no.nav.tpregisteret.domain.Ytelse
-import java.time.LocalDate
 
 class YtelseDto(ytelse: Ytelse) {
     val id = ytelse.id

@@ -1,13 +1,9 @@
 package no.nav.tpregisteret.service
 
 import no.nav.tpregisteret.domain.Forhold
-import no.nav.tpregisteret.domainDto.ForholdDto
-import no.nav.tpregisteret.domainDto.PersonDto
-import no.nav.tpregisteret.domainDto.TpOrdningDto
 import no.nav.tpregisteret.exceptions.ForholdIkkeFunnet
 import no.nav.tpregisteret.exceptions.PersonIkkeFunnet
 import no.nav.tpregisteret.repository.PersonRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
