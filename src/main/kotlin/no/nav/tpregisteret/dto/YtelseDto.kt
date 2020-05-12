@@ -1,10 +1,18 @@
 package no.nav.tpregisteret.dto
 
 import no.nav.tpregisteret.domain.Ytelse
+import java.time.LocalDate
 
-class YtelseDto(ytelse: Ytelse) {
-    val id = ytelse.id
-    val fnr = ytelse.forhold.person.fnr
-    val datoFom = ytelse.datoFom
-    val datoTom = ytelse.datoTom
+data class YtelseDto(
+        val id: Long,
+        val fnr: String,
+        val datoFom: LocalDate,
+        val datoTom: LocalDate?
+) {
+    constructor(ytelse: Ytelse) : this(
+            ytelse.id,
+            ytelse.forhold.person.fnr,
+            ytelse.datoFom,
+            ytelse.datoTom
+    )
 }
