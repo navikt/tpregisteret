@@ -1,6 +1,7 @@
 package no.nav.tpregisteret.person
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import no.nav.tpregisteret.TestPerson.Companion.YTELSE_DTO_FOR_TEST_PERSON3_AND_TP_ORDNING_1
 import no.nav.tpregisteret.TestPerson.Companion.testPerson1
 import no.nav.tpregisteret.TestPerson.Companion.testPerson2
 import no.nav.tpregisteret.TestPerson.Companion.testPerson3
@@ -8,9 +9,7 @@ import no.nav.tpregisteret.TestPerson.Companion.testPerson4
 import no.nav.tpregisteret.TestPerson.Companion.testPerson7
 import no.nav.tpregisteret.TestSecurityConfig
 import no.nav.tpregisteret.controller.PersonController
-import no.nav.tpregisteret.dto.YtelseDto
 import no.nav.tpregisteret.service.PersonService
-import org.codehaus.jackson.type.TypeReference
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa
@@ -20,8 +19,6 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import java.time.LocalDate
-import kotlin.test.assertEquals
 
 @WebMvcTest
 @AutoConfigureDataJpa
@@ -45,14 +42,16 @@ class PersonControllerTests {
     fun `Tpordninger returns 200 and correct single result`() {
         mockMvc.perform(get("/person/tpordninger").header("fnr", testPerson2.fnr))
                 .andExpect(status().isOk)
-                .andExpect(content().json("""[{"tssId":"11111111111","tpId":"1111","orgNr":"000000000","navn":"TP1"}]"""))
+                .andExpect(
+                        content().json("""[{"id":"11111111111","tpId":"1111","orgNr":"000000000","navn":"TP1"}]""")
+                )
     }
 
     @Test
     fun `Tpordninger returns 200 with correct results`() {
         mockMvc.perform(get("/person/tpordninger").header("fnr", testPerson3.fnr))
                 .andExpect(status().isOk)
-                .andExpect(content().json("""[{"tssId":"11111111111","tpId":"1111","orgNr":"000000000","navn":"TP1"},{"tssId":"22222222222","tpId":"2222","orgNr":"000000000","navn":"TP2"}]"""))
+                .andExpect(content().json("""[{"id":"11111111111","tpId":"1111","orgNr":"000000000","navn":"TP1"},{"tssId":"22222222222","tpId":"2222","orgNr":"000000000","navn":"TP2"}]"""))
     }
 
     @Test
@@ -103,29 +102,12 @@ class PersonControllerTests {
 
     @Test
     fun `Ytelser returns 200 with correct results`() {
-        val listOfYtelserDto = listOf(
-                YtelseDto(
-                        1,
-                        "00000000003",
-                        LocalDate.of(2001, 1, 1),
-                        null
-                ),
-                YtelseDto(
-                        2,
-                        "00000000003",
-                        LocalDate.of(2001, 1, 1),
-                        null
-                )
-        )
-
         mockMvc.perform(
                 get("/person/ytelser")
                         .header("fnr", testPerson3.fnr)
                         .header("tpId", testPerson3.tpForhold.first().tpId)
         )
                 .andExpect(status().isOk)
-                .andDo{
-                    assertEquals(objectMapper.writeValueAsString(listOfYtelserDto), it.response.contentAsString)
-                }
+                .andExpect(content().json(YTELSE_DTO_FOR_TEST_PERSON3_AND_TP_ORDNING_1))
     }
 }
