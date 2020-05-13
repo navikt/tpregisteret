@@ -1,20 +1,17 @@
-package no.nav.tpregisteret.person
+package no.nav.tpregisteret.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import no.nav.tpregisteret.ImportTpregisteretBeans
 import no.nav.tpregisteret.TestPerson.Companion.YTELSE_DTO_FOR_TEST_PERSON3_AND_TP_ORDNING_1
 import no.nav.tpregisteret.TestPerson.Companion.testPerson1
 import no.nav.tpregisteret.TestPerson.Companion.testPerson2
 import no.nav.tpregisteret.TestPerson.Companion.testPerson3
 import no.nav.tpregisteret.TestPerson.Companion.testPerson5
 import no.nav.tpregisteret.TestPerson.Companion.testPerson7
-import no.nav.tpregisteret.TestSecurityConfig
-import no.nav.tpregisteret.controller.PersonController
-import no.nav.tpregisteret.service.PersonService
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.context.annotation.Import
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
@@ -22,7 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @WebMvcTest
 @AutoConfigureDataJpa
-@Import(TestSecurityConfig::class, PersonController::class, PersonService::class)
+@ImportTpregisteretBeans
 class PersonControllerTests {
 
     @Autowired
