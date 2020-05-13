@@ -6,14 +6,15 @@ import javax.persistence.*
 @Entity
 @Table(name = "T_YTELSE")
 class Ytelse: AbstractPersistentDomainObject {
-    @Column(name = "YTELSE_ID")
+
     @Id
+    @Column(name = "YTELSE_ID")
     var id: Long = 0
 
     @ManyToOne
     @JoinTable(name = "T_FORHOLD_YTELSE_HISTORIKK",
-            joinColumns = [JoinColumn(name = "FORHOLD_ID_FK")],
-            inverseJoinColumns = [JoinColumn(name = "YTELSE_ID_FK")]
+            inverseJoinColumns = [JoinColumn(name = "FORHOLD_ID_FK")],
+            joinColumns = [JoinColumn(name = "YTELSE_ID_FK")]
     )
     lateinit var forhold: Forhold
 
