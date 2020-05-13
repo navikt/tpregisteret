@@ -6,6 +6,7 @@ import javax.persistence.*
 @Entity
 @Table(name = "T_PERSON")
 class Person: AbstractPersistentDomainObject {
+
     @Column(name = "PERSON_ID")
     @Id
     var id: Long = 0
@@ -14,6 +15,6 @@ class Person: AbstractPersistentDomainObject {
     lateinit var fnr: String
 
     @OneToMany(mappedBy = "person")
-    @Where(clause = "ER_GYLDIG='1'")
+    @Where(clause = "ER_GYLDIG='1' AND HAR_UTLAND_PENSJ='0'")
     lateinit var forhold: List<Forhold>
 }

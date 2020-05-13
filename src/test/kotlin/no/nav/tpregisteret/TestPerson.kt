@@ -1,8 +1,5 @@
 package no.nav.tpregisteret
 
-import no.nav.tpregisteret.domain.TpOrdning
-import no.nav.tpregisteret.domain.Ytelse
-
 class TestPerson(val fnr: String, vararg val tpForhold: TestTpOrdning) {
     class TestTpOrdning(val tssId: String, val tpId: String, val dunno: String, val bogus: String)
     companion object {

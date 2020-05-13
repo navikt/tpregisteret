@@ -16,7 +16,7 @@ class TpOrdning: AbstractPersistentDomainObject {
     lateinit var tpNr: String
 
     @Column(name = "ORGNR")
-    lateinit var orgnr: String
+    lateinit var orgNr: String
 
     @Column(name = "NAVN")
     lateinit var navn: String

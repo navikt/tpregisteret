@@ -5,7 +5,7 @@ import no.nav.tpregisteret.TestPerson.Companion.YTELSE_DTO_FOR_TEST_PERSON3_AND_
 import no.nav.tpregisteret.TestPerson.Companion.testPerson1
 import no.nav.tpregisteret.TestPerson.Companion.testPerson2
 import no.nav.tpregisteret.TestPerson.Companion.testPerson3
-import no.nav.tpregisteret.TestPerson.Companion.testPerson4
+import no.nav.tpregisteret.TestPerson.Companion.testPerson5
 import no.nav.tpregisteret.TestPerson.Companion.testPerson7
 import no.nav.tpregisteret.TestSecurityConfig
 import no.nav.tpregisteret.controller.PersonController
@@ -43,15 +43,14 @@ class PersonControllerTests {
         mockMvc.perform(get("/person/tpordninger").header("fnr", testPerson2.fnr))
                 .andExpect(status().isOk)
                 .andExpect(
-                        content().json("""[{"id":"11111111111","tpId":"1111","orgNr":"000000000","navn":"TP1"}]""")
-                )
+                        content().json("""[{"id":"11111111111","tpNr":"1111","orgNr":"000000000","navn":"TP1"}]"""))
     }
 
     @Test
     fun `Tpordninger returns 200 with correct results`() {
         mockMvc.perform(get("/person/tpordninger").header("fnr", testPerson3.fnr))
                 .andExpect(status().isOk)
-                .andExpect(content().json("""[{"id":"11111111111","tpId":"1111","orgNr":"000000000","navn":"TP1"},{"tssId":"22222222222","tpId":"2222","orgNr":"000000000","navn":"TP2"}]"""))
+                .andExpect(content().json("""[{"id":"11111111111","tpNr":"1111","orgNr":"000000000","navn":"TP1"},{"id":"22222222222","tpNr":"2222","orgNr":"000000000","navn":"TP2"}]"""))
     }
 
     @Test
@@ -93,11 +92,13 @@ class PersonControllerTests {
     fun `Ytelser returns 200 with empty result`() {
         mockMvc.perform(
                 get("/person/ytelser")
-                        .header("fnr", testPerson4.fnr)
-                        .header("tpId", testPerson4.tpForhold.first().tpId)
+                        .header("fnr", testPerson5.fnr)
+                        .header("tpId", testPerson5.tpForhold.first().tpId)
         )
                 .andExpect(status().isOk)
-                .andExpect(content().json("[]"))
+                .andExpect(
+                        content().json("[]")
+                )
     }
 
     @Test
