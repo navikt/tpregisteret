@@ -41,6 +41,6 @@ class ErrorHandler {
         = ResponseEntity.notFound().header("resurs", e.resource).build<Nothing?>()
 
     @ExceptionHandler(NotImplementedError::class)
-    fun notImplemented(e : NotImplementedError)
-            = ResponseEntity.status(NOT_IMPLEMENTED)
+    @ResponseStatus(NOT_IMPLEMENTED)
+    fun notImplemented(e : NotImplementedError) {/*No body*/}
 }
