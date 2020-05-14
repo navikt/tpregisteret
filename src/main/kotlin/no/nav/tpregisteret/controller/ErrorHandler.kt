@@ -6,6 +6,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
+import org.springframework.http.HttpStatus.NOT_IMPLEMENTED
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -38,4 +39,8 @@ class ErrorHandler {
     @ExceptionHandler(ResursIkkeFunnet::class)
     fun resursIkkeFunnet(e : ResursIkkeFunnet)
         = ResponseEntity.notFound().header("resurs", e.resource).build<Nothing?>()
+
+    @ExceptionHandler(NotImplementedError::class)
+    fun notImplemented(e : NotImplementedError)
+            = ResponseEntity.status(NOT_IMPLEMENTED)
 }
