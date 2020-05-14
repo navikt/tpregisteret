@@ -1,13 +1,15 @@
 package no.nav.tpregisteret.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import no.nav.tpregisteret.ImportTpregisteretBeans
-import no.nav.tpregisteret.TestPerson.Companion.YTELSE_DTO_FOR_TEST_PERSON3_AND_TP_ORDNING_1
-import no.nav.tpregisteret.TestPerson.Companion.testPerson1
-import no.nav.tpregisteret.TestPerson.Companion.testPerson2
-import no.nav.tpregisteret.TestPerson.Companion.testPerson3
-import no.nav.tpregisteret.TestPerson.Companion.testPerson5
-import no.nav.tpregisteret.TestPerson.Companion.testPerson7
+import no.nav.tpregisteret.support.ImportTpregisteretBeans
+import no.nav.tpregisteret.support.TestData
+import no.nav.tpregisteret.support.TestData.PERSON_1
+import no.nav.tpregisteret.support.TestData.PERSON_2
+import no.nav.tpregisteret.support.TestData.PERSON_3
+import no.nav.tpregisteret.support.TestData.PERSON_5
+import no.nav.tpregisteret.support.TestData.PERSON_7
+import no.nav.tpregisteret.support.TestData.TP_ORDNING_1
+import no.nav.tpregisteret.support.TestData.TestYtelse
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa
@@ -25,29 +27,26 @@ class PersonControllerTests {
     @Autowired
     private lateinit var mockMvc: MockMvc
 
-    @Autowired
-    lateinit var objectMapper: ObjectMapper
-
     @Test
     fun `Tpordninger returns 200 and empty result`() {
-        mockMvc.perform(get("/person/tpordninger").header("fnr", testPerson1.fnr))
+        mockMvc.perform(get("/person/tpordninger").header("fnr", PERSON_1.fnr))
                 .andExpect(status().isOk)
-                .andExpect(content().json("[]"))
+                .andExpect(content().json(PERSON_1.json))
     }
 
     @Test
     fun `Tpordninger returns 200 and correct single result`() {
-        mockMvc.perform(get("/person/tpordninger").header("fnr", testPerson2.fnr))
+        mockMvc.perform(get("/person/tpordninger").header("fnr", PERSON_2.fnr))
                 .andExpect(status().isOk)
                 .andExpect(
-                        content().json("""[{"id":"11111111111","tpNr":"1111","orgNr":"000000000","navn":"TP1"}]"""))
+                        content().json(PERSON_2.json))
     }
 
     @Test
     fun `Tpordninger returns 200 with correct results`() {
-        mockMvc.perform(get("/person/tpordninger").header("fnr", testPerson3.fnr))
+        mockMvc.perform(get("/person/tpordninger").header("fnr", PERSON_3.fnr))
                 .andExpect(status().isOk)
-                .andExpect(content().json("""[{"id":"11111111111","tpNr":"1111","orgNr":"000000000","navn":"TP1"},{"id":"22222222222","tpNr":"2222","orgNr":"000000000","navn":"TP2"}]"""))
+                .andExpect(content().json(PERSON_3.json))
     }
 
     @Test
@@ -60,8 +59,8 @@ class PersonControllerTests {
     fun `Forhold returns 404 when not found`() {
         mockMvc.perform(
                 get("/person/forhold")
-                        .header("fnr", testPerson1.fnr)
-                        .header("tpId", testPerson3.tpForhold.first().tpId)
+                        .header("fnr", PERSON_1.fnr)
+                        .header("tpId", TP_ORDNING_1.tpNr)
         ).andExpect(status().isNotFound)
     }
 
@@ -69,8 +68,8 @@ class PersonControllerTests {
     fun `Forhold returns 200 with correct result`() {
         mockMvc.perform(
                 get("/person/forhold")
-                        .header("fnr", testPerson3.fnr)
-                        .header("tpId", testPerson3.tpForhold.first().tpId)
+                        .header("fnr", PERSON_3.fnr)
+                        .header("tpId", PERSON_3.tpForhold.first().tpNr)
         )
                 .andExpect(status().isOk)
     }
@@ -79,8 +78,8 @@ class PersonControllerTests {
     fun `Ytelser returns 404 for invalid person-ordning combination`() {
         mockMvc.perform(
                 get("/person/ytelser")
-                        .header("fnr", testPerson2.fnr)
-                        .header("tpId", testPerson7.tpForhold.first().tpId)
+                        .header("fnr", PERSON_2.fnr)
+                        .header("tpId", PERSON_7.tpForhold.first().tpNr)
         )
                 .andExpect(status().isNotFound)
     }
@@ -89,12 +88,12 @@ class PersonControllerTests {
     fun `Ytelser returns 200 with empty result`() {
         mockMvc.perform(
                 get("/person/ytelser")
-                        .header("fnr", testPerson5.fnr)
-                        .header("tpId", testPerson5.tpForhold.first().tpId)
+                        .header("fnr", PERSON_5.fnr)
+                        .header("tpId", PERSON_5.tpForhold.first().tpNr)
         )
                 .andExpect(status().isOk)
                 .andExpect(
-                        content().json("[]")
+                        content().json(TestYtelse.getJson(PERSON_5, PERSON_5.tpForhold.first()))
                 )
     }
 
@@ -102,10 +101,10 @@ class PersonControllerTests {
     fun `Ytelser returns 200 with correct results`() {
         mockMvc.perform(
                 get("/person/ytelser")
-                        .header("fnr", testPerson3.fnr)
-                        .header("tpId", testPerson3.tpForhold.first().tpId)
+                        .header("fnr", PERSON_3.fnr)
+                        .header("tpId", PERSON_3.tpForhold.first().tpNr)
         )
                 .andExpect(status().isOk)
-                .andExpect(content().json(YTELSE_DTO_FOR_TEST_PERSON3_AND_TP_ORDNING_1))
+                .andExpect(content().json(TestYtelse.getJson(PERSON_3, PERSON_3.tpForhold.first())))
     }
 }

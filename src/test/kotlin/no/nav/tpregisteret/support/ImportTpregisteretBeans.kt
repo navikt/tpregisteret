@@ -1,4 +1,4 @@
-package no.nav.tpregisteret
+package no.nav.tpregisteret.support
 
 import no.nav.tpregisteret.service.OrganisationService
 import no.nav.tpregisteret.service.PersonService

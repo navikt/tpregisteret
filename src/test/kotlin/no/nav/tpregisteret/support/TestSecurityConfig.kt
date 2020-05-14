@@ -1,4 +1,4 @@
-package no.nav.tpregisteret
+package no.nav.tpregisteret.support
 
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity

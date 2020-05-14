@@ -1,9 +1,9 @@
 package no.nav.tpregisteret.controller
 
 import no.nav.tpregisteret.domain.Person
-import no.nav.tpregisteret.dto.ForholdDto
-import no.nav.tpregisteret.dto.TpOrdningDto
-import no.nav.tpregisteret.dto.YtelseDto
+import no.nav.tpregisteret.domain.dto.ForholdDto
+import no.nav.tpregisteret.domain.dto.TpOrdningDto
+import no.nav.tpregisteret.domain.dto.YtelseDto
 import no.nav.tpregisteret.service.PersonService
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*

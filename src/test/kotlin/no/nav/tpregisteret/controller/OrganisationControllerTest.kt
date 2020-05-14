@@ -1,12 +1,8 @@
 package no.nav.tpregisteret.controller
 
-import no.nav.tpregisteret.ImportTpregisteretBeans
-import no.nav.tpregisteret.TestOrganisation.Companion.invalidOrgNr
-import no.nav.tpregisteret.TestOrganisation.Companion.invalidTpNr
-import no.nav.tpregisteret.TestOrganisation.Companion.invalidTssId
-import no.nav.tpregisteret.TestOrganisation.Companion.validOrgNr
-import no.nav.tpregisteret.TestOrganisation.Companion.validTpNr
-import no.nav.tpregisteret.TestOrganisation.Companion.validTssId
+import no.nav.tpregisteret.support.ImportTpregisteretBeans
+import no.nav.tpregisteret.support.TestData.ORG_1
+import no.nav.tpregisteret.support.TestData.TP_ORDNING_1
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa
@@ -29,18 +25,18 @@ class OrganisationControllerTest {
     fun `Get returns 200 on valid OrgNr and TpNr`(){
         mockMvc.perform(
                 get("/organisation/")
-                        .header("orgnr", validOrgNr)
-                        .header("tpnr", validTpNr))
+                        .header("orgnr", TP_ORDNING_1.orgNr)
+                        .header("tpnr", TP_ORDNING_1.tpNr))
                 .andExpect(status().isOk)
-                .andExpect(content().json("""[{"id":"11111111111","tpNr":"1111","orgNr":"000000000","navn":"TP1"}]"""))
+                .andExpect(content().json("[${TP_ORDNING_1.json}]"))
     }
 
     @Test
     fun `Get returns 404 on invalid OrgNr`(){
         mockMvc.perform(
                 head("/organisation/")
-                        .header("orgnr", invalidOrgNr)
-                        .header("tpnr", validTpNr))
+                        .header("orgnr", "1234")
+                        .header("tpnr", TP_ORDNING_1.tpNr))
                 .andExpect(status().isNotFound)
     }
 
@@ -48,8 +44,8 @@ class OrganisationControllerTest {
     fun `Get returns 404 on invalid TpNr`(){
         mockMvc.perform(
                 head("/organisation/")
-                        .header("orgnr", validOrgNr)
-                        .header("tpnr", invalidTpNr))
+                        .header("orgnr", TP_ORDNING_1.orgNr)
+                        .header("tpnr", "123456789"))
                 .andExpect(status().isNotFound)
     }
 
@@ -57,16 +53,16 @@ class OrganisationControllerTest {
     fun `OrgNr returns 200 on valid TSS ID`() {
         mockMvc.perform(
                 get("/organisation/orgnr/")
-                        .header("tssid", validTssId))
+                        .header("tssid", TP_ORDNING_1.tssId))
                 .andExpect(status().isOk)
-                .andExpect(content().string(validOrgNr))
+                .andExpect(content().string(TP_ORDNING_1.orgNr))
     }
 
     @Test
     fun `OrgNr returns 404 on invalid TSS ID`() {
         mockMvc.perform(
                 get("/organisation/orgnr/")
-                        .header("tssid", invalidTssId))
+                        .header("tssid", "12345678910"))
                 .andExpect(status().isNotFound)
     }
 
@@ -74,16 +70,16 @@ class OrganisationControllerTest {
     fun `Name returns 200 on valid OrgNr`() {
         mockMvc.perform(
                 get("/organisation/navn")
-                        .header("orgnr", validOrgNr))
+                        .header("orgnr", ORG_1.orgNr))
                 .andExpect(status().isOk)
-                .andExpect(content().string("""["TP1","TP2","TP3"]"""))
+                .andExpect(content().string(ORG_1.json))
     }
 
     @Test
     fun `Name returns 404 on invalid OrgNr`() {
         mockMvc.perform(
                 get("/organisation/navn")
-                        .header("orgnr", invalidOrgNr))
+                        .header("orgnr", "123456789"))
                 .andExpect(status().isNotFound)
     }
 }

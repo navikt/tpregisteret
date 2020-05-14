@@ -1,4 +1,4 @@
-package no.nav.tpregisteret.dto
+package no.nav.tpregisteret.domain.dto
 
 import no.nav.tpregisteret.domain.Ytelse
 import java.time.LocalDate
