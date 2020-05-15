@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "T_FORHOLD")
-class Forhold: AbstractPersistentDomainObject {
+class Forhold {
     @Column(name = "FORHOLD_ID")
     @Id
     var id: Long = 0

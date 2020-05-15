@@ -3,7 +3,10 @@ package no.nav.tpregisteret.repository
 import no.nav.tpregisteret.domain.TpOrdning
 import no.nav.tpregisteret.support.TestData.TestTpOrdning
 import no.nav.tpregisteret.support.TestData.ORG_1
+import no.nav.tpregisteret.support.TestData.ORG_2
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import kotlin.test.assertEquals
@@ -28,16 +31,13 @@ class OrganisationRepositoryTest {
     }
 
     @Test
-    fun `Get all tpOrdning by orgNr and tpNr`() = with(ORG_1) {
-        val tpOrdningList = organisationRepository.findAllByOrgNrAndTpNr(orgNr, tpOrdninger.first().tpNr)
-        assertEquals(tpOrdninger.findFirst().map(TestTpOrdning::tpNr), tpOrdningList.map(TpOrdning::tpNr))
+    fun `Organisation contains TpOrdning`() {
+        assert(organisationRepository.existsTpOrdningByOrgNrAndTpNr(ORG_1.orgNr, ORG_1.tpOrdninger.first().tpNr))
     }
 
     @Test
-    fun getAll() = with(ORG_1) {
-        val tpOrdningList = organisationRepository.findAllByOrgNr(orgNr)
-//        val tpOrdningList = organisationRepository.findAllByOrgNrAndTpNr(orgNr, tpOrdninger.first().tpNr)
-        assertNotNull(tpOrdningList)
+    fun `Organisation does not contain TpOrdning`() {
+        assertFalse(organisationRepository.existsTpOrdningByOrgNrAndTpNr(ORG_1.orgNr, ORG_2.tpOrdninger.first().tpNr))
     }
 
 }

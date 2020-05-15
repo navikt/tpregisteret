@@ -7,7 +7,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "T_TSS_TP")
-class TpOrdning: AbstractPersistentDomainObject {
+class TpOrdning {
     @Column(name = "TSS_ID")
     @Id
     lateinit var id: String

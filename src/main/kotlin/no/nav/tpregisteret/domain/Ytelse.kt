@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "T_YTELSE")
-class Ytelse: AbstractPersistentDomainObject {
+class Ytelse {
 
     @Id
     @Column(name = "YTELSE_ID")

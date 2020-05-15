@@ -2,7 +2,9 @@ package no.nav.tpregisteret.controller
 
 import no.nav.tpregisteret.support.ImportTpregisteretBeans
 import no.nav.tpregisteret.support.TestData.ORG_1
+import no.nav.tpregisteret.support.TestData.ORG_2
 import no.nav.tpregisteret.support.TestData.TP_ORDNING_1
+import no.nav.tpregisteret.support.TestData.VAULT_TP_ORDNING_1
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa
@@ -22,30 +24,29 @@ class OrganisationControllerTest {
     private lateinit var mockMvc: MockMvc
 
     @Test
-    fun `Get returns 200 on valid OrgNr and TpNr`(){
+    fun `Check returns 204 on valid TpNr for OrgNr`(){
         mockMvc.perform(
                 get("/organisation/")
                         .header("orgnr", TP_ORDNING_1.orgNr)
                         .header("tpnr", TP_ORDNING_1.tpNr))
-                .andExpect(status().isOk)
-                .andExpect(content().json("[${TP_ORDNING_1.json}]"))
+                .andExpect(status().isNoContent)
     }
 
     @Test
-    fun `Get returns 404 on invalid OrgNr`(){
+    fun `Check returns 204 on valid vault TpNr for OrgNr`(){
         mockMvc.perform(
-                head("/organisation/")
-                        .header("orgnr", "1234")
-                        .header("tpnr", TP_ORDNING_1.tpNr))
-                .andExpect(status().isNotFound)
+                get("/organisation/")
+                        .header("orgnr", VAULT_TP_ORDNING_1.orgNr)
+                        .header("tpnr", VAULT_TP_ORDNING_1.tpNr))
+                .andExpect(status().isNoContent)
     }
 
     @Test
-    fun `Get returns 404 on invalid TpNr`(){
+    fun `Check returns 404 on invalid TpNr for OrgNr`(){
         mockMvc.perform(
                 head("/organisation/")
-                        .header("orgnr", TP_ORDNING_1.orgNr)
-                        .header("tpnr", "123456789"))
+                        .header("orgnr", ORG_1.orgNr)
+                        .header("tpnr", ORG_2.tpOrdninger.first().tpNr))
                 .andExpect(status().isNotFound)
     }
 

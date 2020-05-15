@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "T_PERSON")
-class Person: AbstractPersistentDomainObject {
+class Person {
 
     @Column(name = "PERSON_ID")
     @Id

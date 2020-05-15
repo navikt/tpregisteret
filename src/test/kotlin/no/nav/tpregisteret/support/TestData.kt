@@ -1,6 +1,5 @@
 package no.nav.tpregisteret.support
 
-import no.nav.tpregisteret.domain.TpOrdning
 import java.time.LocalDate
 
 object TestData{
@@ -33,6 +32,9 @@ object TestData{
     val TP_ORDNING_1 = TestTpOrdning("11111111111", "1111", "000000000", "TP1")
     val TP_ORDNING_2 = TestTpOrdning("22222222222", "2222", "000000000", "TP2")
     val TP_ORDNING_3 = TestTpOrdning("33333333333", "3333", "000000000", "TP3")
+    val TP_ORDNING_4 = TestTpOrdning("44444444444", "4444", "111111111", "TP4")
+    val VAULT_TP_ORDNING_1 = TestTpOrdning("55555555555", "3333", "111111111", "VTP1")
+    val VAULT_TP_ORDNING_2 = TestTpOrdning("66666666666", "1111", "222222222", "VTP2")
 
     val PERSON_1 = TestPerson("00000000001")
     val PERSON_2 = TestPerson("00000000002", TP_ORDNING_1)
@@ -43,6 +45,7 @@ object TestData{
     val PERSON_7 = TestPerson("00000000007", TP_ORDNING_2)
 
     val ORG_1 = TestOrganisation("000000000", TP_ORDNING_1, TP_ORDNING_2, TP_ORDNING_3)
+    val ORG_2 = TestOrganisation("111111111", TP_ORDNING_4)
 
     val YTELSE_1 = TestYtelse(1, PERSON_3, testDate, null, TP_ORDNING_1)
     val YTELSE_2 = TestYtelse(2, PERSON_3, testDate, null, TP_ORDNING_1)

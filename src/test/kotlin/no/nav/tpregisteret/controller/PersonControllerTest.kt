@@ -28,14 +28,14 @@ class PersonControllerTest {
     private lateinit var mockMvc: MockMvc
 
     @Test
-    fun `Tpordninger returns 200 and empty result`() {
+    fun `TpOrdninger returns 200 and empty result`() {
         mockMvc.perform(get("/person/tpordninger").header("fnr", PERSON_1.fnr))
                 .andExpect(status().isOk)
                 .andExpect(content().json(PERSON_1.json))
     }
 
     @Test
-    fun `Tpordninger returns 200 and correct single result`() {
+    fun `TpOrdninger returns 200 and correct single result`() {
         mockMvc.perform(get("/person/tpordninger").header("fnr", PERSON_2.fnr))
                 .andExpect(status().isOk)
                 .andExpect(
@@ -43,10 +43,16 @@ class PersonControllerTest {
     }
 
     @Test
-    fun `Tpordninger returns 200 with correct results`() {
+    fun `TpOrdninger returns 200 with correct results`() {
         mockMvc.perform(get("/person/tpordninger").header("fnr", PERSON_3.fnr))
                 .andExpect(status().isOk)
                 .andExpect(content().json(PERSON_3.json))
+    }
+
+    @Test
+    fun `TpOrdninger returns 404 when missing person`() {
+        mockMvc.perform(get("/person/tpordninger").header("fnr", "12345678910"))
+                .andExpect(status().isNotFound)
     }
 
     @Test

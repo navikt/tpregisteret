@@ -14,8 +14,8 @@ class OrganisationService(val organisationRepository: OrganisationRepository) {
     fun getNameByOrgNr(orgNr: String) = getByOrgNr(orgNr)
             .map(TpOrdning::navn).toSet()
 
-    fun getByOrgNrAndTpNr(orgNr: String, tpNr: String) = organisationRepository.findAllByOrgNrAndTpNr(orgNr, tpNr)
-            .ifEmpty { throw TpOrdningIkkeFunnet() }
+    fun hasTpNrInOrg(orgNr: String, tpNr: String) = if (organisationRepository.existsTpOrdningByOrgNrAndTpNr(orgNr, tpNr)) Unit
+    else throw TpOrdningIkkeFunnet()
 
     fun getByTssId(tssId: String) = organisationRepository.findById(tssId)
             .orElseGet { throw TpOrdningIkkeFunnet() }!!

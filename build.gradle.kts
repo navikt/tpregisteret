@@ -32,8 +32,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
-    testImplementation("com.h2database","h2","1.4.199")
     testImplementation("com.github.tomakehurst","wiremock","2.23.2")
+    testRuntimeOnly("com.h2database","h2","1.4.199")
 }
 
 tasks{
