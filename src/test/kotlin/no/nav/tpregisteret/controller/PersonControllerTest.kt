@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @WebMvcTest
 @AutoConfigureDataJpa
 @ImportTpregisteretBeans
-class PersonControllerTests {
+class PersonControllerTest {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
