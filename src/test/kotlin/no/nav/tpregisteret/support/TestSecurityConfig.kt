@@ -1,4 +1,4 @@
-package no.nav.tpregisteret
+package no.nav.tpregisteret.support
 
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -9,7 +9,6 @@ internal class TestSecurityConfig : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
     }
 }

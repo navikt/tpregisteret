@@ -1,10 +1,10 @@
-package no.nav.tpregisteret.nais
+package no.nav.tpregisteret.controller
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class NaisEndpoints {
+class NaisController {
 
     @get:GetMapping("/isAlive")
     val isAlive = true

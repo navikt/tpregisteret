@@ -2,8 +2,10 @@ package no.nav.tpregisteret
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 
-@SpringBootApplication
+@EnableJpaRepositories
+@SpringBootApplication(scanBasePackages = ["no.nav.tpregisteret"])
 class TpregisteretApplication {
     companion object {
         @JvmStatic
