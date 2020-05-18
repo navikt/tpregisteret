@@ -24,5 +24,5 @@ class SimuleringController {
 
     @PostMapping("/tjenestepensjon")
     @ResponseStatus(CREATED)
-    fun lagreTjenestepensjonSimulering(@RequestHeader("tpnr") tpnr: String, @RequestBody simulering: SimuleringDto) = URI(TODO())
+    fun lagreTjenestepensjonSimulering(@RequestHeader("tpId") tpId: String, @RequestBody simulering: SimuleringDto) = URI(TODO())
 }

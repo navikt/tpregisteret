@@ -17,17 +17,17 @@ class TjenestepensjonController {
      * Overordnede endepunkter for hele tjenestepensjon.
      */
     @GetMapping
-    fun hentTjenestePensjon(@RequestHeader("tpnr") tpnr: String) = TODO() as TpOrdning
+    fun hentTjenestePensjon(@RequestHeader("tpId") tpId: String) = TODO() as TpOrdning
 
     @DeleteMapping
     @ResponseStatus(NO_CONTENT)
-    fun slettTjenestePensjon(@RequestHeader("tpnr") tpnr: String) {
+    fun slettTjenestePensjon(@RequestHeader("tpId") tpId: String) {
         TODO()
     }
 
     @DeleteMapping("/TBD")
     @ResponseStatus(NO_CONTENT)
-    fun slettTjenestePensjonForholdYtelse(@RequestHeader("tpnr") tpnr: String) {
+    fun slettTjenestePensjonForholdYtelse(@RequestHeader("tpId") tpId: String) {
         TODO()
     }
 
@@ -35,11 +35,11 @@ class TjenestepensjonController {
      * Endepunkter for tjenestepensjon forhold.
      */
     @GetMapping("/forhold")
-    fun hentTpforhold(@RequestHeader("forholdId") fnr: String) = TODO() as Forhold
+    fun hentTpforhold(@RequestHeader("forholdId") forholdId: String) = TODO() as Forhold
 
     @PostMapping("/forhold")
     @ResponseStatus(CREATED)
-    fun lagreTpforhold(@RequestHeader("tpnr") tpnr: String, @RequestBody forhold: Forhold) = URI(TODO())
+    fun lagreTpforhold(@RequestHeader("tpId") tpId: String, @RequestBody forhold: Forhold) = URI(TODO())
 
     /**
      * Endepunkter for tjenestepensjon ytelse.
@@ -49,7 +49,7 @@ class TjenestepensjonController {
 
     @PostMapping("/ytelse")
     @ResponseStatus(CREATED)
-    fun lagreYtelse(@RequestHeader("tpnr") tpnr: String, @RequestBody ytelse: Ytelse) = URI(TODO())
+    fun lagreYtelse(@RequestHeader("tpId") tpId: String, @RequestBody ytelse: Ytelse) = URI(TODO())
 
     /**
      * Endepunkter for tjenestepensjon simulering.
@@ -59,5 +59,5 @@ class TjenestepensjonController {
 
     @PostMapping("/simulering")
     @ResponseStatus(CREATED)
-    fun lagreSimulering(@RequestHeader("tpnr") tpnr: String, @RequestBody simulering: SimuleringDto) = URI(TODO())
+    fun lagreSimulering(@RequestHeader("tpId") tpId: String, @RequestBody simulering: SimuleringDto) = URI(TODO())
 }

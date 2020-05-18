@@ -19,7 +19,7 @@ class PersonService(
             findPersonByFnr(fnr).forhold.map(Forhold::tpOrdning)
 
     fun getForholdForPerson(fnr: String, tpId: String) =
-            findPersonByFnr(fnr).forhold.firstOrNull { it.tpOrdning.tpNr == tpId }
+            findPersonByFnr(fnr).forhold.firstOrNull { it.tpOrdning.tpId == tpId }
                     ?: throw ForholdIkkeFunnet()
 
     fun getYtelserForPerson(fnr: String, tpId: String) =

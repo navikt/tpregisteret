@@ -23,10 +23,9 @@ object TestData{
     class TestPerson(val fnr: String, vararg val tpForhold: TestTpOrdning){
         val json = tpForhold.joinToString(",","[","]", transform = TestTpOrdning::json)
     }
-    class TestTpOrdning(val tssId: String, val tpNr: String, val orgNr: String, val navn: String) {
-        val json = """{"id":"$tssId","tpNr":"$tpNr","orgNr":"$orgNr","navn":"$navn"}"""
+    class TestTpOrdning(val tssId: String, val tpId: String, val orgNr: String, val navn: String) {
+        val json = """{"tssId":"$tssId","tpId":"$tpId","orgNr":"$orgNr","navn":"$navn"}"""
     }
-    const val YTELSE_DTO_FOR_TEST_PERSON3_AND_TP_ORDNING_1 = """[{"id":1,"fnr":"00000000003","datoFom":"2001-01-01","datoTom":null},{"id":2,"fnr":"00000000003","datoFom":"2001-01-01","datoTom":null}]"""
 
 
     val TP_ORDNING_1 = TestTpOrdning("11111111111", "1111", "000000000", "TP1")

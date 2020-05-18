@@ -27,8 +27,8 @@ class OrganisationControllerTest {
     fun `Check returns 204 on valid TpNr for OrgNr`(){
         mockMvc.perform(
                 get("/organisation/")
-                        .header("orgnr", TP_ORDNING_1.orgNr)
-                        .header("tpnr", TP_ORDNING_1.tpNr))
+                        .header("orgNr", TP_ORDNING_1.orgNr)
+                        .header("tpId", TP_ORDNING_1.tpId))
                 .andExpect(status().isNoContent)
     }
 
@@ -36,8 +36,8 @@ class OrganisationControllerTest {
     fun `Check returns 204 on valid vault TpNr for OrgNr`(){
         mockMvc.perform(
                 get("/organisation/")
-                        .header("orgnr", VAULT_TP_ORDNING_1.orgNr)
-                        .header("tpnr", VAULT_TP_ORDNING_1.tpNr))
+                        .header("orgNr", VAULT_TP_ORDNING_1.orgNr)
+                        .header("tpId", VAULT_TP_ORDNING_1.tpId))
                 .andExpect(status().isNoContent)
     }
 
@@ -45,15 +45,15 @@ class OrganisationControllerTest {
     fun `Check returns 404 on invalid TpNr for OrgNr`(){
         mockMvc.perform(
                 head("/organisation/")
-                        .header("orgnr", ORG_1.orgNr)
-                        .header("tpnr", ORG_2.tpOrdninger.first().tpNr))
+                        .header("orgNr", ORG_1.orgNr)
+                        .header("tpId", ORG_2.tpOrdninger.first().tpId))
                 .andExpect(status().isNotFound)
     }
 
     @Test
     fun `OrgNr returns 200 on valid TSS ID`() {
         mockMvc.perform(
-                get("/organisation/orgnr/")
+                get("/organisation/orgNr/")
                         .header("tssid", TP_ORDNING_1.tssId))
                 .andExpect(status().isOk)
                 .andExpect(content().string(TP_ORDNING_1.orgNr))
@@ -62,7 +62,7 @@ class OrganisationControllerTest {
     @Test
     fun `OrgNr returns 404 on invalid TSS ID`() {
         mockMvc.perform(
-                get("/organisation/orgnr/")
+                get("/organisation/orgNr/")
                         .header("tssid", "12345678910"))
                 .andExpect(status().isNotFound)
     }
@@ -71,7 +71,7 @@ class OrganisationControllerTest {
     fun `Name returns 200 on valid OrgNr`() {
         mockMvc.perform(
                 get("/organisation/navn")
-                        .header("orgnr", ORG_1.orgNr))
+                        .header("orgNr", ORG_1.orgNr))
                 .andExpect(status().isOk)
                 .andExpect(content().string(ORG_1.json))
     }
@@ -80,7 +80,7 @@ class OrganisationControllerTest {
     fun `Name returns 404 on invalid OrgNr`() {
         mockMvc.perform(
                 get("/organisation/navn")
-                        .header("orgnr", "123456789"))
+                        .header("orgNr", "123456789"))
                 .andExpect(status().isNotFound)
     }
 }

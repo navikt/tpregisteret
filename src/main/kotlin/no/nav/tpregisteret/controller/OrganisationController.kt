@@ -17,35 +17,35 @@ class OrganisationController(private val organisationService: OrganisationServic
     }
 
     @Value("\${orgnr.mapping}")
-    lateinit var orgnrMapping: String
+    lateinit var orgNrMapping: String
 
     @GetMapping
     @ResponseStatus(NO_CONTENT)
     fun getTpOrdningerForPerson(
-            @RequestHeader("orgnr") orgnr: String,
-            @RequestHeader("tpnr") tpnr: String
-    ) = if (validVaultOrgnrMapping(orgnr, tpnr)) handleValidMapping(orgnr, tpnr)
-    else organisationService.hasTpNrInOrg(orgnr, tpnr)
+            @RequestHeader("orgNr") orgNr: String,
+            @RequestHeader("tpid") tpId: String
+    ) = if (validVaultOrgnrMapping(orgNr, tpId)) handleValidMapping(orgNr, tpId)
+    else organisationService.hasTpIdInOrg(orgNr, tpId)
 
-    @GetMapping("/orgnr")
+    @GetMapping("/orgNr")
     fun getOrganisationByTSSId(
-            @RequestHeader("tssid") tssid: String
-    ) = organisationService.getOrgNrByTssId(tssid)
+            @RequestHeader("tssid") tssId: String
+    ) = organisationService.getOrgNrByTssId(tssId)
 
     @GetMapping("/navn")
     fun getOrganisationName(
-            @RequestHeader("orgnr") orgnr: String
-    ) = organisationService.getNameByOrgNr(orgnr)
+            @RequestHeader("orgNr") orgNr: String
+    ) = organisationService.getNameByOrgNr(orgNr)
 
-    private fun validVaultOrgnrMapping(orgnr: String, tpnr: String): Boolean {
-        LOG.info("Validate orgnr/tpnr:$orgnr,$tpnr")
-        return orgnrMapping.split('|')
+    private fun validVaultOrgnrMapping(orgNr: String, tpId: String): Boolean {
+        LOG.info("Validate orgNr/tpId:$orgNr,$tpId")
+        return orgNrMapping.split('|')
                 .mapNotNull { regex.find(it)?.value }
                 .onEach { LOG.info("Vault mapping: $it") }
-                .any("$orgnr,$tpnr"::equals)
+                .any("$orgNr,$tpId"::equals)
     }
 
-    private fun handleValidMapping(orgnr: String, tpnr: String) {
-        LOG.info("Valid vault mapping: orgnr $orgnr for tpnr $tpnr")
+    private fun handleValidMapping(orgNr: String, tpId: String) {
+        LOG.info("Valid vault mapping: orgNr $orgNr for tpId $tpId")
     }
 }
