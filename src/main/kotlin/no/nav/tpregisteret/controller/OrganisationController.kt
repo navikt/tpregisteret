@@ -1,5 +1,6 @@
 package no.nav.tpregisteret.controller
 
+import no.nav.security.token.support.core.api.Protected
 import no.nav.tpregisteret.service.OrganisationService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
 
+@Protected
 @RestController
 @RequestMapping("/organisation")
 class OrganisationController(private val organisationService: OrganisationService) {

@@ -1,5 +1,6 @@
 package no.nav.tpregisteret.controller
 
+import no.nav.security.token.support.test.JwtTokenGenerator
 import no.nav.tpregisteret.support.ImportTpregisteretBeans
 import no.nav.tpregisteret.support.TestData.ORG_1
 import no.nav.tpregisteret.support.TestData.ORG_2
@@ -20,13 +21,18 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @ImportTpregisteretBeans
 class OrganisationControllerTest {
 
+    private val root = "/organisation/"
+
+    private val token = JwtTokenGenerator.signedJWTAsString("test")
+
     @Autowired
     private lateinit var mockMvc: MockMvc
 
     @Test
     fun `Check returns 204 on valid TpNr for OrgNr`(){
         mockMvc.perform(
-                get("/organisation/")
+                get(root)
+                        .header("Authorization", "Bearer $token")
                         .header("orgnr", TP_ORDNING_1.orgNr)
                         .header("tpnr", TP_ORDNING_1.tpNr))
                 .andExpect(status().isNoContent)
@@ -35,7 +41,7 @@ class OrganisationControllerTest {
     @Test
     fun `Check returns 204 on valid vault TpNr for OrgNr`(){
         mockMvc.perform(
-                get("/organisation/")
+                get(root)
                         .header("orgnr", VAULT_TP_ORDNING_1.orgNr)
                         .header("tpnr", VAULT_TP_ORDNING_1.tpNr))
                 .andExpect(status().isNoContent)
@@ -44,7 +50,7 @@ class OrganisationControllerTest {
     @Test
     fun `Check returns 404 on invalid TpNr for OrgNr`(){
         mockMvc.perform(
-                head("/organisation/")
+                head(root)
                         .header("orgnr", ORG_1.orgNr)
                         .header("tpnr", ORG_2.tpOrdninger.first().tpNr))
                 .andExpect(status().isNotFound)
@@ -53,7 +59,7 @@ class OrganisationControllerTest {
     @Test
     fun `OrgNr returns 200 on valid TSS ID`() {
         mockMvc.perform(
-                get("/organisation/orgnr/")
+                get(root+"orgnr/")
                         .header("tssid", TP_ORDNING_1.tssId))
                 .andExpect(status().isOk)
                 .andExpect(content().string(TP_ORDNING_1.orgNr))
@@ -62,7 +68,7 @@ class OrganisationControllerTest {
     @Test
     fun `OrgNr returns 404 on invalid TSS ID`() {
         mockMvc.perform(
-                get("/organisation/orgnr/")
+                get(root+"orgnr/")
                         .header("tssid", "12345678910"))
                 .andExpect(status().isNotFound)
     }
@@ -70,7 +76,7 @@ class OrganisationControllerTest {
     @Test
     fun `Name returns 200 on valid OrgNr`() {
         mockMvc.perform(
-                get("/organisation/navn")
+                get(root+"navn")
                         .header("orgnr", ORG_1.orgNr))
                 .andExpect(status().isOk)
                 .andExpect(content().string(ORG_1.json))
@@ -79,7 +85,7 @@ class OrganisationControllerTest {
     @Test
     fun `Name returns 404 on invalid OrgNr`() {
         mockMvc.perform(
-                get("/organisation/navn")
+                get(root+"navn")
                         .header("orgnr", "123456789"))
                 .andExpect(status().isNotFound)
     }
