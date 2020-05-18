@@ -1,6 +1,5 @@
 package no.nav.tpregisteret.controller
 
-import no.nav.tpregisteret.domain.Ytelse
 import no.nav.tpregisteret.domain.dto.YtelseDto
 import no.nav.tpregisteret.exceptions.YtelseIkkeFunnet
 import no.nav.tpregisteret.service.YtelseService
