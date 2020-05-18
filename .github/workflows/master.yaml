@@ -17,7 +17,7 @@ jobs:
 
       # Build
       - name: Build
-        run: gradle clean install
+        run: gradle clean build
 
       # Build image
       - name: Login to Github Package Registry
