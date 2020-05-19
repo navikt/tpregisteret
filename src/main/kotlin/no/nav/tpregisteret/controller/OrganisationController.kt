@@ -23,13 +23,13 @@ class OrganisationController(private val organisationService: OrganisationServic
     @ResponseStatus(NO_CONTENT)
     fun getTpOrdningerForPerson(
             @RequestHeader("orgNr") orgNr: String,
-            @RequestHeader("tpid") tpId: String
+            @RequestHeader("tpId") tpId: String
     ) = if (validVaultOrgnrMapping(orgNr, tpId)) handleValidMapping(orgNr, tpId)
     else organisationService.hasTpIdInOrg(orgNr, tpId)
 
-    @GetMapping("/orgNr")
+    @GetMapping("/orgnr")
     fun getOrganisationByTSSId(
-            @RequestHeader("tssid") tssId: String
+            @RequestHeader("tssId") tssId: String
     ) = organisationService.getOrgNrByTssId(tssId)
 
     @GetMapping("/navn")
