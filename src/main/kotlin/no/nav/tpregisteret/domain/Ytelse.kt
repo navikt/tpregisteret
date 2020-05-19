@@ -18,6 +18,9 @@ class Ytelse {
     )
     lateinit var forhold: Forhold
 
+    @Column(name = "K_YTELSE_T")
+    lateinit var type: String
+
     @Column(name = "DATO_BRUK_FOM")
     lateinit var datoFom: LocalDate
 
