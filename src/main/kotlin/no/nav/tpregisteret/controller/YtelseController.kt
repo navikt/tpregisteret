@@ -1,5 +1,6 @@
 package no.nav.tpregisteret.controller
 
+import no.nav.security.token.support.core.api.Protected
 import no.nav.tpregisteret.domain.dto.YtelseDto
 import no.nav.tpregisteret.exceptions.YtelseIkkeFunnet
 import no.nav.tpregisteret.service.YtelseService
@@ -29,6 +30,7 @@ class YtelseController(private val ytelseService: YtelseService) {
         if (ytelse !in listOf(TODO())) throw YtelseIkkeFunnet()
     }
 
+    @Protected
     @GetMapping
     fun hentYtelseMedId(@RequestHeader("ytelseId") id: Long) = YtelseDto(ytelseService.getYtelseById(id))
 

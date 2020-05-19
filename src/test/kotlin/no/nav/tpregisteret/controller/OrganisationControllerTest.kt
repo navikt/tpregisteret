@@ -23,7 +23,7 @@ class OrganisationControllerTest {
 
     private companion object : Tokenizer {
         const val root = "/organisation"
-        const val orgNrUrl = "$root/orgNr"
+        const val orgNrUrl = "$root/orgnr"
         const val navnUrl = "$root/navn"
     }
 
@@ -74,7 +74,7 @@ class OrganisationControllerTest {
         mockMvc.perform(
                 get(orgNrUrl)
                         .header(auth, bearer)
-                        .header("tssid", TP_ORDNING_1.tssId))
+                        .header("tssId", TP_ORDNING_1.tssId))
                 .andExpect(status().isOk)
                 .andExpect(content().string(TP_ORDNING_1.orgNr))
     }
@@ -84,7 +84,7 @@ class OrganisationControllerTest {
         mockMvc.perform(
                 get(orgNrUrl)
                         .header(auth, bearer)
-                        .header("tssid", "12345678910"))
+                        .header("tssId", "12345678910"))
                 .andExpect(status().isNotFound)
     }
 
