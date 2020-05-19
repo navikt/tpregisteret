@@ -34,5 +34,5 @@ class YtelseController(private val ytelseService: YtelseService) {
 
     @PostMapping("/tjenestepensjon")
     @ResponseStatus(CREATED)
-    fun lagreTjenestepensjonYtelse(@RequestHeader("tpnr") tpnr: String, @RequestBody ytelse: YtelseDto) = URI(TODO())
+    fun lagreTjenestepensjonYtelse(@RequestHeader("tpId") tpId: String, @RequestBody ytelse: YtelseDto) = URI(TODO())
 }

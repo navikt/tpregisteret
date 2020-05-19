@@ -69,7 +69,7 @@ class PersonControllerTest {
         mockMvc.perform(
                 get(forholdUrl)
                         .header("fnr", PERSON_1.fnr)
-                        .header("tpId", TP_ORDNING_1.tpNr)
+                        .header("tpId", TP_ORDNING_1.tpId)
         ).andExpect(status().isNotFound)
     }
 
@@ -78,7 +78,7 @@ class PersonControllerTest {
         mockMvc.perform(
                 get(forholdUrl)
                         .header("fnr", PERSON_3.fnr)
-                        .header("tpId", PERSON_3.tpForhold.first().tpNr)
+                        .header("tpId", PERSON_3.tpForhold.first().tpId)
         )
                 .andExpect(status().isOk)
     }
@@ -88,7 +88,7 @@ class PersonControllerTest {
         mockMvc.perform(
                 get(ytelserUrl)
                         .header("fnr", PERSON_2.fnr)
-                        .header("tpId", PERSON_7.tpForhold.first().tpNr)
+                        .header("tpId", PERSON_7.tpForhold.first().tpId)
         )
                 .andExpect(status().isNotFound)
     }
@@ -98,7 +98,7 @@ class PersonControllerTest {
         mockMvc.perform(
                 get(ytelserUrl)
                         .header("fnr", PERSON_5.fnr)
-                        .header("tpId", PERSON_5.tpForhold.first().tpNr)
+                        .header("tpId", PERSON_5.tpForhold.first().tpId)
         )
                 .andExpect(status().isOk)
                 .andExpect(
@@ -111,7 +111,7 @@ class PersonControllerTest {
         mockMvc.perform(
                 get(ytelserUrl)
                         .header("fnr", PERSON_3.fnr)
-                        .header("tpId", PERSON_3.tpForhold.first().tpNr)
+                        .header("tpId", PERSON_3.tpForhold.first().tpId)
         )
                 .andExpect(status().isOk)
                 .andExpect(content().json(TestYtelse.getJson(PERSON_3, PERSON_3.tpForhold.first())))

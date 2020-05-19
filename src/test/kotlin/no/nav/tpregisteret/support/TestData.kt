@@ -7,7 +7,7 @@ import java.time.LocalDate
 object TestData{
     private val testDate = LocalDate.of(2001,1,1)
 
-    class TestYtelse(val id: Long, val person: TestPerson, val datoFom: LocalDate, val datoTom: LocalDate?, val tpOrdning: TestTpOrdning){
+    class TestYtelse(val id: Long, val person: TestPerson, val type: String, val datoFom: LocalDate, val datoTom: LocalDate?, val tpOrdning: TestTpOrdning){
         companion object {
             val map = mutableMapOf<Pair<TestPerson, TestTpOrdning>, MutableList<TestYtelse>>()
             fun getJson(person: TestPerson, tpOrdning: TestTpOrdning)
@@ -17,7 +17,7 @@ object TestData{
         init {
             map.getOrPut(person to tpOrdning) { mutableListOf() } += this
         }
-        val json = """{"id":$id,"fnr":"${person.fnr}","datoFom":"$datoFom","datoTom":${datoTom?.let{"\"$it\""}}}"""
+        val json = """{"id":$id,"fnr":"${person.fnr}","type":"$type","datoFom":"$datoFom","datoTom":${datoTom?.let{"\"$it\""}}}"""
     }
     class TestOrganisation(val orgNr: String, vararg val tpOrdninger: TestTpOrdning){
         val json = tpOrdninger.joinToString("\",\"", "[\"", "\"]", transform = TestTpOrdning::navn)
@@ -25,10 +25,9 @@ object TestData{
     class TestPerson(val fnr: String, vararg val tpForhold: TestTpOrdning){
         val json = tpForhold.joinToString(",","[","]", transform = TestTpOrdning::json)
     }
-    class TestTpOrdning(val tssId: String, val tpNr: String, val orgNr: String, val navn: String) {
-        val json = """{"id":"$tssId","tpNr":"$tpNr","orgNr":"$orgNr","navn":"$navn"}"""
+    class TestTpOrdning(val tssId: String, val tpId: String, val orgNr: String, val navn: String) {
+        val json = """{"tssId":"$tssId","tpId":"$tpId","orgNr":"$orgNr","navn":"$navn"}"""
     }
-    const val YTELSE_DTO_FOR_TEST_PERSON3_AND_TP_ORDNING_1 = """[{"id":1,"fnr":"00000000003","datoFom":"2001-01-01","datoTom":null},{"id":2,"fnr":"00000000003","datoFom":"2001-01-01","datoTom":null}]"""
 
 
     val TP_ORDNING_1 = TestTpOrdning("11111111111", "1111", "000000000", "TP1")
@@ -49,7 +48,7 @@ object TestData{
     val ORG_1 = TestOrganisation("000000000", TP_ORDNING_1, TP_ORDNING_2, TP_ORDNING_3)
     val ORG_2 = TestOrganisation("111111111", TP_ORDNING_4)
 
-    val YTELSE_1 = TestYtelse(1, PERSON_3, testDate, null, TP_ORDNING_1)
-    val YTELSE_2 = TestYtelse(2, PERSON_3, testDate, null, TP_ORDNING_1)
-    val YTELSE_3 = TestYtelse(3, PERSON_2, testDate, null, TP_ORDNING_1)
+    val YTELSE_1 = TestYtelse(1, PERSON_3, "AFP", testDate,null, TP_ORDNING_1)
+    val YTELSE_2 = TestYtelse(2, PERSON_3, "UFORE", testDate,null, TP_ORDNING_1)
+    val YTELSE_3 = TestYtelse(3, PERSON_2, "BARN", testDate, null, TP_ORDNING_1)
 }

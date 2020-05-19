@@ -7,7 +7,7 @@ import java.time.LocalDate
 data class ForholdDto(
         val id: Long,
         val fnr: String,
-        val tpnr: String,
+        val tpId: String,
         val ytelser: List<Long>,
         val datoFom: LocalDate,
         val datoTom: LocalDate?
@@ -15,7 +15,7 @@ data class ForholdDto(
     constructor(forhold: Forhold) : this(
             forhold.id,
             forhold.person.fnr,
-            forhold.tpOrdning.tpNr,
+            forhold.tpOrdning.tpId,
             forhold.ytelser.map(Ytelse::id),
             forhold.datoFom,
             forhold.datoTom

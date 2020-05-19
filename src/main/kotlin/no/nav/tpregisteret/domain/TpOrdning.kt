@@ -10,10 +10,10 @@ import javax.persistence.Table
 class TpOrdning {
     @Column(name = "TSS_ID")
     @Id
-    lateinit var id: String
+    lateinit var tssId: String
 
     @Column(name = "TP_ID")
-    lateinit var tpNr: String
+    lateinit var tpId: String
 
     @Column(name = "ORGNR")
     lateinit var orgNr: String

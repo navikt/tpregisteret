@@ -30,7 +30,7 @@ class ForholdController {
 
     @PostMapping("/tjenestepensjon")
     @ResponseStatus(CREATED)
-    fun lagreTjenestepensjonForhold(@RequestHeader("tpnr") tpnr: String, @RequestBody forhold: Forhold) {
+    fun lagreTjenestepensjonForhold(@RequestHeader("tpId") tpId: String, @RequestBody forhold: Forhold) {
         TODO()
     }
 }
