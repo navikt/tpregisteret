@@ -19,6 +19,11 @@ class NaisControllerTest {
     private lateinit var mockMvc: MockMvc
 
     @Test
+    fun `Root returns 404`() {
+        mockMvc.perform(get("/")).andExpect(status().isNotFound)
+    }
+
+    @Test
     fun `isAlive OK`() {
         mockMvc.perform(get("/isAlive")).andExpect(status().isOk)
     }

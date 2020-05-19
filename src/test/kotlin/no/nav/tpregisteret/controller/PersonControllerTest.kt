@@ -8,6 +8,7 @@ import no.nav.tpregisteret.support.TestData.PERSON_5
 import no.nav.tpregisteret.support.TestData.PERSON_7
 import no.nav.tpregisteret.support.TestData.TP_ORDNING_1
 import no.nav.tpregisteret.support.TestData.TestYtelse
+import no.nav.tpregisteret.support.Tokenizer
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa
@@ -22,61 +23,64 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @ImportTpregisteretBeans
 class PersonControllerTest {
 
-    private val root = "/person/"
-    private val tpordningerUrl = root+"tpordninger"
-    private val ytelserUrl = root+"ytelser"
-    private val forholdUrl = root+"forhold"
+    private companion object : Tokenizer {
+        const val root = "/person"
+        const val tpordningerUrl = "$root/tpordninger"
+        const val ytelserUrl = "$root/ytelser"
+        const val forholdUrl = "$root/forhold"
+    }
 
     @Autowired
     private lateinit var mockMvc: MockMvc
 
     @Test
-    fun `TpOrdninger returns 200 and empty result`() {
-        mockMvc.perform(get(tpordningerUrl).header("fnr", PERSON_1.fnr))
+    fun `TpOrdninger returns 200 on empty result`() {
+        mockMvc.perform(get(tpordningerUrl)
+                .header(auth, bearer)
+                .header("fnr", PERSON_1.fnr))
                 .andExpect(status().isOk)
                 .andExpect(content().json(PERSON_1.json))
     }
 
     @Test
-    fun `TpOrdninger returns 200 and correct single result`() {
-        mockMvc.perform(get(tpordningerUrl).header("fnr", PERSON_2.fnr))
+    fun `TpOrdninger returns 200 on single result`() {
+        mockMvc.perform(get(tpordningerUrl)
+                .header(auth, bearer)
+                .header("fnr", PERSON_2.fnr))
                 .andExpect(status().isOk)
                 .andExpect(
                         content().json(PERSON_2.json))
     }
 
     @Test
-    fun `TpOrdninger returns 200 with correct results`() {
-        mockMvc.perform(get(tpordningerUrl).header("fnr", PERSON_3.fnr))
+    fun `TpOrdninger returns 200 on multiple results`() {
+        mockMvc.perform(get(tpordningerUrl)
+                .header(auth, bearer)
+                .header("fnr", PERSON_3.fnr))
                 .andExpect(status().isOk)
                 .andExpect(content().json(PERSON_3.json))
     }
 
     @Test
-    fun `TpOrdninger returns 404 when missing person`() {
-        mockMvc.perform(get(tpordningerUrl).header("fnr", "12345678910"))
+    fun `TpOrdninger returns 404 on invalid fnr`() {
+        mockMvc.perform(get(tpordningerUrl)
+                .header(auth, bearer)
+                .header("fnr", "12345678910"))
                 .andExpect(status().isNotFound)
     }
 
     @Test
-    fun `Root returns 404`() {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isNotFound)
+    fun `TpOrdninger returns 401 on missing token`() {
+        mockMvc.perform(get(tpordningerUrl)
+                .header("fnr", PERSON_1.fnr))
+                .andExpect(status().isUnauthorized)
     }
 
     @Test
-    fun `Forhold returns 404 when not found`() {
+    fun `Forhold returns 200 on valid forhold`() {
         mockMvc.perform(
                 get(forholdUrl)
-                        .header("fnr", PERSON_1.fnr)
-                        .header("tpId", TP_ORDNING_1.tpId)
-        ).andExpect(status().isNotFound)
-    }
-
-    @Test
-    fun `Forhold returns 200 with correct result`() {
-        mockMvc.perform(
-                get(forholdUrl)
+                        .header(auth, bearer)
                         .header("fnr", PERSON_3.fnr)
                         .header("tpId", PERSON_3.tpForhold.first().tpId)
         )
@@ -84,19 +88,20 @@ class PersonControllerTest {
     }
 
     @Test
-    fun `Ytelser returns 404 for invalid person-ordning combination`() {
+    fun `Forhold returns 404 on invalid forhold`() {
         mockMvc.perform(
-                get(ytelserUrl)
-                        .header("fnr", PERSON_2.fnr)
-                        .header("tpId", PERSON_7.tpForhold.first().tpId)
-        )
-                .andExpect(status().isNotFound)
+                get(forholdUrl)
+                        .header(auth, bearer)
+                        .header("fnr", PERSON_1.fnr)
+                        .header("tpId", TP_ORDNING_1.tpId)
+        ).andExpect(status().isNotFound)
     }
 
     @Test
-    fun `Ytelser returns 200 with empty result`() {
+    fun `Ytelser returns 200 on empty result`() {
         mockMvc.perform(
                 get(ytelserUrl)
+                        .header(auth, bearer)
                         .header("fnr", PERSON_5.fnr)
                         .header("tpId", PERSON_5.tpForhold.first().tpId)
         )
@@ -107,13 +112,25 @@ class PersonControllerTest {
     }
 
     @Test
-    fun `Ytelser returns 200 with correct results`() {
+    fun `Ytelser returns 200 on correct results`() {
         mockMvc.perform(
                 get(ytelserUrl)
+                        .header(auth, bearer)
                         .header("fnr", PERSON_3.fnr)
                         .header("tpId", PERSON_3.tpForhold.first().tpId)
         )
                 .andExpect(status().isOk)
                 .andExpect(content().json(TestYtelse.getJson(PERSON_3, PERSON_3.tpForhold.first())))
+    }
+
+    @Test
+    fun `Ytelser returns 404 on invalid ordning for person`() {
+        mockMvc.perform(
+                get(ytelserUrl)
+                        .header(auth, bearer)
+                        .header("fnr", PERSON_2.fnr)
+                        .header("tpId", PERSON_7.tpForhold.first().tpId)
+        )
+                .andExpect(status().isNotFound)
     }
 }

@@ -2,6 +2,7 @@ package no.nav.tpregisteret.controller
 
 import no.nav.tpregisteret.support.ImportTpregisteretBeans
 import no.nav.tpregisteret.support.TestData.YTELSE_1
+import no.nav.tpregisteret.support.Tokenizer
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa
@@ -16,19 +17,34 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @ImportTpregisteretBeans
 internal class YtelseControllerTest {
 
+    private companion object : Tokenizer {
+        const val root = "/ytelse"
+    }
+
     @Autowired
     private lateinit var mockMvc: MockMvc
 
     @Test
-    fun `Ytelser returns 200 and empty result`() {
-        mockMvc.perform(get("/ytelse").header("ytelseId", YTELSE_1.id))
+    fun `Ytelser returns 200 on valid ytelseId`() {
+        mockMvc.perform(get(root)
+                .header(auth, bearer)
+                .header("ytelseId", YTELSE_1.id))
                 .andExpect(status().isOk)
                 .andExpect(content().json(YTELSE_1.json))
     }
 
     @Test
-    fun `Ytelser returns 404 and empty result`() {
-        mockMvc.perform(get("/ytelse").header("ytelseId", "123123123"))
+    fun `Ytelser returns 404 on invalid ytelseId`() {
+        mockMvc.perform(get(root)
+                .header(auth, bearer)
+                .header("ytelseId", "123123123"))
                 .andExpect(status().isNotFound)
+    }
+
+    @Test
+    fun `Ytelser returns 401 on missing token`() {
+        mockMvc.perform(get(root)
+                .header("ytelseId", YTELSE_1.id))
+                .andExpect(status().isUnauthorized)
     }
 }
