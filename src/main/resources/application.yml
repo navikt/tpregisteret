@@ -8,3 +8,9 @@ management:
 no.nav.security.jwt:
         issuer:
           maskinporten:
+
+logging:
+  level:
+    no:
+      nav:
+        peproxy: INFO
