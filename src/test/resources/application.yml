@@ -23,4 +23,3 @@ no.nav.security.jwt:
   issuer.iss-localhost:
     discoveryUrl: http://localhost/local/metadata
     accepted_audience: aud-localhost
-    cookie_name: localhost-idtoken
