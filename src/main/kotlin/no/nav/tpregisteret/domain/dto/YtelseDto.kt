@@ -8,13 +8,15 @@ data class YtelseDto(
         val fnr: String,
         val type: String,
         val datoFom: LocalDate,
-        val datoTom: LocalDate?
+        val datoTom: LocalDate?,
+        val medlemskapDatoFom: LocalDate?
 ) {
     constructor(ytelse: Ytelse) : this(
             ytelse.id,
             ytelse.forhold.person.fnr,
             ytelse.type,
             ytelse.datoFom,
-            ytelse.datoTom
+            ytelse.datoTom,
+            ytelse.medlemskapDatoFom
     )
 }
