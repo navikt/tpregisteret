@@ -26,4 +26,7 @@ class Ytelse {
 
     @Column(name = "DATO_BRUK_TOM")
     var datoTom: LocalDate? = null
+
+    @Column(name = "DATO_INNM_YTEL_FOM")
+    var medlemskapDatoFom: LocalDate? = null
 }
