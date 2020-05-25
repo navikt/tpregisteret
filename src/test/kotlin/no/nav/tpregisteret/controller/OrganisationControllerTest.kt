@@ -53,8 +53,8 @@ class OrganisationControllerTest {
     @Test
     fun `OrgNr returns 200 on valid TSS ID`() {
         mockMvc.perform(
-                get("/organisation/orgNr/")
-                        .header("tssid", TP_ORDNING_1.tssId))
+                get("/organisation/orgnr/")
+                        .header("tssId", TP_ORDNING_1.tssId))
                 .andExpect(status().isOk)
                 .andExpect(content().string(TP_ORDNING_1.orgNr))
     }
@@ -62,8 +62,8 @@ class OrganisationControllerTest {
     @Test
     fun `OrgNr returns 404 on invalid TSS ID`() {
         mockMvc.perform(
-                get("/organisation/orgNr/")
-                        .header("tssid", "12345678910"))
+                get("/organisation/orgnr/")
+                        .header("tssId", "12345678910"))
                 .andExpect(status().isNotFound)
     }
 
