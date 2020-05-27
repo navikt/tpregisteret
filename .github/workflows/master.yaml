@@ -47,12 +47,12 @@ jobs:
           IMAGE: ${{ env.IMAGE }}
           TEAM: pensjonsamhandling
 
-#       # Deploy to prod-fss
-#       - name: Deploy to prod-fss
-#         uses: nais/deploy/actions/deploy@v1
-#         env:
-#           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-#           CLUSTER: prod-fss
-#           RESOURCE: nais-prod.yaml
-#           IMAGE: ${{ env.IMAGE }}
-#           TEAM: pensjonsamhandling
+      # Deploy to prod-fss
+      - name: Deploy to prod-fss
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: prod-fss
+          RESOURCE: nais-prod.yaml
+          IMAGE: ${{ env.IMAGE }}
+          TEAM: pensjonsamhandling
