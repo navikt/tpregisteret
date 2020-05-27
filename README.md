@@ -11,4 +11,4 @@ Se [tpregisteret grafana dasboard](https://grafana.adeo.no/d/UwJ5BTliz/tpregiste
 #### Bygging
 Jenkins benyttes til bygging. Status på bygg finner du her: [tpregisteret jenkins](https://jenkins-peon.adeo.no/job/tpregisteret/)
 
-Kontakt Team Peon dersom du har noen spørsmål. Vi finnes blant annet på Slack, i kanalen [#peon](https://nav-it.slack.com/messages/C6M80587R/)
+Kontakt Team Samhandling dersom du har noen spørsmål. Vi finnes blant annet på Slack, i kanalen [#samhandling_pensjonsområdet](https://nav-it.slack.com/archives/CQ08JC3UG)
