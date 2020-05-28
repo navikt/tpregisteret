@@ -6,7 +6,7 @@ object TestData{
     private val testDate = LocalDate.of(2001,1,1)
     private val testDate2 = LocalDate.of(1900,1,1)
 
-    class TestYtelse(val id: Long, val person: TestPerson, val type: String, val datoFom: LocalDate, val datoTom: LocalDate?, val medlemskapDatoFom: LocalDate?, val tpOrdning: TestTpOrdning){
+    class TestYtelse(val id: Long, val person: TestPerson, val type: String, val datoFom: LocalDate, val datoTom: LocalDate?, val datoOpprettet: LocalDate?, val tpOrdning: TestTpOrdning){
         companion object {
             val map = mutableMapOf<Pair<TestPerson, TestTpOrdning>, MutableList<TestYtelse>>()
             fun getJson(person: TestPerson, tpOrdning: TestTpOrdning)
@@ -16,7 +16,7 @@ object TestData{
         init {
             map.getOrPut(person to tpOrdning) { mutableListOf() } += this
         }
-        val json = """{"id":$id,"fnr":"${person.fnr}","type":"$type","datoFom":"$datoFom","datoTom":${datoTom?.let{"\"$it\""}},"medlemskapDatoFom":${medlemskapDatoFom?.let{"\"$it\""}}}"""
+        val json = """{"id":$id,"fnr":"${person.fnr}","type":"$type","datoFom":"$datoFom","datoTom":${datoTom?.let{"\"$it\""}},"datoOpprettet":${datoOpprettet?.let{"\"$it\""}}}""".trimMargin()
     }
     class TestOrganisation(val orgNr: String, vararg val tpOrdninger: TestTpOrdning){
         val json = tpOrdninger.joinToString("\",\"", "[\"", "\"]", transform = TestTpOrdning::navn)
@@ -47,7 +47,7 @@ object TestData{
     val ORG_1 = TestOrganisation("000000000", TP_ORDNING_1, TP_ORDNING_2, TP_ORDNING_3)
     val ORG_2 = TestOrganisation("111111111", TP_ORDNING_4)
 
-    val YTELSE_1 = TestYtelse(1, PERSON_3, "AFP", testDate,null, testDate2, TP_ORDNING_1)
-    val YTELSE_2 = TestYtelse(2, PERSON_3, "UFORE", testDate,null, testDate2, TP_ORDNING_1)
-    val YTELSE_3 = TestYtelse(3, PERSON_2, "BARN", testDate, null, testDate2, TP_ORDNING_1)
+    val YTELSE_1 = TestYtelse(1, PERSON_3, "AFP", testDate,null, testDate, TP_ORDNING_1)
+    val YTELSE_2 = TestYtelse(2, PERSON_3, "UFORE", testDate,null, testDate, TP_ORDNING_1)
+    val YTELSE_3 = TestYtelse(3, PERSON_2, "BARN", testDate, null, testDate, TP_ORDNING_1)
 }
