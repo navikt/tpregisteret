@@ -9,6 +9,6 @@ Se [tpregisteret grafana dasboard](https://grafana.adeo.no/d/UwJ5BTliz/tpregiste
 [Kibana](https://logs.adeo.no/app/kibana) benyttes til logging. Søk på f.eks. ```application:tpregisteret AND environment:q``` for logginnslag fra preprod.
 
 #### Bygging
-Jenkins benyttes til bygging. Status på bygg finner du her: [tpregisteret jenkins](https://jenkins-peon.adeo.no/job/tpregisteret/)
+GitHub Actions benyttes til bygging.
 
 Kontakt Team Samhandling dersom du har noen spørsmål. Vi finnes blant annet på Slack, i kanalen [#samhandling_pensjonsområdet](https://nav-it.slack.com/archives/CQ08JC3UG)
