@@ -32,12 +32,12 @@ class ExceptionHandler {
 
 
     @ExceptionHandler(EmptyResultDataAccessException::class)
-    fun emptyResultFromRepository(e : EmptyResultDataAccessException)
-            = ResponseEntity.notFound().build<Nothing?>()
+    fun emptyResultFromRepository(e : EmptyResultDataAccessException): ResponseEntity<Nothing?>
+            = ResponseEntity.notFound().build()
 
     @ExceptionHandler(ResursIkkeFunnet::class)
-    fun resursIkkeFunnet(e : ResursIkkeFunnet)
-        = ResponseEntity.notFound().header("resurs", e.resource).build<Nothing?>()
+    fun resursIkkeFunnet(e : ResursIkkeFunnet): ResponseEntity<Nothing?>
+            = ResponseEntity.notFound().header("resurs", e.resource).build()
 
     @ExceptionHandler(NotImplementedError::class)
     @ResponseStatus(NOT_IMPLEMENTED)

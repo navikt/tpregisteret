@@ -1,10 +1,11 @@
+@file:Suppress("CanBeParameter", "MemberVisibilityCanBePrivate", "unused")
+
 package no.nav.tpregisteret.support
 
 import java.time.LocalDate
 
 object TestData{
     private val testDate = LocalDate.of(2001,1,1)
-    private val testDate2 = LocalDate.of(1900,1,1)
 
     class TestYtelse(val id: Long, val person: TestPerson, val type: String, val datoFom: LocalDate, val datoTom: LocalDate?, val datoOpprettet: LocalDate?, val tpOrdning: TestTpOrdning){
         companion object {

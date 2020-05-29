@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
 
+@Suppress("UNREACHABLE_CODE")
 @RestController
 @RequestMapping("/forhold")
 class ForholdController {
@@ -20,11 +21,11 @@ class ForholdController {
     }
 
     @GetMapping
-    fun finnValidForholdMedId(@RequestHeader("TODO") TODO: String) = TODO() as Forhold
+    fun finnValidForholdMedId(@RequestHeader("forholdId") forholdId: String) = TODO() as Forhold
 
     @DeleteMapping
     @ResponseStatus(NO_CONTENT)
-    fun slettForholdCascade(@RequestHeader("TODO") TODO: String) {
+    fun slettForholdCascade(@RequestHeader("forholdId") forholdId: String) {
         TODO()
     }
 

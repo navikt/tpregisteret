@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
 import java.net.URI
 
+@Suppress("UNREACHABLE_CODE")
 @RestController
 @RequestMapping("/simulering")
 class SimuleringController {
@@ -16,8 +17,7 @@ class SimuleringController {
 
     @PatchMapping
     @ResponseStatus(NO_CONTENT)
-    fun lagreEksisterendeSimulering(@RequestBody simulering: SimuleringDto) {
-    }
+    fun lagreEksisterendeSimulering(@RequestBody simulering: SimuleringDto) { TODO() }
 
     @GetMapping
     fun findSimulering(@RequestHeader("fnr") fnr: String) = TODO() as SimuleringDto

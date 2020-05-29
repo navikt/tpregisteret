@@ -1,6 +1,5 @@
 package no.nav.tpregisteret.controller
 
-import no.nav.tpregisteret.domain.Ytelse
 import no.nav.tpregisteret.domain.dto.YtelseDto
 import no.nav.tpregisteret.exceptions.YtelseIkkeFunnet
 import no.nav.tpregisteret.service.YtelseService
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.bind.annotation.RequestMethod.HEAD
 import java.net.URI
 
+@Suppress("UNREACHABLE_CODE")
 @RestController
 @RequestMapping("/ytelse")
 class YtelseController(private val ytelseService: YtelseService) {

@@ -3,6 +3,7 @@ package no.nav.tpregisteret.domain.dto
 import no.nav.tpregisteret.domain.Forhold
 import no.nav.tpregisteret.domain.Person
 
+@Suppress("unused")
 data class PersonDto(
         val id: Long,
         val fnr: String,
