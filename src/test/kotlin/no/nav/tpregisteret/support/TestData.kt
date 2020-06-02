@@ -1,3 +1,5 @@
+@file:Suppress("CanBeParameter", "unused", "MemberVisibilityCanBePrivate")
+
 package no.nav.tpregisteret.support
 
 import java.time.LocalDate

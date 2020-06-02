@@ -16,8 +16,7 @@ class SimuleringController {
 
     @PatchMapping
     @ResponseStatus(NO_CONTENT)
-    fun lagreEksisterendeSimulering(@RequestBody simulering: SimuleringDto) {
-    }
+    fun lagreEksisterendeSimulering(@RequestBody simulering: SimuleringDto) {TODO()}
 
     @GetMapping
     fun findSimulering(@RequestHeader("fnr") fnr: String) = TODO() as SimuleringDto

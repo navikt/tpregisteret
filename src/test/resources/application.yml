@@ -1,11 +1,6 @@
 management:
-  endpoint:
-    prometheus:
-      enabled: true
-  endpoints:
-    web:
-      exposure:
-        include: prometheus, health
+  endpoint.prometheus.enabled: true
+  endpoints.web.exposure.include: prometheus, health
 spring:
   datasource:
     url: jdbc:h2:mem:testdb;Mode=Oracle
@@ -13,9 +8,9 @@ spring:
     continue-on-error: true
   jpa:
     database-platform: org.hibernate.dialect.Oracle10gDialect
-    hibernate:
-      ddl-auto: none
-  profiles:
-    active: test
-orgnr:
-  mapping: 111111111,3333|222222222,1111
+    hibernate.ddl-auto: none
+  profiles.active: test
+orgnr.mapping: 111111111,3333|222222222,1111
+no.nav.security.jwt.issuer.iss-localhost:
+    discoveryUrl: http://localhost/local/metadata
+    accepted_audience: aud-localhost
