@@ -22,18 +22,18 @@ dependencies {
     implementation("org.springframework.boot","spring-boot-starter-data-jpa")
     implementation("org.springframework.boot","spring-boot-starter-actuator")
     implementation("org.springframework.boot","spring-boot-starter-oauth2-resource-server")
-    implementation("org.springframework.security.oauth","spring-security-oauth2","2.3.6.RELEASE")
+    implementation("org.springframework.security.oauth","spring-security-oauth2","2.5.0.RELEASE")
     implementation("com.oracle.ojdbc","ojdbc8","19.3.0.0")
-    implementation("io.micrometer","micrometer-registry-prometheus","1.1.5")
-    implementation("net.logstash.logback","logstash-logback-encoder","6.2")
-    implementation("com.sun.xml.bind","jaxb-impl","2.3.0")
-    implementation("org.glassfish.jaxb","jaxb-runtime","2.3.0")
+    implementation("io.micrometer","micrometer-registry-prometheus","1.5.1")
+    implementation("net.logstash.logback","logstash-logback-encoder","6.4")
+    implementation("com.sun.xml.bind","jaxb-impl","3.0.0-M4")
+    implementation("org.glassfish.jaxb","jaxb-runtime","3.0.0-M4")
     testImplementation(kotlin("test-junit5"))
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
-    testImplementation("com.github.tomakehurst","wiremock","2.23.2")
-    testRuntimeOnly("com.h2database","h2","1.4.199")
+    testImplementation("com.github.tomakehurst","wiremock","2.26.3")
+    testRuntimeOnly("com.h2database","h2","1.4.200")
 }
 
 tasks{
