@@ -27,8 +27,6 @@ dependencies {
     implementation("org.springframework.boot","spring-boot-starter-jdbc")
     implementation("org.springframework.boot","spring-boot-starter-data-jpa")
     implementation("org.springframework.boot","spring-boot-starter-actuator")
-    implementation("org.springframework.boot","spring-boot-starter-oauth2-resource-server")
-    implementation("org.springframework.security.oauth","spring-security-oauth2","2.3.6.RELEASE")
     testImplementation(kotlin("test-junit5"))
     testImplementation("com.github.tomakehurst","wiremock","2.23.2")
     testImplementation("no.nav.security","token-validation-test-support", "1.1.5")

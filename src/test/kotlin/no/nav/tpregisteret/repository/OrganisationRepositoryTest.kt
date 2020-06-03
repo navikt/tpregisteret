@@ -1,9 +1,9 @@
 package no.nav.tpregisteret.repository
 
 import no.nav.tpregisteret.domain.TpOrdning
-import no.nav.tpregisteret.support.TestData.TestTpOrdning
 import no.nav.tpregisteret.support.TestData.ORG_1
 import no.nav.tpregisteret.support.TestData.ORG_2
+import no.nav.tpregisteret.support.TestData.TestTpOrdning
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

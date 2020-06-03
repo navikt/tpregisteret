@@ -2,17 +2,7 @@ package no.nav.tpregisteret.configuration
 
 import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 
 @Configuration
-@EnableWebSecurity
 @EnableJwtTokenValidation
-class SecurityConfig : WebSecurityConfigurerAdapter(){
-    override fun configure(http: HttpSecurity) {
-        http.authorizeRequests()
-                .anyRequest()
-                .permitAll()
-    }
-}
+class SecurityConfig
