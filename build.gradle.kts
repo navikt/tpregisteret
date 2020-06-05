@@ -21,7 +21,7 @@ dependencies {
     implementation("com.sun.xml.bind","jaxb-impl","2.3.0")
     implementation("io.micrometer","micrometer-registry-prometheus","1.1.5")
     implementation("net.logstash.logback","logstash-logback-encoder","6.2")
-    implementation("no.nav.security","token-validation-spring", "1.1.5")
+    implementation("no.nav.security","token-validation-spring", "1.1.6")
     implementation("org.glassfish.jaxb","jaxb-runtime","2.3.0")
     implementation("org.springframework.boot","spring-boot-starter-web")
     implementation("org.springframework.boot","spring-boot-starter-jdbc")
@@ -31,7 +31,7 @@ dependencies {
     implementation("org.springframework.security.oauth","spring-security-oauth2","2.3.6.RELEASE")
     testImplementation(kotlin("test-junit5"))
     testImplementation("com.github.tomakehurst","wiremock","2.23.2")
-    testImplementation("no.nav.security","token-validation-test-support", "1.1.5")
+    testImplementation("no.nav.security","token-validation-test-support", "1.1.6")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
