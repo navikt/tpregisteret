@@ -27,7 +27,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
           repository: navikt/tpregisteret
-          tag_with_sha: true
+          tags: latest
 
       # Deploy to dev-fss
       - name: Deploy to dev-fss
@@ -36,7 +36,7 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-fss
           RESOURCE: nais-dev.yaml
-          IMAGE: docker.pkg.github.com/navikt/tpregisteret:sha-${GITHUB_SHA::7}
+          IMAGE: docker.pkg.github.com/navikt/tpregisteret:latest
           TEAM: pensjonsamhandling
 
 #       # Deploy to prod-fss
