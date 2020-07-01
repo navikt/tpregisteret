@@ -19,6 +19,7 @@ dependencies {
     implementation(kotlin("reflect"))
     implementation("com.oracle.ojdbc","ojdbc8","19.3.0.0")
     implementation("io.micrometer","micrometer-registry-prometheus","1.1.5")
+    implementation("net.logstash.logback","logstash-logback-encoder","6.2")
     implementation("no.nav.security","token-validation-spring", "1.2.0")
     implementation("org.springframework.boot","spring-boot-starter-web")
     implementation("org.springframework.boot","spring-boot-starter-jdbc")
