@@ -13,21 +13,12 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/organisation")
 class OrganisationController(private val organisationService: OrganisationService) {
 
-    companion object {
-        val LOG: Logger = LoggerFactory.getLogger(OrganisationController::class.java)
-        private val regex = Regex("""\d{9},\d{4}""")
-    }
-
-    @Value("\${orgnr.mapping}")
-    lateinit var orgNrMapping: String
-
     @GetMapping
     @ResponseStatus(NO_CONTENT)
     fun getTpOrdningerForPerson(
             @RequestHeader("orgNr") orgNr: String,
             @RequestHeader("tpId") tpId: String
-    ) = if (validVaultOrgnrMapping(orgNr, tpId)) handleValidMapping(orgNr, tpId)
-    else organisationService.hasTpIdInOrg(orgNr, tpId)
+    ) = organisationService.hasTpIdInOrg(orgNr, tpId)
 
     @GetMapping("/orgnr")
     fun getOrganisationByTSSId(
@@ -38,16 +29,4 @@ class OrganisationController(private val organisationService: OrganisationServic
     fun getOrganisationName(
             @RequestHeader("orgNr") orgNr: String
     ) = organisationService.getNameByOrgNr(orgNr)
-
-    private fun validVaultOrgnrMapping(orgNr: String, tpId: String): Boolean {
-        LOG.info("Validate orgNr/tpId:$orgNr,$tpId")
-        return orgNrMapping.split('|')
-                .mapNotNull { regex.find(it)?.value }
-                .onEach { LOG.info("Vault mapping: $it") }
-                .any("$orgNr,$tpId"::equals)
-    }
-
-    private fun handleValidMapping(orgNr: String, tpId: String) {
-        LOG.info("Valid vault mapping: orgNr $orgNr for tpId $tpId")
-    }
 }

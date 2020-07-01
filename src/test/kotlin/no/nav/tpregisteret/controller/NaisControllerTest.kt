@@ -7,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.get
 
 @WebMvcTest
 @AutoConfigureDataJpa
@@ -20,22 +19,22 @@ class NaisControllerTest {
 
     @Test
     fun `Root returns 404`() {
-        mockMvc.perform(get("/")).andExpect(status().isNotFound)
+        mockMvc.get("/").andExpect { status { isNotFound } }
     }
 
     @Test
     fun `isAlive OK`() {
-        mockMvc.perform(get("/isAlive")).andExpect(status().isOk)
+        mockMvc.get("/isAlive").andExpect { status { isOk } }
     }
 
     @Test
     fun `isReady OK`() {
-        mockMvc.perform(get("/isReady")).andExpect(status().isOk)
+        mockMvc.get("/isReady").andExpect { status { isOk } }
     }
 
     @Test
     @Disabled("Actuator ties to separate application during test. Not accessible through MockMvc.")
     fun `Prometheus OK`() {
-        mockMvc.perform(get("/actuator/prometheus")).andExpect(status().isOk)
+        mockMvc.get("/actuator/prometheus").andExpect { status { isOk } }
     }
 }

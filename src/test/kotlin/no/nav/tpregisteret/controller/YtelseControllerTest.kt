@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.get
 
 @WebMvcTest
 @AutoConfigureDataJpa
@@ -26,25 +24,37 @@ internal class YtelseControllerTest {
 
     @Test
     fun `Ytelser returns 200 on valid ytelseId`() {
-        mockMvc.perform(get(root)
-                .header(auth, bearer)
-                .header("ytelseId", YTELSE_1.id))
-                .andExpect(status().isOk)
-                .andExpect(content().json(YTELSE_1.json))
+        mockMvc.get(root) {
+            headers {
+                this[auth] = bearer
+                this["ytelseId"] = YTELSE_1.id.toString()
+            }
+        }.andExpect {
+            status { isOk }
+            content { json(YTELSE_1.json) }
+        }
     }
 
     @Test
     fun `Ytelser returns 404 on invalid ytelseId`() {
-        mockMvc.perform(get(root)
-                .header(auth, bearer)
-                .header("ytelseId", "123123123"))
-                .andExpect(status().isNotFound)
+        mockMvc.get(root) {
+            headers {
+                this[auth] = bearer
+                this["ytelseId"] = "123123123"
+            }
+        }.andExpect {
+            status { isNotFound }
+        }
     }
 
     @Test
     fun `Ytelser returns 401 on missing token`() {
-        mockMvc.perform(get(root)
-                .header("ytelseId", YTELSE_1.id))
-                .andExpect(status().isUnauthorized)
+        mockMvc.get(root) {
+            headers {
+                this["ytelseId"] = YTELSE_1.id.toString()
+            }
+        }.andExpect {
+            status { isUnauthorized }
+        }
     }
 }

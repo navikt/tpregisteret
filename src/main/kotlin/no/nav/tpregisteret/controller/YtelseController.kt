@@ -16,25 +16,36 @@ class YtelseController(private val ytelseService: YtelseService) {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    fun lagreNyYtelse(@RequestBody ytelse: YtelseDto) = URI(TODO())
+    fun lagreNyYtelse(
+            @RequestBody ytelse: YtelseDto
+    ) = URI(TODO())
 
     @PatchMapping
     @ResponseStatus(NO_CONTENT)
-    fun lagreExistingYtelse(@RequestBody ytelse: YtelseDto) {
+    fun lagreExistingYtelse(
+            @RequestBody ytelse: YtelseDto
+    ) {
         TODO()
     }
 
     @RequestMapping(method = [HEAD])
     @ResponseStatus(NO_CONTENT)
-    fun validateIdenticalYtelse(@RequestHeader("ytelse") ytelse: YtelseDto) {
+    fun validateIdenticalYtelse(
+            @RequestHeader("ytelse") ytelse: YtelseDto
+    ) {
         if (ytelse !in listOf(TODO())) throw YtelseIkkeFunnet()
     }
 
     @Protected
     @GetMapping
-    fun hentYtelseMedId(@RequestHeader("ytelseId") id: Long) = YtelseDto(ytelseService.getYtelseById(id))
+    fun hentYtelseMedId(
+            @RequestHeader("ytelseId") id: Long
+    ) = YtelseDto(ytelseService.getYtelseById(id))
 
     @PostMapping("/tjenestepensjon")
     @ResponseStatus(CREATED)
-    fun lagreTjenestepensjonYtelse(@RequestHeader("tpId") tpId: String, @RequestBody ytelse: YtelseDto) = URI(TODO())
+    fun lagreTjenestepensjonYtelse(
+            @RequestHeader("tpId") tpId: String,
+            @RequestBody ytelse: YtelseDto
+    ) = URI(TODO())
 }

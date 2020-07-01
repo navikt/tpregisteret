@@ -12,16 +12,27 @@ class SimuleringController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    fun lagreNySimulering(@RequestBody simulering: SimuleringDto) = URI(TODO())
+    fun lagreNySimulering(
+            @RequestBody simulering: SimuleringDto
+    ) = URI(TODO())
 
     @PatchMapping
     @ResponseStatus(NO_CONTENT)
-    fun lagreEksisterendeSimulering(@RequestBody simulering: SimuleringDto) {TODO()}
+    fun lagreEksisterendeSimulering(
+            @RequestBody simulering: SimuleringDto
+    ) {
+        TODO()
+    }
 
     @GetMapping
-    fun findSimulering(@RequestHeader("fnr") fnr: String) = TODO() as SimuleringDto
+    fun findSimulering(
+            @RequestHeader("fnr") fnr: String
+    ) = TODO() as SimuleringDto
 
     @PostMapping("/tjenestepensjon")
     @ResponseStatus(CREATED)
-    fun lagreTjenestepensjonSimulering(@RequestHeader("tpId") tpId: String, @RequestBody simulering: SimuleringDto) = URI(TODO())
+    fun lagreTjenestepensjonSimulering(
+            @RequestHeader("tpId") tpId: String,
+            @RequestBody simulering: SimuleringDto
+    ) = URI(TODO())
 }

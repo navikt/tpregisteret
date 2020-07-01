@@ -17,8 +17,9 @@ class PersonController(
 
     @Protected
     @GetMapping("/tpordninger")
-    fun getTpOrdningerForPerson(@RequestHeader("fnr") fnr: String): List<TpOrdningDto> =
-            personService.getTpOrdningerForPerson(fnr).map(::TpOrdningDto)
+    fun getTpOrdningerForPerson(
+            @RequestHeader("fnr") fnr: String
+    ) = personService.getTpOrdningerForPerson(fnr).map(::TpOrdningDto)
 
     @Protected
     @GetMapping("/forhold")
@@ -36,13 +37,17 @@ class PersonController(
 
     @DeleteMapping
     @ResponseStatus(NO_CONTENT)
-    fun deletePerson(@RequestHeader("fnr") fnr: String) {
+    fun deletePerson(
+            @RequestHeader("fnr") fnr: String
+    ) {
         TODO()
     }
 
     @PatchMapping
     @ResponseStatus(NO_CONTENT)
-    fun updatePerson(@RequestBody person: Person) {
+    fun updatePerson(
+            @RequestBody person: Person
+    ) {
         TODO()
     }
 }

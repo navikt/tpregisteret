@@ -4,8 +4,7 @@ import io.prometheus.client.Counter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.dao.EmptyResultDataAccessException
-import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
-import org.springframework.http.HttpStatus.NOT_IMPLEMENTED
+import org.springframework.http.HttpStatus.*
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -19,7 +18,12 @@ class ExceptionHandler {
 
     companion object {
         val LOG: Logger = LoggerFactory.getLogger(ExceptionHandler::class.java)
-        val errorCounter: Counter = Counter.build().help("Interne feil kastet av TP-registeret.").namespace("tpregisteret").name("internal_server_errors_total").labelNames("exception").register()
+        val errorCounter: Counter = Counter.build()
+                .help("Interne feil kastet av TP-registeret.")
+                .namespace("tpregisteret")
+                .name("internal_server_errors_total")
+                .labelNames("exception")
+                .register()
     }
 
     @ExceptionHandler(InternalException::class)
@@ -32,12 +36,12 @@ class ExceptionHandler {
 
 
     @ExceptionHandler(EmptyResultDataAccessException::class)
-    fun emptyResultFromRepository(e : EmptyResultDataAccessException): ResponseEntity<Nothing?>
-            = ResponseEntity.notFound().build<Nothing?>()
+    @ResponseStatus(NOT_FOUND)
+    fun emptyResultFromRepository(e : EmptyResultDataAccessException) {/*No body*/}
 
     @ExceptionHandler(ResursIkkeFunnet::class)
     fun resursIkkeFunnet(e : ResursIkkeFunnet): ResponseEntity<Nothing?>
-        = ResponseEntity.notFound().header("resurs", e.resource).build<Nothing?>()
+        = ResponseEntity.notFound().header("resurs", e.resource).build()
 
     @ExceptionHandler(NotImplementedError::class)
     @ResponseStatus(NOT_IMPLEMENTED)

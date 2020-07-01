@@ -6,6 +6,7 @@ import org.springframework.boot.runApplication
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 
 @EnableJpaRepositories
+@EnableJwtTokenValidation
 @SpringBootApplication(scanBasePackages = ["no.nav.tpregisteret"])
 class TpregisteretApplication {
     companion object {
