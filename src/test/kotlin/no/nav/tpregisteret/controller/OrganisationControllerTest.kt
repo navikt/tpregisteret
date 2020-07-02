@@ -32,7 +32,6 @@ class OrganisationControllerTest {
     fun `Check returns 204 on valid TpNr for OrgNr`() {
         mockMvc.get(root) {
             headers {
-                this[auth] = bearer
                 this["orgNr"] = TP_ORDNING_1.orgNr
                 this["tpId"] = TP_ORDNING_1.tpId
             }
@@ -43,7 +42,6 @@ class OrganisationControllerTest {
     fun `Check returns 204 on valid vault TpNr for OrgNr`() {
         mockMvc.get(root) {
             headers {
-                this[auth] = bearer
                 this["orgNr"] = VAULT_TP_ORDNING_1.orgNr
                 this["tpId"] = VAULT_TP_ORDNING_1.tpId
             }
@@ -54,24 +52,11 @@ class OrganisationControllerTest {
     fun `Check returns 404 on invalid TpNr for OrgNr`() {
         mockMvc.head(root) {
             headers {
-                this[auth] = bearer
                 this["orgNr"] = ORG_1.orgNr
                 this["tpId"] = ORG_2.tpOrdninger.first().tpId
             }
         }.andExpect {
             status { isNotFound }
-        }
-    }
-
-    @Test
-    fun `Check returns 401 on missing token`() {
-        mockMvc.get(root) {
-            headers {
-                this["orgNr"] = TP_ORDNING_1.orgNr
-                this["tpId"] = TP_ORDNING_1.tpId
-            }
-        }.andExpect {
-            status { isUnauthorized }
         }
     }
 
