@@ -21,10 +21,10 @@ class Ytelse {
     @Column(name = "K_YTELSE_T")
     lateinit var type: String
 
-    @Column(name = "DATO_BRUK_FOM")
-    lateinit var datoFom: LocalDate
+    @Column(name = "DATO_YTEL_IVER_FOM")
+    var datoFom: LocalDate? = null
 
-    @Column(name = "DATO_BRUK_TOM")
+    @Column(name = "DATO_YTEL_IVER_TOM")
     var datoTom: LocalDate? = null
 
     @Column(name = "DATO_INNM_YTEL_FOM")

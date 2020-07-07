@@ -7,7 +7,7 @@ data class YtelseDto(
         val id: Long,
         val fnr: String,
         val type: String,
-        val datoFom: LocalDate,
+        val datoFom: LocalDate?,
         val datoTom: LocalDate?,
         val medlemskapDatoFom: LocalDate?
 ) {
