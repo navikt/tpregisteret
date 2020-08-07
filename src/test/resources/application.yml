@@ -14,4 +14,4 @@ orgnr.mapping: 111111111,3333|222222222,1111
 no.nav.security.jwt.issuer.iss-localhost:
     discoveryUrl: http://localhost/local/metadata
     accepted_audience: aud-localhost
-    validation.optional_claims: sub
+    validation.optional_claims: sub,aud
