@@ -17,6 +17,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("reflect"))
+    implementation("com.fasterxml.jackson.module","jackson-module-kotlin","2.11.2")
     implementation("com.oracle.ojdbc","ojdbc8","19.3.0.0")
     implementation("io.micrometer","micrometer-registry-prometheus","1.1.5")
     implementation("net.logstash.logback","logstash-logback-encoder","6.2")
