@@ -17,8 +17,10 @@ spec:
   vault:
     enabled: true
     paths:
-      - mountPath: /secrets/oracle
+      - mountPath: /secrets/oracle/creds
         kvPath: oracle/data/dev/creds/tjenestepensjon_q0-user
+      - mountPath: /secrets/oracle/config
+        kvPath: oracle/data/dev/config/tjenestepensjon_q0
   webproxy: false
   replicas:
     min: 1
