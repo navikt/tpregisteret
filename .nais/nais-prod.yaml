@@ -11,9 +11,9 @@ spec:
   ingresses:
     - https://tpregisteret.nais.adeo.no
   liveness:
-    path: isAlive
+    path: actuator/health/liveness
   readiness:
-    path: isReady
+    path: actuator/health/readiness
   vault:
     enabled: true
     paths:
