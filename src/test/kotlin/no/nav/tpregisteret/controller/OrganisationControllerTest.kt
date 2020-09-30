@@ -63,7 +63,6 @@ class OrganisationControllerTest {
     @Test
     fun `OrgNr returns 200 on valid TSS ID`() {
         mockMvc.get(orgNrUrl) {
-            headers { this[auth] = bearer }
             headers { this["tssId"] = TP_ORDNING_1.tssId }
         }.andExpect {
             status { isOk }
@@ -75,7 +74,6 @@ class OrganisationControllerTest {
     fun `OrgNr returns 404 on invalid TSS ID`() {
         mockMvc.get(orgNrUrl) {
             headers {
-                this[auth] = bearer
                 this["tssId"] = "12345678910"
             }
         }.andExpect {
@@ -87,7 +85,6 @@ class OrganisationControllerTest {
     fun `Name returns 200 on valid OrgNr`() {
         mockMvc.get(navnUrl) {
             headers {
-                this[auth] = bearer
                 this["orgNr"] = ORG_1.orgNr
             }
         }.andExpect {
@@ -100,7 +97,6 @@ class OrganisationControllerTest {
     fun `Name returns 404 on invalid OrgNr`() {
         mockMvc.get(navnUrl) {
             headers {
-                this[auth] = bearer
                 this["orgNr"] = "123456789"
             }
         }.andExpect {
