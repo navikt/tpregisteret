@@ -1,6 +1,5 @@
 package no.nav.tpregisteret.controller
 
-import no.nav.security.token.support.core.api.Protected
 import no.nav.security.token.support.core.api.Unprotected
 import no.nav.tpregisteret.service.OrganisationService
 import org.springframework.http.HttpStatus.NO_CONTENT

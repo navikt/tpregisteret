@@ -7,6 +7,7 @@ description = "tpregisteret"
 plugins {
     kotlin("jvm") version "1.4.10"
     kotlin("plugin.spring") version "1.4.10"
+    kotlin("plugin.noarg") version "1.4.10"
     id("org.springframework.boot") version "2.3.4.RELEASE"
     id("io.spring.dependency-management") version "1.0.10.RELEASE"
 }
@@ -33,6 +34,10 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
     testRuntimeOnly("com.h2database","h2","1.4.200")
+}
+
+noArg {
+    annotation("javax.persistence.Entity")
 }
 
 tasks{

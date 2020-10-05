@@ -1,6 +1,7 @@
 package no.nav.tpregisteret.controller
 
-import no.nav.tpregisteret.support.ImportTpregisteretBeans
+import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
+import no.nav.security.token.support.test.spring.TokenGeneratorConfiguration
 import no.nav.tpregisteret.support.TestData.PERSON_1
 import no.nav.tpregisteret.support.TestData.PERSON_2
 import no.nav.tpregisteret.support.TestData.PERSON_3
@@ -12,16 +13,20 @@ import no.nav.tpregisteret.support.Tokenizer
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.annotation.Import
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 
-@WebMvcTest
+@SpringBootTest
+@AutoConfigureMockMvc
 @AutoConfigureDataJpa
-@ImportTpregisteretBeans
+@EnableJwtTokenValidation
+@Import(TokenGeneratorConfiguration::class)
 class PersonControllerTest {
 
-    private companion object : Tokenizer {
+    private companion object : Tokenizer() {
         const val root = "/person"
         const val tpordningerUrl = "$root/tpordninger"
         const val ytelserUrl = "$root/ytelser"
@@ -38,7 +43,7 @@ class PersonControllerTest {
                 this[auth] = bearer
                 this["fnr"] = PERSON_1.fnr
             }
-        }.andExpect { 
+        }.andExpect {
             status { isOk }
             content { json(PERSON_1.json) }
         }
@@ -47,11 +52,11 @@ class PersonControllerTest {
     @Test
     fun `TpOrdninger returns 200 on single result`() {
         mockMvc.get(tpordningerUrl) {
-                headers {
-                    this[auth] = bearer
-                    this["fnr"] = PERSON_2.fnr
-                }
-        }.andExpect { 
+            headers {
+                this[auth] = bearer
+                this["fnr"] = PERSON_2.fnr
+            }
+        }.andExpect {
             status { isOk }
             content { json(PERSON_2.json) }
         }
@@ -59,12 +64,12 @@ class PersonControllerTest {
 
     @Test
     fun `TpOrdninger returns 200 on multiple results`() {
-        mockMvc.get(tpordningerUrl){
+        mockMvc.get(tpordningerUrl) {
             headers {
                 this[auth] = bearer
                 this["fnr"] = PERSON_3.fnr
             }
-        }.andExpect { 
+        }.andExpect {
             status { isOk }
             content { json(PERSON_3.json) }
         }
@@ -73,7 +78,7 @@ class PersonControllerTest {
     @Test
     fun `TpOrdninger returns 404 on invalid fnr`() {
         mockMvc.get(tpordningerUrl) {
-            headers { 
+            headers {
                 this[auth] = bearer
                 this["fnr"] = "12345678910"
             }
@@ -85,10 +90,10 @@ class PersonControllerTest {
     @Test
     fun `TpOrdninger returns 401 on missing token`() {
         mockMvc.get(tpordningerUrl) {
-            headers { 
+            headers {
                 this["fnr"] = PERSON_1.fnr
             }
-        }.andExpect { 
+        }.andExpect {
             status { isUnauthorized }
         }
     }
@@ -96,12 +101,12 @@ class PersonControllerTest {
     @Test
     fun `Forhold returns 200 on valid forhold`() {
         mockMvc.get(forholdUrl) {
-            headers { 
+            headers {
                 this[auth] = bearer
                 this["fnr"] = PERSON_3.fnr
                 this["tpId"] = PERSON_3.tpForhold.first().tpId
             }
-        }.andExpect{
+        }.andExpect {
             status { isOk }
         }
     }

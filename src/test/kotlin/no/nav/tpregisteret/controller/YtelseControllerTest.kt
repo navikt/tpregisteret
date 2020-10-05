@@ -1,21 +1,26 @@
 package no.nav.tpregisteret.controller
 
-import no.nav.tpregisteret.support.ImportTpregisteretBeans
+import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
+import no.nav.security.token.support.test.spring.TokenGeneratorConfiguration
 import no.nav.tpregisteret.support.TestData.YTELSE_1
 import no.nav.tpregisteret.support.Tokenizer
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.annotation.Import
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 
-@WebMvcTest
+@SpringBootTest
+@AutoConfigureMockMvc
 @AutoConfigureDataJpa
-@ImportTpregisteretBeans
+@EnableJwtTokenValidation
+@Import(TokenGeneratorConfiguration::class)
 internal class YtelseControllerTest {
 
-    private companion object : Tokenizer {
+    private companion object : Tokenizer() {
         const val root = "/ytelse"
     }
 

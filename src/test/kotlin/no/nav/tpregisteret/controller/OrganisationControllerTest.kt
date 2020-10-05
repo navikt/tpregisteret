@@ -1,25 +1,29 @@
 package no.nav.tpregisteret.controller
 
-import no.nav.tpregisteret.support.ImportTpregisteretBeans
+import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
+import no.nav.security.token.support.test.spring.TokenGeneratorConfiguration
 import no.nav.tpregisteret.support.TestData.ORG_1
 import no.nav.tpregisteret.support.TestData.ORG_2
 import no.nav.tpregisteret.support.TestData.TP_ORDNING_1
 import no.nav.tpregisteret.support.TestData.VAULT_TP_ORDNING_1
-import no.nav.tpregisteret.support.Tokenizer
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.annotation.Import
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.head
 
-@WebMvcTest
+@SpringBootTest
+@AutoConfigureMockMvc
 @AutoConfigureDataJpa
-@ImportTpregisteretBeans
+@EnableJwtTokenValidation
+@Import(TokenGeneratorConfiguration::class)
 class OrganisationControllerTest {
 
-    private companion object : Tokenizer {
+    private companion object {
         const val root = "/organisation"
         const val orgNrUrl = "$root/orgnr"
         const val navnUrl = "$root/navn"

@@ -1,6 +1,8 @@
 package no.nav.tpregisteret.controller
 
-import no.nav.security.token.support.core.api.Protected
+import no.nav.security.token.support.core.api.ProtectedWithClaims
+import no.nav.tpregisteret.SCOPE_KEY
+import no.nav.tpregisteret.TPREGISTERET_SCOPE
 import no.nav.tpregisteret.domain.dto.YtelseDto
 import no.nav.tpregisteret.exceptions.YtelseIkkeFunnet
 import no.nav.tpregisteret.service.YtelseService
@@ -36,7 +38,7 @@ class YtelseController(private val ytelseService: YtelseService) {
         if (ytelse !in listOf(TODO())) throw YtelseIkkeFunnet()
     }
 
-    @Protected
+    @ProtectedWithClaims(issuer = "maskinporten", claimMap = ["$SCOPE_KEY=$TPREGISTERET_SCOPE"])
     @GetMapping
     fun hentYtelseMedId(
             @RequestHeader("ytelseId") id: Long

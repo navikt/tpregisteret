@@ -19,6 +19,9 @@ spec:
     paths:
       - mountPath: /secrets/oracle
         kvPath: oracle/data/prod/creds/tjenestepensjon-user
+      - mountPath: /secrets/oracle/config
+      kvPath: oracle/data/dev/config/tjenestepensjon
+  webproxy: true
   replicas:
     min: 1
     max: 1
