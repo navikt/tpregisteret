@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.get
 @Import(TokenGeneratorConfiguration::class)
 internal class YtelseControllerTest {
 
-    private companion object : Tokenizer() {
+    internal companion object : Tokenizer() {
         const val root = "/ytelse"
     }
 

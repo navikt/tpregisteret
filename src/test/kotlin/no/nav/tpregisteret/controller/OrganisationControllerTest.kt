@@ -21,9 +21,9 @@ import org.springframework.test.web.servlet.head
 @AutoConfigureDataJpa
 @EnableJwtTokenValidation
 @Import(TokenGeneratorConfiguration::class)
-class OrganisationControllerTest {
+internal class OrganisationControllerTest {
 
-    private companion object {
+    internal companion object {
         const val root = "/organisation"
         const val orgNrUrl = "$root/orgnr"
         const val navnUrl = "$root/navn"

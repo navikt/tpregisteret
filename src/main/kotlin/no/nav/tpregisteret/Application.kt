@@ -4,11 +4,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class TpregisteretApplication {
+class Application {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            runApplication<TpregisteretApplication>(*args)
+            runApplication<Application>(*args)
         }
     }
 }

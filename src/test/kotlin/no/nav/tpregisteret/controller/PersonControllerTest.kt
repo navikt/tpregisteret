@@ -24,9 +24,9 @@ import org.springframework.test.web.servlet.get
 @AutoConfigureDataJpa
 @EnableJwtTokenValidation
 @Import(TokenGeneratorConfiguration::class)
-class PersonControllerTest {
+internal class PersonControllerTest {
 
-    private companion object : Tokenizer() {
+    internal companion object : Tokenizer() {
         const val root = "/person"
         const val tpordningerUrl = "$root/tpordninger"
         const val ytelserUrl = "$root/ytelser"
