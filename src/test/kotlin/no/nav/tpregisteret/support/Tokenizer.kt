@@ -8,18 +8,12 @@ import java.time.Instant
 import java.util.*
 
 abstract class Tokenizer {
-    private val claims: JWTClaimsSet
+    private val maskinportenClaims: JWTClaimsSet
         get() = JWTClaimsSet.Builder()
                 .issuer("maskinporten")
                 .expirationTime(Date.from(Instant.now().plusSeconds(360)))
                 .claim(SCOPE_KEY, TPREGISTERET_SCOPE).build()
 
-    private val token: String
-        get() = JwtTokenGenerator.createSignedJWT(claims).serialize()
-
-    val bearer: String
-        get() = "Bearer $token"
-
-    val auth: String
-        get() = "Authorization"
+    val maskinportenToken: String
+        get() = JwtTokenGenerator.createSignedJWT(maskinportenClaims).serialize()
 }

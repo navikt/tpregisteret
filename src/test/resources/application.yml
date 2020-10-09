@@ -12,6 +12,7 @@ spring:
   profiles.active: test
 orgnr.mapping: 111111111,3333|222222222,1111
 logging.level.no.nav.security: DEBUG
-no.nav.security.jwt.issuer.maskinporten:
-  discoveryUrl: http://localhost/local/metadata
-  validation.optional_claims: sub,iat,aud,nbf
+no.nav.security.jwt.issuer:
+  maskinporten:
+    discoveryUrl: http://localhost/local/metadata
+    validation.optional_claims: sub,iat,aud,nbf

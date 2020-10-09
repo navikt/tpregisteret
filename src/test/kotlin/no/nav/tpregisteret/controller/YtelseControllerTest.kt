@@ -31,7 +31,7 @@ internal class YtelseControllerTest {
     fun `Ytelser returns 200 on valid ytelseId`() {
         mockMvc.get(root) {
             headers {
-                this[auth] = bearer
+                setBearerAuth(maskinportenToken)
                 this["ytelseId"] = YTELSE_1.id.toString()
             }
         }.andExpect {
@@ -44,7 +44,7 @@ internal class YtelseControllerTest {
     fun `Ytelser returns 404 on invalid ytelseId`() {
         mockMvc.get(root) {
             headers {
-                this[auth] = bearer
+                setBearerAuth(maskinportenToken)
                 this["ytelseId"] = "123123123"
             }
         }.andExpect {

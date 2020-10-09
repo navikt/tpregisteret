@@ -71,7 +71,7 @@ internal class ApplicationTest {
     fun `Person TpOrdninger returns 200 on valid result`() {
         mockMvc.get(PersonControllerTest.tpordningerUrl) {
             headers {
-                this[PersonControllerTest.auth] = PersonControllerTest.bearer
+                setBearerAuth(PersonControllerTest.maskinportenToken)
                 this["fnr"] = TestData.PERSON_3.fnr
             }
         }.andExpect {
@@ -84,7 +84,7 @@ internal class ApplicationTest {
     fun `Person Forhold returns 200 on valid forhold`() {
         mockMvc.get(PersonControllerTest.forholdUrl) {
             headers {
-                this[PersonControllerTest.auth] = PersonControllerTest.bearer
+                setBearerAuth(PersonControllerTest.maskinportenToken)
                 this["fnr"] = TestData.PERSON_3.fnr
                 this["tpId"] = TestData.PERSON_3.tpForhold.first().tpId
             }
@@ -97,7 +97,7 @@ internal class ApplicationTest {
     fun `Person Ytelser returns 200 on correct results`() {
         mockMvc.get(PersonControllerTest.ytelserUrl) {
             headers {
-                this[PersonControllerTest.auth] = PersonControllerTest.bearer
+                setBearerAuth(PersonControllerTest.maskinportenToken)
                 this["fnr"] = TestData.PERSON_3.fnr
                 this["tpId"] = TestData.PERSON_3.tpForhold.first().tpId
             }
@@ -111,7 +111,7 @@ internal class ApplicationTest {
     fun `Ytelser returns 200 on valid ytelseId`() {
         mockMvc.get(YtelseControllerTest.root) {
             headers {
-                this[YtelseControllerTest.auth] = YtelseControllerTest.bearer
+                setBearerAuth(YtelseControllerTest.maskinportenToken)
                 this["ytelseId"] = TestData.YTELSE_1.id.toString()
             }
         }.andExpect {

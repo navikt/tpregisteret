@@ -23,14 +23,18 @@ class PersonController(
             @RequestHeader("fnr") fnr: String
     ) = personService.getTpOrdningerForPerson(fnr)
 
-    @Protected
+    @GetMapping("/tpordninger/intern")
+    @ProtectedWithClaims(issuer = "sts", claimMap = ["iss=sts"])
+    fun internGetTpOrdningerForPerson(
+            @RequestHeader("fnr") fnr: String
+    ) = personService.getTpOrdningerForPerson(fnr)
+
     @GetMapping("/forhold")
     fun getForholdForPerson(
             @RequestHeader("fnr") fnr: String,
             @RequestHeader("tpId") tpId: String
     ) = ForholdDto(personService.getForholdForPerson(fnr, tpId))
 
-    @Protected
     @GetMapping("/ytelser")
     fun getYtelserForPerson(
             @RequestHeader("fnr") fnr: String,
