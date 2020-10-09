@@ -4,4 +4,4 @@ no.nav.security.jwt.issuer:
     proxyurl: http://webproxy.nais:8088/
   sts:
     discoveryUrl: http://security-token-service/.well-known/openid-configuration
-    accepted_audience: preprod.local,srvpensjon
+    accepted_audience: preprod.local,srvpensjon,srvtjenestepensjon
