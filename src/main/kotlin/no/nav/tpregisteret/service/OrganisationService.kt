@@ -18,7 +18,7 @@ class OrganisationService(
     @Suppress("LeakingThis")
     private val orgNrMapping = orgNrString.split('|')
             .mapNotNull { regex.find(it)?.value }
-            .onEach { LOG.info("Vault mapping: $it") }
+            .onEach { LOG.debug("Vault mapping: $it") }
 
     fun getByOrgNr(orgNr: String) = organisationRepository.findAllByOrgNr(orgNr)
             .ifEmpty { throw TpOrdningIkkeFunnet() }
@@ -38,12 +38,12 @@ class OrganisationService(
     fun getOrgNrByTssId(tssId: String) = getByTssId(tssId).orgNr
 
     private fun validVaultOrgnrMapping(orgNr: String, tpId: String): Boolean {
-        LOG.info("Validate orgNr/tpId:$orgNr,$tpId")
+        LOG.debug("Validate orgNr/tpId:$orgNr,$tpId")
         return orgNrMapping.any("$orgNr,$tpId"::equals)
     }
 
     private fun handleValidMapping(orgNr: String, tpId: String) {
-        LOG.info("Valid vault mapping: orgNr $orgNr for tpId $tpId")
+        LOG.debug("Valid vault mapping: orgNr $orgNr for tpId $tpId")
     }
 
     companion object {
