@@ -27,8 +27,9 @@ import org.springframework.test.web.servlet.get
 internal class PersonControllerTest {
 
     internal companion object : Tokenizer() {
-        const val root = "/person"
+        private const val root = "/person"
         const val tpordningerUrl = "$root/tpordninger"
+        const val internTpordningerUrl = "$tpordningerUrl/intern"
         const val ytelserUrl = "$root/ytelser"
         const val forholdUrl = "$root/forhold"
     }
@@ -40,7 +41,7 @@ internal class PersonControllerTest {
     fun `TpOrdninger returns 200 on empty result`() {
         mockMvc.get(tpordningerUrl) {
             headers {
-                this[auth] = bearer
+                setBearerAuth(maskinportenToken)
                 this["fnr"] = PERSON_1.fnr
             }
         }.andExpect {
@@ -53,7 +54,7 @@ internal class PersonControllerTest {
     fun `TpOrdninger returns 200 on single result`() {
         mockMvc.get(tpordningerUrl) {
             headers {
-                this[auth] = bearer
+                setBearerAuth(maskinportenToken)
                 this["fnr"] = PERSON_2.fnr
             }
         }.andExpect {
@@ -66,7 +67,7 @@ internal class PersonControllerTest {
     fun `TpOrdninger returns 200 on multiple results`() {
         mockMvc.get(tpordningerUrl) {
             headers {
-                this[auth] = bearer
+                setBearerAuth(maskinportenToken)
                 this["fnr"] = PERSON_3.fnr
             }
         }.andExpect {
@@ -79,7 +80,7 @@ internal class PersonControllerTest {
     fun `TpOrdninger returns 404 on invalid fnr`() {
         mockMvc.get(tpordningerUrl) {
             headers {
-                this[auth] = bearer
+                setBearerAuth(maskinportenToken)
                 this["fnr"] = "12345678910"
             }
         }.andExpect {
@@ -99,10 +100,22 @@ internal class PersonControllerTest {
     }
 
     @Test
+    fun `Intern TpOrdninger returns 401 on wrong token`() {
+        mockMvc.get(internTpordningerUrl) {
+            headers {
+                setBearerAuth(maskinportenToken)
+                this["fnr"] = PERSON_1.fnr
+            }
+        }.andExpect {
+            status { isUnauthorized }
+        }
+    }
+
+    @Test
     fun `Forhold returns 200 on valid forhold`() {
         mockMvc.get(forholdUrl) {
             headers {
-                this[auth] = bearer
+                setBearerAuth(maskinportenToken)
                 this["fnr"] = PERSON_3.fnr
                 this["tpId"] = PERSON_3.tpForhold.first().tpId
             }
@@ -115,7 +128,7 @@ internal class PersonControllerTest {
     fun `Forhold returns 404 on invalid forhold`() {
         mockMvc.get(forholdUrl) {
             headers {
-                this[auth] = bearer
+                setBearerAuth(maskinportenToken)
                 this["fnr"] = PERSON_1.fnr
                 this["tpId"] = TP_ORDNING_1.tpId
             }
@@ -128,7 +141,7 @@ internal class PersonControllerTest {
     fun `Ytelser returns 200 on empty result`() {
         mockMvc.get(ytelserUrl) {
             headers {
-                this[auth] = bearer
+                setBearerAuth(maskinportenToken)
                 this["fnr"] = PERSON_5.fnr
                 this["tpId"] = PERSON_5.tpForhold.first().tpId
             }
@@ -142,7 +155,7 @@ internal class PersonControllerTest {
     fun `Ytelser returns 200 on correct results`() {
         mockMvc.get(ytelserUrl) {
             headers {
-                this[auth] = bearer
+                setBearerAuth(maskinportenToken)
                 this["fnr"] = PERSON_3.fnr
                 this["tpId"] = PERSON_3.tpForhold.first().tpId
             }
@@ -156,7 +169,7 @@ internal class PersonControllerTest {
     fun `Ytelser returns 404 on invalid ordning for person`() {
         mockMvc.get(ytelserUrl) {
             headers {
-                this[auth] = bearer
+                setBearerAuth(maskinportenToken)
                 this["fnr"] = PERSON_2.fnr
                 this["tpId"] = PERSON_7.tpForhold.first().tpId
             }
