@@ -29,7 +29,6 @@ internal class PersonControllerTest {
     internal companion object : Tokenizer() {
         private const val root = "/person"
         const val tpordningerUrl = "$root/tpordninger"
-        const val internTpordningerUrl = "$tpordningerUrl/intern"
         const val ytelserUrl = "$root/ytelser"
         const val forholdUrl = "$root/forhold"
     }
@@ -92,18 +91,6 @@ internal class PersonControllerTest {
     fun `TpOrdninger returns 401 on missing token`() {
         mockMvc.get(tpordningerUrl) {
             headers {
-                this["fnr"] = PERSON_1.fnr
-            }
-        }.andExpect {
-            status { isUnauthorized }
-        }
-    }
-
-    @Test
-    fun `Intern TpOrdninger returns 401 on wrong token`() {
-        mockMvc.get(internTpordningerUrl) {
-            headers {
-                setBearerAuth(maskinportenToken)
                 this["fnr"] = PERSON_1.fnr
             }
         }.andExpect {

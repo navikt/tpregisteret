@@ -23,12 +23,6 @@ class PersonController(
             @RequestHeader("fnr") fnr: String
     ) = personService.getTpOrdningerForPerson(fnr)
 
-    @GetMapping("/tpordninger/intern")
-    @ProtectedWithClaims(issuer = "sts", claimMap = ["iss=sts"])
-    fun internGetTpOrdningerForPerson(
-            @RequestHeader("fnr") fnr: String
-    ) = personService.getTpOrdningerForPerson(fnr)
-
     @GetMapping("/forhold")
     fun getForholdForPerson(
             @RequestHeader("fnr") fnr: String,
