@@ -7,5 +7,3 @@ spring:
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
     continue-on-error: false
-logging.level.no.nav.peproxy: INFO
-no.nav.security.jwt.issuer.maskinporten.validation.optional_claims: sub,nbf,aud
