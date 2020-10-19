@@ -22,14 +22,14 @@ dependencies {
     implementation("com.oracle.database.jdbc","ojdbc10","19.7.0.0")
     implementation("io.micrometer","micrometer-registry-prometheus","1.5.5")
     implementation("net.logstash.logback","logstash-logback-encoder","6.4")
-    implementation("no.nav.security","token-validation-spring", "1.3.0")
+    implementation("no.nav.security","token-validation-spring", "1.2.0")
     implementation("org.springframework.boot","spring-boot-starter-web")
     implementation("org.springframework.boot","spring-boot-starter-jdbc")
     implementation("org.springframework.boot","spring-boot-starter-data-jpa")
     implementation("org.springframework.boot","spring-boot-starter-actuator")
     implementation("org.springframework.boot","spring-boot-starter-validation")
     testImplementation(kotlin("test-junit5"))
-    testImplementation("no.nav.security","token-validation-test-support", "1.3.0")
+    testImplementation("no.nav.security","token-validation-test-support", "1.2.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
