@@ -1,6 +1,5 @@
 package no.nav.tpregisteret.controller
 
-import no.nav.security.token.support.core.api.Protected
 import no.nav.security.token.support.core.api.ProtectedWithClaims
 import no.nav.tpregisteret.SCOPE_KEY
 import no.nav.tpregisteret.TPREGISTERET_SCOPE
