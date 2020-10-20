@@ -1,5 +1,6 @@
 package no.nav.tpregisteret.domain
 
+import org.hibernate.annotations.Where
 import java.time.LocalDate
 import javax.persistence.*
 
@@ -16,6 +17,7 @@ data class Forhold(
         @JoinColumn(name = "TSS_EKSTERN_ID_FK")
         val tpOrdning: TpOrdning,
         @OneToMany(mappedBy = "forhold")
+        @Where(clause = "ER_GYLDIG='1'")
         val ytelser: List<Ytelse>,
         @Column(name = "DATO_BRUK_FOM")
         val datoFom: LocalDate,

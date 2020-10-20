@@ -153,6 +153,20 @@ internal class PersonControllerTest {
     }
 
     @Test
+    fun `Ytelser filters results`() {
+        mockMvc.get(ytelserUrl) {
+            headers {
+                setBearerAuth(maskinportenToken)
+                this["fnr"] = PERSON_2.fnr
+                this["tpId"] = PERSON_2.tpForhold.first().tpId
+            }
+        }.andExpect {
+            status { isOk }
+            content { json(TestYtelse.getJson(PERSON_2, PERSON_2.tpForhold.first())) }
+        }
+    }
+
+    @Test
     fun `Ytelser returns 404 on invalid ordning for person`() {
         mockMvc.get(ytelserUrl) {
             headers {
