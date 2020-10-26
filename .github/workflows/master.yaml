@@ -48,5 +48,5 @@ jobs:
 #           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
 #           CLUSTER: prod-fss
 #           RESOURCE: .nais/nais-prod.yaml
-#           IMAGE: docker.pkg.github.com/navikt/tpregisteret:sha-${GITHUB_SHA::7}
+#           IMAGE: docker.pkg.github.com/navikt/tpregisteret/tpregisteret:${{ env.TAG }}
 #           TEAM: pensjonsamhandling
