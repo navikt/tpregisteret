@@ -19,7 +19,7 @@ spec:
   vault:
     enabled: true
     paths:
-      - mountPath: /secrets/oracle
+      - mountPath: /secrets/oracle/creds
         kvPath: oracle/data/prod/creds/tjenestepensjon-user
       - mountPath: /secrets/oracle/config
         kvPath: oracle/data/prod/config/tjenestepensjon
