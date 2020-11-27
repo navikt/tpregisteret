@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.ResponseStatus
 @ControllerAdvice
 class ExceptionHandler {
 
-    internal class InternalException: Throwable()
-
     companion object {
         val LOG: Logger = LoggerFactory.getLogger(ExceptionHandler::class.java)
         val errorCounter: Counter = Counter.build()
@@ -25,9 +23,10 @@ class ExceptionHandler {
                 .register()
     }
 
-    @ExceptionHandler(InternalException::class)
+    @ExceptionHandler(Throwable::class)
     @ResponseStatus(INTERNAL_SERVER_ERROR)
-    fun internalServerError(e : Exception): String? {
+    fun internalServerError(e : Throwable): String? {
+        if (e is EmptyResultDataAccessException || e is NotImplementedError || e is ResursIkkeFunnet) throw e
         LOG.error("Something went wrong.", e)
         errorCounter.labels(e::class.simpleName).inc()
         return e.message
