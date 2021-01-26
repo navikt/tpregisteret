@@ -11,13 +11,13 @@ class ForholdController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    fun lagreNewForhold(
+    fun saveForhold(
             @RequestBody forhold: Forhold
     ) = forhold
 
     @PatchMapping
     @ResponseStatus(NO_CONTENT)
-    fun lagreExistingForhold(
+    fun updateForhold(
             @RequestBody forhold: Forhold
     ) {
         TODO()
@@ -30,7 +30,7 @@ class ForholdController {
 
     @DeleteMapping
     @ResponseStatus(NO_CONTENT)
-    fun slettForholdCascade(
+    fun deleteForholdCascade(
             @RequestHeader("TODO") todo: String
     ) {
         TODO()
@@ -38,7 +38,7 @@ class ForholdController {
 
     @PostMapping("/tjenestepensjon")
     @ResponseStatus(CREATED)
-    fun lagreTjenestepensjonForhold(
+    fun saveTjenestepensjonForhold(
             @RequestHeader("tpId") tpId: String,
             @RequestBody forhold: Forhold)
     {

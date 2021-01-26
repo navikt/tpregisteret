@@ -4,7 +4,6 @@ import no.nav.security.token.support.core.api.ProtectedWithClaims
 import no.nav.tpregisteret.SCOPE_KEY
 import no.nav.tpregisteret.TPREGISTERET_SCOPE
 import no.nav.tpregisteret.domain.dto.YtelseDto
-import no.nav.tpregisteret.exceptions.YtelseIkkeFunnet
 import no.nav.tpregisteret.service.YtelseService
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
@@ -18,13 +17,13 @@ class YtelseController(private val ytelseService: YtelseService) {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    fun lagreNyYtelse(
+    fun saveYtelse(
             @RequestBody ytelse: YtelseDto
     ) = URI(TODO())
 
     @PatchMapping
     @ResponseStatus(NO_CONTENT)
-    fun lagreExistingYtelse(
+    fun updateYtelse(
             @RequestBody ytelse: YtelseDto
     ) {
         TODO()
@@ -34,19 +33,17 @@ class YtelseController(private val ytelseService: YtelseService) {
     @ResponseStatus(NO_CONTENT)
     fun validateIdenticalYtelse(
             @RequestHeader("ytelse") ytelse: YtelseDto
-    ) {
-        if (ytelse !in listOf(TODO())) throw YtelseIkkeFunnet()
-    }
+    ) = ytelseService.hasYtelse(ytelse)
 
     @ProtectedWithClaims(issuer = "maskinporten", claimMap = ["$SCOPE_KEY=$TPREGISTERET_SCOPE"])
     @GetMapping
-    fun hentYtelseMedId(
+    fun getYtelse(
             @RequestHeader("ytelseId") id: Long
     ) = YtelseDto(ytelseService.getYtelseById(id))
 
     @PostMapping("/tjenestepensjon")
     @ResponseStatus(CREATED)
-    fun lagreTjenestepensjonYtelse(
+    fun saveTjenestepensjonYtelse(
             @RequestHeader("tpId") tpId: String,
             @RequestBody ytelse: YtelseDto
     ) = URI(TODO())

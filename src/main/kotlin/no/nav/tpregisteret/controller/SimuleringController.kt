@@ -1,6 +1,6 @@
 package no.nav.tpregisteret.controller
 
-import no.nav.tpregisteret.domain.SimuleringDto
+import no.nav.tpregisteret.domain.Simulering
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
@@ -12,27 +12,27 @@ class SimuleringController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    fun lagreNySimulering(
-            @RequestBody simulering: SimuleringDto
+    fun saveSimulering(
+            @RequestBody simulering: Simulering
     ) = URI(TODO())
 
     @PatchMapping
     @ResponseStatus(NO_CONTENT)
-    fun lagreEksisterendeSimulering(
-            @RequestBody simulering: SimuleringDto
+    fun updateSimulering(
+            @RequestBody simulering: Simulering
     ) {
         TODO()
     }
 
     @GetMapping
-    fun findSimulering(
+    fun getSimulering(
             @RequestHeader("fnr") fnr: String
-    ) = TODO() as SimuleringDto
+    ) = TODO() as Simulering
 
     @PostMapping("/tjenestepensjon")
     @ResponseStatus(CREATED)
-    fun lagreTjenestepensjonSimulering(
+    fun saveTjenestepensjonSimulering(
             @RequestHeader("tpId") tpId: String,
-            @RequestBody simulering: SimuleringDto
+            @RequestBody simulering: Simulering
     ) = URI(TODO())
 }

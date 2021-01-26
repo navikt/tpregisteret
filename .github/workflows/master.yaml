@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-java@v1
         with:
-          java-version: '14.x'
+          java-version: '15.x'
 
       # Build
       - name: Build
@@ -41,12 +41,12 @@ jobs:
           IMAGE: docker.pkg.github.com/navikt/tpregisteret/tpregisteret:${{ env.TAG }}
           TEAM: pensjonsamhandling
 
-      # Deploy to prod-fss
-      - name: Deploy to prod-fss
-        uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: prod-fss
-          RESOURCE: .nais/nais-prod.yaml
-          IMAGE: docker.pkg.github.com/navikt/tpregisteret/tpregisteret:${{ env.TAG }}
-          TEAM: pensjonsamhandling
+#      # Deploy to prod-fss
+#      - name: Deploy to prod-fss
+#        uses: nais/deploy/actions/deploy@v1
+#        env:
+#          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+#          CLUSTER: prod-fss
+#          RESOURCE: .nais/nais-prod.yaml
+#          IMAGE: docker.pkg.github.com/navikt/tpregisteret/tpregisteret:${{ env.TAG }}
+#          TEAM: pensjonsamhandling

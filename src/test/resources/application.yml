@@ -7,11 +7,10 @@ spring:
     driverClassName: org.h2.Driver
     continue-on-error: true
   jpa:
-    database-platform: org.hibernate.dialect.Oracle10gDialect
     hibernate.ddl-auto: none
   profiles.active: test
 orgnr.mapping: 111111111,3333|222222222,1111
-logging.level.no.nav.security: DEBUG
+logging.level.no.nav.security: WARN
 no.nav.security.jwt.issuer.maskinporten:
   discoveryUrl: http://localhost/local/metadata
   validation.optional_claims: sub,iat,aud,nbf
