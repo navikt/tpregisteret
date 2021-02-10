@@ -1,7 +1,6 @@
 package no.nav.tpregisteret.controller
 
-import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
-import no.nav.security.token.support.test.spring.TokenGeneratorConfiguration
+import no.nav.pensjonsamhandling.maskinporten.validation.test.AutoConfigureMaskinportenValidator
 import no.nav.tpregisteret.support.TestData.ORG_1
 import no.nav.tpregisteret.support.TestData.ORG_2
 import no.nav.tpregisteret.support.TestData.TP_ORDNING_1
@@ -11,16 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.context.annotation.Import
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.head
+import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
+@Transactional
 @AutoConfigureMockMvc
 @AutoConfigureDataJpa
-@EnableJwtTokenValidation
-@Import(TokenGeneratorConfiguration::class)
+@AutoConfigureMaskinportenValidator
 internal class OrganisationControllerTest {
 
     internal companion object {

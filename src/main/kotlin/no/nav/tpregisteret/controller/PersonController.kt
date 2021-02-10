@@ -1,23 +1,25 @@
 package no.nav.tpregisteret.controller
 
-import no.nav.security.token.support.core.api.ProtectedWithClaims
-import no.nav.tpregisteret.SCOPE_KEY
+import no.nav.pensjonsamhandling.maskinporten.validation.annotation.Maskinporten
 import no.nav.tpregisteret.TPREGISTERET_SCOPE
 import no.nav.tpregisteret.domain.dto.ForholdDto
 import no.nav.tpregisteret.domain.dto.PersonDto
 import no.nav.tpregisteret.domain.dto.YtelseDto
+import no.nav.tpregisteret.security.FnrOrgnrValidator
+import no.nav.tpregisteret.security.TpidOrgnrValidator
 import no.nav.tpregisteret.service.PersonService
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/person")
-@ProtectedWithClaims(issuer = "maskinporten", claimMap = ["$SCOPE_KEY=$TPREGISTERET_SCOPE"])
+@Maskinporten(TPREGISTERET_SCOPE, TpidOrgnrValidator::class)
 class PersonController(
         val personService: PersonService
 ) {
 
     @GetMapping("/tpordninger")
+    @Maskinporten(TPREGISTERET_SCOPE, FnrOrgnrValidator::class)
     fun getTpOrdningerForPerson(
             @RequestHeader("fnr") fnr: String
     ) = personService.getTpOrdningerForPerson(fnr)

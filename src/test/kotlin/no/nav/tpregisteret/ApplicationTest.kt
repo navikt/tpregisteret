@@ -1,26 +1,32 @@
 package no.nav.tpregisteret
 
-import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
-import no.nav.security.token.support.test.spring.TokenGeneratorConfiguration
+import no.nav.pensjonsamhandling.maskinporten.validation.test.AutoConfigureMaskinportenValidator
+import no.nav.pensjonsamhandling.maskinporten.validation.test.MaskinportenValidatorTestBuilder
 import no.nav.tpregisteret.controller.OrganisationControllerTest
 import no.nav.tpregisteret.controller.PersonControllerTest
 import no.nav.tpregisteret.controller.YtelseControllerTest
 import no.nav.tpregisteret.support.TestData
+import no.nav.tpregisteret.support.TestData.PERSON_3
+import no.nav.tpregisteret.support.TestData.YTELSE_1
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.context.annotation.Import
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@AutoConfigureWebMvc
 @AutoConfigureDataJpa
-@EnableJwtTokenValidation
-@Import(TokenGeneratorConfiguration::class)
+@AutoConfigureMaskinportenValidator
 internal class ApplicationTest {
+
+    @Autowired
+    private lateinit var maskinportenValidatorTestBuilder: MaskinportenValidatorTestBuilder
 
     @Autowired
     private lateinit var mockMvc: MockMvc
@@ -71,12 +77,12 @@ internal class ApplicationTest {
     fun `Person TpOrdninger returns 200 on valid result`() {
         mockMvc.get(PersonControllerTest.tpordningerUrl) {
             headers {
-                setBearerAuth(PersonControllerTest.maskinportenToken)
-                this["fnr"] = TestData.PERSON_3.fnr
+                setBearerAuth(getToken(PERSON_3.tpForhold.first().orgNr))
+                this["fnr"] = PERSON_3.fnr
             }
         }.andExpect {
             status { isOk }
-            content { json(TestData.PERSON_3.json) }
+            content { json(PERSON_3.json) }
         }
     }
 
@@ -84,9 +90,9 @@ internal class ApplicationTest {
     fun `Person Forhold returns 200 on valid forhold`() {
         mockMvc.get(PersonControllerTest.forholdUrl) {
             headers {
-                setBearerAuth(PersonControllerTest.maskinportenToken)
-                this["fnr"] = TestData.PERSON_3.fnr
-                this["tpId"] = TestData.PERSON_3.tpForhold.first().tpId
+                setBearerAuth(getToken(PERSON_3.tpForhold.first().orgNr))
+                this["fnr"] = PERSON_3.fnr
+                this["tpId"] = PERSON_3.tpForhold.first().tpId
             }
         }.andExpect {
             status { isOk }
@@ -97,13 +103,13 @@ internal class ApplicationTest {
     fun `Person Ytelser returns 200 on correct results`() {
         mockMvc.get(PersonControllerTest.ytelserUrl) {
             headers {
-                setBearerAuth(PersonControllerTest.maskinportenToken)
-                this["fnr"] = TestData.PERSON_3.fnr
-                this["tpId"] = TestData.PERSON_3.tpForhold.first().tpId
+                setBearerAuth(getToken(PERSON_3.tpForhold.first().orgNr))
+                this["fnr"] = PERSON_3.fnr
+                this["tpId"] = PERSON_3.tpForhold.first().tpId
             }
         }.andExpect {
             status { isOk }
-            content { json(TestData.TestYtelse.getJson(TestData.PERSON_3, TestData.PERSON_3.tpForhold.first())) }
+            content { json(TestData.TestYtelse.getJson(PERSON_3, PERSON_3.tpForhold.first())) }
         }
     }
 
@@ -111,12 +117,15 @@ internal class ApplicationTest {
     fun `Ytelser returns 200 on valid ytelseId`() {
         mockMvc.get(YtelseControllerTest.root) {
             headers {
-                setBearerAuth(YtelseControllerTest.maskinportenToken)
-                this["ytelseId"] = TestData.YTELSE_1.id.toString()
+                setBearerAuth(getToken(YTELSE_1.tpOrdning.orgNr))
+                this["ytelseId"] = YTELSE_1.id.toString()
             }
         }.andExpect {
             status { isOk }
-            content { json(TestData.YTELSE_1.json) }
+            content { json(YTELSE_1.json) }
         }
     }
+
+    fun getToken(orgno: String): String =
+        maskinportenValidatorTestBuilder.generateToken(TPREGISTERET_SCOPE, orgno).serialize()
 }

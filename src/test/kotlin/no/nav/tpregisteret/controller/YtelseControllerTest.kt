@@ -1,37 +1,43 @@
 package no.nav.tpregisteret.controller
 
-import no.nav.security.token.support.spring.api.EnableJwtTokenValidation
-import no.nav.security.token.support.test.spring.TokenGeneratorConfiguration
+import no.nav.pensjonsamhandling.maskinporten.validation.test.AutoConfigureMaskinportenValidator
+import no.nav.pensjonsamhandling.maskinporten.validation.test.MaskinportenValidatorTestBuilder
+import no.nav.tpregisteret.TPREGISTERET_SCOPE
 import no.nav.tpregisteret.support.TestData.YTELSE_1
-import no.nav.tpregisteret.support.Tokenizer
+import no.nav.tpregisteret.support.TestData.YTELSE_2
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.context.annotation.Import
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
+@Transactional
 @AutoConfigureMockMvc
+@AutoConfigureWebMvc
 @AutoConfigureDataJpa
-@EnableJwtTokenValidation
-@Import(TokenGeneratorConfiguration::class)
+@AutoConfigureMaskinportenValidator
 internal class YtelseControllerTest {
 
-    internal companion object : Tokenizer() {
+    internal companion object {
         const val root = "/ytelse"
     }
 
     @Autowired
     private lateinit var mockMvc: MockMvc
 
+    @Autowired
+    private lateinit var maskinportenValidatorTestBuilder: MaskinportenValidatorTestBuilder
+
     @Test
     fun `Ytelser returns 200 on valid ytelseId`() {
         mockMvc.get(root) {
             headers {
-                setBearerAuth(maskinportenToken)
+                setBearerAuth(getToken(YTELSE_1.tpOrdning.orgNr))
                 this["ytelseId"] = YTELSE_1.id.toString()
             }
         }.andExpect {
@@ -41,14 +47,14 @@ internal class YtelseControllerTest {
     }
 
     @Test
-    fun `Ytelser returns 404 on invalid ytelseId`() {
+    fun `Ytelser returns 403 if ytelse does not belong to authorized org`() {
         mockMvc.get(root) {
             headers {
-                setBearerAuth(maskinportenToken)
+                setBearerAuth(getToken(YTELSE_2.tpOrdning.orgNr))
                 this["ytelseId"] = "123123123"
             }
         }.andExpect {
-            status { isNotFound }
+            status { isForbidden }
         }
     }
 
@@ -62,4 +68,7 @@ internal class YtelseControllerTest {
             status { isUnauthorized }
         }
     }
+
+    fun getToken(orgno: String): String =
+        maskinportenValidatorTestBuilder.generateToken(TPREGISTERET_SCOPE, orgno).serialize()
 }

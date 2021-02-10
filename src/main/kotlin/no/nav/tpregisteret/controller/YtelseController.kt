@@ -1,9 +1,9 @@
 package no.nav.tpregisteret.controller
 
-import no.nav.security.token.support.core.api.ProtectedWithClaims
-import no.nav.tpregisteret.SCOPE_KEY
+import no.nav.pensjonsamhandling.maskinporten.validation.annotation.Maskinporten
 import no.nav.tpregisteret.TPREGISTERET_SCOPE
 import no.nav.tpregisteret.domain.dto.YtelseDto
+import no.nav.tpregisteret.security.YtelseIdOrgnrValidator
 import no.nav.tpregisteret.service.YtelseService
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
@@ -35,7 +35,7 @@ class YtelseController(private val ytelseService: YtelseService) {
             @RequestHeader("ytelse") ytelse: YtelseDto
     ) = ytelseService.hasYtelse(ytelse)
 
-    @ProtectedWithClaims(issuer = "maskinporten", claimMap = ["$SCOPE_KEY=$TPREGISTERET_SCOPE"])
+    @Maskinporten(TPREGISTERET_SCOPE, YtelseIdOrgnrValidator::class)
     @GetMapping
     fun getYtelse(
             @RequestHeader("ytelseId") id: Long
