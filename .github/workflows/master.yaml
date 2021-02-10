@@ -18,6 +18,8 @@ jobs:
       # Build
       - name: Build
         run: gradle clean build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITH_ACCESS_TOKEN }}
 
       # Build image
       - name: Create tag

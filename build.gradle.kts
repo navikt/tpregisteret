@@ -18,7 +18,7 @@ repositories {
         name = "GitHubPackages"
         url = uri("https://maven.pkg.github.com/navikt/maskinporten-validation")
         credentials {
-            username = System.getenv("GITHUB_ACTOR")
+            username = "token"
             password = System.getenv("GITHUB_TOKEN")
         }
     }
