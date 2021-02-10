@@ -7,4 +7,4 @@ import org.springframework.context.annotation.Profile
 @Configuration
 @Profile("!test")
 @EnableMaskinportenValidation
-class Config
+class SecurityConfig
