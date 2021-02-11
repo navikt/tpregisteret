@@ -1,1 +1,2 @@
 maskinporten.validation.baseURL: https://ver2.maskinporten.no/
+logging.level.no.nav.pensjonsamhandling.maskinporten.validation: DEBUG
