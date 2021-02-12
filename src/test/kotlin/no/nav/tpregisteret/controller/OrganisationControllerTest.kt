@@ -13,14 +13,12 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.head
-import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
-@Transactional
 @AutoConfigureMockMvc
 @AutoConfigureDataJpa
 @AutoConfigureMaskinportenValidator
-internal class OrganisationControllerTest {
+class OrganisationControllerTest {
 
     internal companion object {
         const val root = "/organisation"
