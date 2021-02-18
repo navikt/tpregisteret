@@ -4,7 +4,7 @@ group = "no.nav"
 version = "1"
 description = "tpregisteret"
 
-val maskinportenVersion = "0.0.14"
+val maskinportenVersion = "0.0.15"
 
 plugins {
     kotlin("jvm") version "1.4.21"
