@@ -8,13 +8,16 @@ import javax.persistence.Table
 @Entity
 @Table(name = "T_TSS_TP")
 data class TpOrdning(
-        @Column(name = "TSS_ID")
-        @Id
-        val tssId: String,
-        @Column(name = "TP_ID")
-        val tpId: String,
-        @Column(name = "ORGNR")
-        val orgNr: String,
-        @Column(name = "NAVN")
-        val navn: String
-)
+    @Column(name = "TSS_ID")
+    @Id
+    val tssId: String
+) {
+    @Column(name = "TP_ID")
+    lateinit var tpId: String
+
+    @Column(name = "ORGNR")
+    lateinit var orgNr: String
+
+    @Column(name = "NAVN")
+    lateinit var navn: String
+}

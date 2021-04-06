@@ -11,20 +11,20 @@ import org.springframework.stereotype.Service
 
 @Service
 class OrganisationService(
-        val organisationRepository: OrganisationRepository,
-        @param:Value("\${orgnr.mapping}") val orgNrString: String
+    val organisationRepository: OrganisationRepository,
+    @param:Value("\${orgnr.mapping}") val orgNrString: String
 ) {
 
     @Suppress("LeakingThis")
     private val orgNrMapping = orgNrString.split('|')
-            .mapNotNull { regex.find(it)?.value }
-            .onEach { LOG.debug("Vault mapping: $it") }
+        .mapNotNull { regex.find(it)?.value }
+        .onEach { LOG.debug("Vault mapping: $it") }
 
     fun getByOrgNr(orgNr: String) = organisationRepository.findAllByOrgNr(orgNr)
-            .ifEmpty { throw TpOrdningIkkeFunnet() }
+        .ifEmpty { throw TpOrdningIkkeFunnet() }
 
     fun getNameByOrgNr(orgNr: String) = getByOrgNr(orgNr)
-            .map(TpOrdning::navn).toSet()
+        .map(TpOrdning::navn).toSet()
 
     fun hasTpIdInOrg(orgNr: String, tpId: String) = when {
         validVaultOrgnrMapping(orgNr, tpId) -> handleValidMapping(orgNr, tpId)
@@ -33,7 +33,7 @@ class OrganisationService(
     }
 
     fun getByTssId(tssId: String) = organisationRepository.findById(tssId)
-            .orElseGet { throw TpOrdningIkkeFunnet() }!!
+        .orElseGet { throw TpOrdningIkkeFunnet() }!!
 
     fun getOrgNrByTssId(tssId: String) = getByTssId(tssId).orgNr
 

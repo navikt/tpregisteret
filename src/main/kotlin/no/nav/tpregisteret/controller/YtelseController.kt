@@ -2,7 +2,7 @@ package no.nav.tpregisteret.controller
 
 import no.nav.pensjonsamhandling.maskinporten.validation.annotation.Maskinporten
 import no.nav.tpregisteret.TPREGISTERET_SCOPE
-import no.nav.tpregisteret.domain.dto.YtelseDto
+import no.nav.tpregisteret.domain.Ytelse
 import no.nav.tpregisteret.security.YtelseIdOrgnrValidator
 import no.nav.tpregisteret.service.YtelseService
 import org.springframework.http.HttpStatus.CREATED
@@ -18,13 +18,13 @@ class YtelseController(private val ytelseService: YtelseService) {
     @PostMapping
     @ResponseStatus(CREATED)
     fun saveYtelse(
-            @RequestBody ytelse: YtelseDto
+        @RequestBody ytelse: Ytelse
     ) = URI(TODO())
 
     @PatchMapping
     @ResponseStatus(NO_CONTENT)
     fun updateYtelse(
-            @RequestBody ytelse: YtelseDto
+        @RequestBody ytelse: Ytelse
     ) {
         TODO()
     }
@@ -32,19 +32,19 @@ class YtelseController(private val ytelseService: YtelseService) {
     @RequestMapping(method = [HEAD])
     @ResponseStatus(NO_CONTENT)
     fun validateIdenticalYtelse(
-            @RequestHeader("ytelse") ytelse: YtelseDto
+        @RequestHeader("ytelse") ytelse: Ytelse
     ) = ytelseService.hasYtelse(ytelse)
 
     @Maskinporten(TPREGISTERET_SCOPE, YtelseIdOrgnrValidator::class)
     @GetMapping
     fun getYtelse(
-            @RequestHeader("ytelseId") id: Long
-    ) = YtelseDto(ytelseService.getYtelseById(id))
+        @RequestHeader("ytelseId") id: Long
+    ) = ytelseService.getYtelseById(id)
 
     @PostMapping("/tjenestepensjon")
     @ResponseStatus(CREATED)
     fun saveTjenestepensjonYtelse(
-            @RequestHeader("tpId") tpId: String,
-            @RequestBody ytelse: YtelseDto
+        @RequestHeader("tpId") tpId: String,
+        @RequestBody ytelse: Ytelse
     ) = URI(TODO())
 }

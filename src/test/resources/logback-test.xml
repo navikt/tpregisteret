@@ -6,7 +6,8 @@
         </encoder>
     </appender>
 
-    <logger name="no.nav.tpregisteret" level="DEBUG" />
+    <logger name="no.nav.tpregisteret" level="INFO" />
+    <logger name="org.springframework" level="WARN" />
 
     <root level="INFO">
         <appender-ref ref="STDOUT_JSON" />

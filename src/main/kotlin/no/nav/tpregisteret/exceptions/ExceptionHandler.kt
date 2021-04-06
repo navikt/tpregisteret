@@ -18,21 +18,21 @@ class ExceptionHandler {
     companion object {
         val LOG: Logger = LoggerFactory.getLogger(ExceptionHandler::class.java)
         val errorCounter: Counter = Counter.build()
-                .help("Interne feil kastet av TP-registeret.")
-                .namespace("tpregisteret")
-                .name("internal_server_errors_total")
-                .labelNames("exception")
-                .register()
+            .help("Interne feil kastet av TP-registeret.")
+            .namespace("tpregisteret")
+            .name("internal_server_errors_total")
+            .labelNames("exception")
+            .register()
     }
 
     @ExceptionHandler(Throwable::class)
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     fun internalServerError(e: Throwable): String? {
         if (
-                e is EmptyResultDataAccessException
-                || e is NotImplementedError
-                || e is ResponseStatusException
-                || findAnnotation(e::class.java, ResponseStatus::class.java) != null
+            e is EmptyResultDataAccessException
+            || e is NotImplementedError
+            || e is ResponseStatusException
+            || findAnnotation(e::class.java, ResponseStatus::class.java) != null
         ) throw e
         LOG.error("Something went wrong.", e)
         errorCounter.labels(e::class.simpleName).inc()

@@ -1,5 +1,7 @@
 package no.nav.tpregisteret.domain
 
+import com.fasterxml.jackson.annotation.*
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import org.hibernate.annotations.Where
 import java.time.LocalDate
 import javax.persistence.*
@@ -7,20 +9,26 @@ import javax.persistence.*
 @Entity
 @Table(name = "T_FORHOLD")
 data class Forhold(
-        @Column(name = "FORHOLD_ID")
-        @Id
-        val id: Long,
-        @ManyToOne
-        @JoinColumn(name = "PERSON_ID")
-        val person: Person,
-        @ManyToOne
-        @JoinColumn(name = "TSS_EKSTERN_ID_FK")
-        val tpOrdning: TpOrdning,
-        @OneToMany(mappedBy = "forhold")
-        @Where(clause = "ER_GYLDIG='1'")
-        val ytelser: List<Ytelse>,
-        @Column(name = "DATO_BRUK_FOM")
-        val datoFom: LocalDate,
-        @Column(name = "DATO_BRUK_TOM")
-        val datoTom: LocalDate?
-)
+    @Column(name = "FORHOLD_ID")
+    @Id
+    val id: Long
+) {
+    @ManyToOne
+    @JoinColumn(name = "PERSON_ID")
+    lateinit var person: Person
+
+    @ManyToOne
+    @JoinColumn(name = "TSS_EKSTERN_ID_FK")
+    lateinit var tpOrdning: TpOrdning
+
+    @OneToMany(mappedBy = "forhold")
+    @Where(clause = "ER_GYLDIG='1'")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.StringIdGenerator::class)
+    lateinit var ytelser: List<Ytelse>
+
+    @Column(name = "DATO_BRUK_FOM")
+    lateinit var datoFom: LocalDate
+
+    @Column(name = "DATO_BRUK_TOM")
+    var datoTom: LocalDate? = null
+}

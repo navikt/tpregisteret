@@ -18,7 +18,7 @@ class FnrOrgnrValidator(private val personRepository: PersonRepository) :
             true
         } else {
             val fnr = o.getHeader("fnr")
-            LOG.debug("Validating against fnr {}.", fnr.take(6)+"*****")
+            LOG.debug("Validating against fnr {}.", fnr.take(6) + "*****")
             personRepository.findByFnr(fnr)?.forhold?.any { it.tpOrdning.orgNr == orgno } ?: false
         }.also { LOG.debug("Accepted: {}", it) }
     }
