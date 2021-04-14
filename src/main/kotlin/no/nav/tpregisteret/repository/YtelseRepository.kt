@@ -7,4 +7,9 @@ import org.springframework.stereotype.Repository
 @Repository
 interface YtelseRepository : CrudRepository<Ytelse, Long> {
     fun getById(id: Long): Ytelse?
+
+    fun getAllByForholdPersonFnrAndForholdTpOrdningTpId(
+        forholdPersonFnr: String,
+        forholdTpOrdningTpId: String
+    ): List<Ytelse>
 }

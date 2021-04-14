@@ -12,26 +12,26 @@ class ForholdController {
     @PostMapping
     @ResponseStatus(CREATED)
     fun saveForhold(
-            @RequestBody forhold: Forhold
+        @RequestBody forhold: Forhold
     ) = forhold
 
     @PatchMapping
     @ResponseStatus(NO_CONTENT)
     fun updateForhold(
-            @RequestBody forhold: Forhold
+        @RequestBody forhold: Forhold
     ) {
         TODO()
     }
 
     @GetMapping
     fun finnValidForholdMedId(
-            @RequestHeader("TODO") todo: String
-    ) = TODO() as Forhold
+        @RequestHeader("forholdId") forholdId: String
+    ): Forhold = TODO()
 
     @DeleteMapping
     @ResponseStatus(NO_CONTENT)
     fun deleteForholdCascade(
-            @RequestHeader("TODO") todo: String
+        @RequestHeader("forholdId") forholdId: String
     ) {
         TODO()
     }
@@ -39,9 +39,9 @@ class ForholdController {
     @PostMapping("/tjenestepensjon")
     @ResponseStatus(CREATED)
     fun saveTjenestepensjonForhold(
-            @RequestHeader("tpId") tpId: String,
-            @RequestBody forhold: Forhold)
-    {
+        @RequestHeader("tpId") tpId: String,
+        @RequestBody forhold: Forhold
+    ) {
         TODO()
     }
 }

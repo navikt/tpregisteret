@@ -8,6 +8,7 @@ sealed class ResursIkkeFunnet(resurs: String) :
 
 class TpOrdningIkkeFunnet : ResursIkkeFunnet("TP-ordning")
 class PersonIkkeFunnet : ResursIkkeFunnet("Person")
+@Suppress("unused") //Await implementation
 class SimuleringIkkeFunnet : ResursIkkeFunnet("Simulering")
 class YtelseIkkeFunnet : ResursIkkeFunnet("Ytelse")
 class ForholdIkkeFunnet : ResursIkkeFunnet("Forhold")

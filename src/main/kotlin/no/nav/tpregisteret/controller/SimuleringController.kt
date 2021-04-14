@@ -13,26 +13,26 @@ class SimuleringController {
     @PostMapping
     @ResponseStatus(CREATED)
     fun saveSimulering(
-            @RequestBody simulering: Simulering
-    ) = URI(TODO())
+        @RequestBody simulering: Simulering
+    ): URI = TODO()
 
     @PatchMapping
     @ResponseStatus(NO_CONTENT)
     fun updateSimulering(
-            @RequestBody simulering: Simulering
+        @RequestBody simulering: Simulering
     ) {
         TODO()
     }
 
     @GetMapping
     fun getSimulering(
-            @RequestHeader("fnr") fnr: String
-    ) = TODO() as Simulering
+        @RequestHeader("fnr") fnr: String
+    ): Simulering = TODO()
 
     @PostMapping("/tjenestepensjon")
     @ResponseStatus(CREATED)
     fun saveTjenestepensjonSimulering(
-            @RequestHeader("tpId") tpId: String,
-            @RequestBody simulering: Simulering
-    ) = URI(TODO())
+        @RequestHeader("tpId") tpId: String,
+        @RequestBody simulering: Simulering
+    ): URI = TODO()
 }

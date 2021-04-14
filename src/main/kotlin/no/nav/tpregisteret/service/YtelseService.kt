@@ -12,7 +12,11 @@ class YtelseService(
     fun getYtelseById(id: Long) = ytelseRepository.getById(id)
         ?: throw YtelseIkkeFunnet()
 
-    fun hasYtelse(ytelse: Ytelse) = ytelseRepository.getById(ytelse.id)
-        ?.equals(ytelse)
-        ?: throw YtelseIkkeFunnet()
+    fun checkYtelse(ytelse: Ytelse) {
+        if (ytelseRepository.getAllByForholdPersonFnrAndForholdTpOrdningTpId(
+                ytelse.forhold.person.fnr,
+                ytelse.forhold.tpOrdning.tpId
+            ).none(ytelse::equals)
+        ) throw YtelseIkkeFunnet()
+    }
 }

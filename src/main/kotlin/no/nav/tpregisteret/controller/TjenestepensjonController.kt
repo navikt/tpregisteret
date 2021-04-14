@@ -19,7 +19,7 @@ class TjenestepensjonController {
     @GetMapping
     fun getTjenestepensjon(
             @RequestHeader("tpId") tpId: String
-    ) = TODO() as TpOrdning
+    ): TpOrdning = TODO()
 
     @DeleteMapping
     @ResponseStatus(NO_CONTENT)
@@ -43,14 +43,14 @@ class TjenestepensjonController {
     @GetMapping("/forhold")
     fun getTpforhold(
             @RequestHeader("forholdId") forholdId: String
-    ) = TODO() as Forhold
+    ): Forhold = TODO()
 
     @PostMapping("/forhold")
     @ResponseStatus(CREATED)
     fun saveTpforhold(
             @RequestHeader("tpId") tpId: String,
             @RequestBody forhold: Forhold
-    ) = URI(TODO())
+    ): URI = TODO()
 
     /**
      * Endepunkter for tjenestepensjon ytelse.
@@ -58,14 +58,14 @@ class TjenestepensjonController {
     @GetMapping("/ytelse")
     fun getYtelse(
             @RequestHeader("ytelseId") ytelseId: String
-    ) = TODO() as Ytelse
+    ): Ytelse = TODO()
 
     @PostMapping("/ytelse")
     @ResponseStatus(CREATED)
     fun saveYtelse(
             @RequestHeader("tpId") tpId: String,
             @RequestBody ytelse: Ytelse
-    ) = URI(TODO())
+    ): URI = TODO()
 
     /**
      * Endepunkter for tjenestepensjon simulering.
@@ -73,12 +73,12 @@ class TjenestepensjonController {
     @GetMapping("/simulering")
     fun getSimulering(
             @RequestHeader("simuleringId") simuleringId: String
-    ) = TODO() as Simulering
+    ): Simulering = TODO()
 
     @PostMapping("/simulering")
     @ResponseStatus(CREATED)
     fun saveSimulering(
             @RequestHeader("tpId") tpId: String,
             @RequestBody simulering: Simulering
-    ) = URI(TODO())
+    ): URI = TODO()
 }

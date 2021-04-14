@@ -8,7 +8,6 @@ import no.nav.tpregisteret.service.YtelseService
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.bind.annotation.RequestMethod.HEAD
 import java.net.URI
 
 @RestController
@@ -19,7 +18,7 @@ class YtelseController(private val ytelseService: YtelseService) {
     @ResponseStatus(CREATED)
     fun saveYtelse(
         @RequestBody ytelse: Ytelse
-    ) = URI(TODO())
+    ): URI = TODO()
 
     @PatchMapping
     @ResponseStatus(NO_CONTENT)
@@ -29,11 +28,11 @@ class YtelseController(private val ytelseService: YtelseService) {
         TODO()
     }
 
-    @RequestMapping(method = [HEAD])
+    @GetMapping("/exists")
     @ResponseStatus(NO_CONTENT)
     fun validateIdenticalYtelse(
-        @RequestHeader("ytelse") ytelse: Ytelse
-    ) = ytelseService.hasYtelse(ytelse)
+        @RequestBody ytelse: Ytelse
+    ) = ytelseService.checkYtelse(ytelse)
 
     @Maskinporten(TPREGISTERET_SCOPE, YtelseIdOrgnrValidator::class)
     @GetMapping
@@ -46,5 +45,5 @@ class YtelseController(private val ytelseService: YtelseService) {
     fun saveTjenestepensjonYtelse(
         @RequestHeader("tpId") tpId: String,
         @RequestBody ytelse: Ytelse
-    ) = URI(TODO())
+    ): URI = TODO()
 }
