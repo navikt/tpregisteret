@@ -1,7 +1,7 @@
 package no.nav.tpregisteret.domain
 
-import com.fasterxml.jackson.annotation.*
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.annotation.JsonIdentityInfo
+import com.fasterxml.jackson.annotation.ObjectIdGenerators
 import org.hibernate.annotations.Where
 import java.time.LocalDate
 import javax.persistence.*
@@ -11,24 +11,38 @@ import javax.persistence.*
 data class Forhold(
     @Column(name = "FORHOLD_ID")
     @Id
-    val id: Long
-) {
+    val id: Long? = null,
+
     @ManyToOne
     @JoinColumn(name = "PERSON_ID")
-    lateinit var person: Person
+    val person: Person,
 
     @ManyToOne
     @JoinColumn(name = "TSS_EKSTERN_ID_FK")
-    lateinit var tpOrdning: TpOrdning
+    val tpOrdning: TpOrdning,
 
     @OneToMany(mappedBy = "forhold")
     @Where(clause = "ER_GYLDIG='1'")
     @JsonIdentityInfo(generator = ObjectIdGenerators.StringIdGenerator::class)
-    lateinit var ytelser: List<Ytelse>
+    val ytelser: List<Ytelse>,
 
     @Column(name = "DATO_BRUK_FOM")
-    lateinit var datoFom: LocalDate
+    val datoFom: LocalDate,
 
     @Column(name = "DATO_BRUK_TOM")
-    var datoTom: LocalDate? = null
+    val datoTom: LocalDate? = null
+) {
+    override fun equals(other: Any?) = other is Forhold
+            && other.person == person
+            && other.tpOrdning == tpOrdning
+            && other.datoFom == datoFom
+            && other.datoTom == datoTom
+
+    override fun hashCode(): Int {
+        var result = person.hashCode()
+        result = 31 * result + tpOrdning.hashCode()
+        result = 31 * result + datoFom.hashCode()
+        result = 31 * result + (datoTom?.hashCode() ?: 0)
+        return result
+    }
 }

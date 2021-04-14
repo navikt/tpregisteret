@@ -8,16 +8,20 @@ import javax.persistence.FetchType.EAGER
 
 @Entity
 @Table(name = "T_PERSON")
-data class Person(
+class Person(
     @Column(name = "PERSON_ID")
     @Id
-    val id: Long
-) {
+    val id: Long? = null,
+
     @Column(name = "FNR_FK")
-    lateinit var fnr: String
+    val fnr: String,
 
     @OneToMany(mappedBy = "person", fetch = EAGER)
     @Where(clause = "ER_GYLDIG='1' AND HAR_UTLAND_PENSJ='0'")
     @JsonIdentityInfo(generator = ObjectIdGenerators.StringIdGenerator::class)
-    lateinit var forhold: List<Forhold>
+    val forhold: List<Forhold>
+) {
+    override fun equals(other: Any?) = other is Person && other.fnr == fnr
+
+    override fun hashCode() = fnr.hashCode()
 }

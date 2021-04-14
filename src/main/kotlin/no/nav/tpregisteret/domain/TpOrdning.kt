@@ -7,17 +7,20 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "T_TSS_TP")
-data class TpOrdning(
-    @Column(name = "TSS_ID")
+class TpOrdning(
+    @Suppress("unused") @Column(name = "TSS_ID")
     @Id
-    val tssId: String
-) {
+    val tssId: String? = null,
+
     @Column(name = "TP_ID")
-    lateinit var tpId: String
+    val tpId: String,
 
     @Column(name = "ORGNR")
-    lateinit var orgNr: String
+    val orgNr: String,
 
     @Column(name = "NAVN")
-    lateinit var navn: String
+    val navn: String
+) {
+    override fun equals(other: Any?) = other is TpOrdning && other.tpId == tpId
+    override fun hashCode() = tpId.hashCode()
 }

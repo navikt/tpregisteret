@@ -2,35 +2,50 @@ package no.nav.tpregisteret.domain
 
 import java.time.LocalDate
 import javax.persistence.*
-import kotlin.jvm.Transient
 
 @Entity
 @Table(name = "T_YTELSE")
-data class Ytelse(
+class Ytelse(
     @Id
     @Column(name = "YTELSE_ID")
-    val id: Long
-) {
+    val id: Long? = null,
+
     @ManyToOne
     @JoinTable(
         name = "T_FORHOLD_YTELSE_HISTORIKK",
         inverseJoinColumns = [JoinColumn(name = "FORHOLD_ID_FK")],
         joinColumns = [JoinColumn(name = "YTELSE_ID_FK")]
     )
-    lateinit var forhold: Forhold
+    val forhold: Forhold,
 
     @Column(name = "K_YTELSE_T")
-    lateinit var type: String
+    val type: String,
 
     @Column(name = "DATO_YTEL_IVER_FOM")
-    var datoFom: LocalDate? = null
+    val datoFom: LocalDate? = null,
 
     @Column(name = "DATO_YTEL_IVER_TOM")
-    var datoTom: LocalDate? = null
+    val datoTom: LocalDate? = null,
 
     @Column(name = "DATO_INNM_YTEL_FOM")
-    var medlemskapDatoFom: LocalDate? = null
-
+    val medlemskapDatoFom: LocalDate? = null
+) {
     val fnr: String
         get() = forhold.person.fnr
+
+    override fun equals(other: Any?) = other is Ytelse
+            && other.forhold == forhold
+            && other.type == type
+            && other.datoFom == datoFom
+            && other.datoTom == datoTom
+            && other.medlemskapDatoFom == medlemskapDatoFom
+
+    override fun hashCode(): Int {
+        var result = forhold.hashCode()
+        result = 31 * result + type.hashCode()
+        result = 31 * result + (datoFom?.hashCode() ?: 0)
+        result = 31 * result + (datoTom?.hashCode() ?: 0)
+        result = 31 * result + (medlemskapDatoFom?.hashCode() ?: 0)
+        return result
+    }
 }

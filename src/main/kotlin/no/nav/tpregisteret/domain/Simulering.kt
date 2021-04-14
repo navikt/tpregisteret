@@ -1,3 +1,3 @@
 package no.nav.tpregisteret.domain
 
-data class Simulering(val id: String)
+class Simulering(val id: String? = null)
