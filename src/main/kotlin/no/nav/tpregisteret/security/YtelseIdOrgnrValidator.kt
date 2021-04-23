@@ -19,7 +19,9 @@ class YtelseIdOrgnrValidator(private val ytelseRepository: YtelseRepository) :
         } else {
             val ytelseId = o.getHeader("ytelseId").toLong()
             LOG.debug("Validating against ytelseId {}.", ytelseId)
-            ytelseRepository.getById(ytelseId)?.forhold?.tpOrdning?.orgNr == orgno
+            ytelseRepository.getById(ytelseId)?.forhold?.tpOrdning?.orgNr.also {
+                LOG.debug("Ytelse belongs to orgnr {}.", it)
+            } == orgno
         }.also { LOG.debug("Accepted: {}", it) }
     }
 
