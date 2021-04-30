@@ -19,7 +19,12 @@ class TpidOrgnrValidator(private val organisationRepository: OrganisationReposit
         } else {
             val tpId = o.getHeader("tpId")
             LOG.debug("Validating against tpId {}.", tpId)
-            organisationRepository.existsTpOrdningByOrgNrAndTpId(orgno, tpId)
+            organisationRepository.findByTpId(tpId)?.let {
+                LOG.debug("TpId belongs to TpOrdning {}", it)
+                it.orgNr == orgno
+            } ?: false.also {
+                LOG.debug("Could not find TpOrdning with tpId {}", tpId)
+            }
         }.also { LOG.debug("Accepted: {}", it) }
     }
 

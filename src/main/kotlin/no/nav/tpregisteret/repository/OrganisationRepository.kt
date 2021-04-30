@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface OrganisationRepository : CrudRepository<TpOrdning, String> {
     fun findAllByOrgNr(orgNr: String): List<TpOrdning>
-    fun existsTpOrdningByOrgNrAndTpId(orgNr: String, tpNr: String): Boolean
+    fun existsTpOrdningByOrgNrAndTpId(orgNr: String, tpId: String): Boolean
+    fun findByTpId(tpId: String): TpOrdning?
 }
